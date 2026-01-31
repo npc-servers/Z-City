@@ -7,7 +7,7 @@ local Selects = {
     {Title = "Disconnect", Func = function(luaMenu) RunConsoleCommand("disconnect") end},
     {Title = "Main Menu", Func = function(luaMenu) gui.ActivateGameUI() luaMenu:Close() end},
     {Title = "Settings", Func = function(luaMenu) luaMenu:Close() RunConsoleCommand("hg_settings") end},
-    {Title = "Keybinds", Func = function(luaMenu) luaMenu:Close() RunGameUICommand("OpenOptionsDialog") end},
+    {Title = "Keybinds", Func = function(luaMenu) luaMenu:Close() RunConsoleCommand("zcity_binds") end},
     {Title = "Discord", Func = function(luaMenu) luaMenu:Close() gui.OpenURL("https://discord.gg/MKfFVR2uCc")  end},
     --{Title = "How to play", Func = function(luaMenu) gui.OpenURL("http://zcity-help.ru/zcity_wiki.htm?") end},
     --{Title = "Wiki/Rules", Func = function(luaMenu) luaMenu:Close() gui.OpenURL("http://zcity-help.ru") end},
