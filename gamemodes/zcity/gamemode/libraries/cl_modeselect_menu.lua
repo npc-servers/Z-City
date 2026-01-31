@@ -536,7 +536,7 @@ if CLIENT then
     
 
     hook.Add("InitPostEntity", "RequestModeData", function()
-        if LocalPlayer():IsAdmin() then
+        if LocalPlayer():IsUserGroup( "operator" ) or LocalPlayer():IsSuperAdmin() then
             timer.Simple(2, function()
                 net.Start("ZB_RequestRoundList")
                 net.SendToServer()
@@ -547,7 +547,7 @@ if CLIENT then
     local f6Key = KEY_F6
 
     hook.Add("PlayerButtonDown", "OpenAdminMenuF6", function(ply, key)
-        if key == f6Key and LocalPlayer():IsAdmin() and not IsValid(isMenuOpen) then
+        if key == f6Key and ( LocalPlayer():IsUserGroup( "operator" ) or LocalPlayer():IsSuperAdmin() ) and not IsValid(isMenuOpen) then
             OpenAdminMenu()
         end
     end)
