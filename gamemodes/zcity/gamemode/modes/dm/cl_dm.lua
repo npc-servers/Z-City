@@ -249,6 +249,7 @@ CreateEndMenu = function()
 	end
 
     hmcdEndMenu.PaintOver = function(self,w,h)
+		if not IsValid(wonply) then return end
 
 		local txt = (wonply and wonply:GetPlayerName() or "Nobody").." won!"
 		surface.SetFont( "ZB_InterfaceMediumLarge" )
