@@ -701,7 +701,7 @@ hg.ConVars = hg.ConVars or {}
 
 		ply:SetNWEntity("spect", NULL)
 
-		if CLIENT and ply:Alive() then ply:BoneScaleChange() end
+		-- if CLIENT and ply:Alive() then ply:BoneScaleChange() end
 
 		ply:SetHull(HullMins, HullMaxs)
 		ply:SetHullDuck(HullDuckMins, HullDuckMaxs)
@@ -1983,6 +1983,8 @@ local IsValid = IsValid
 			end
 		end
 
+		hook_Run("HG_PlayerFootstep_Notify", ply, pos, foot, sound, volume, rf)	--; Do not return anything from this _Notify hook
+		
 		local Hook = hook_Run("HG_PlayerFootstep", ply, pos, foot, sound, volume, rf)
 
 		if Hook then return Hook end
