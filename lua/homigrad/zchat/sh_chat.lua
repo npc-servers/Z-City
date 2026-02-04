@@ -54,12 +54,13 @@ if CLIENT then
 		local speaker = net.ReadEntity()
 		local text = net.ReadString()
 		local bWhisper = net.ReadBool()
+		local isAlive = net.ReadBool()
 
 		speaker.ChatWhisper = bWhisper
 
 		CHAT_SPEAKER = speaker
 
-		local supressed = hook.Run("OnPlayerChat", speaker, text, false, speaker:Alive(), bWhisper)
+		local supressed = hook.Run("OnPlayerChat", speaker, text, false, isAlive, bWhisper)
 		if !supressed then
 			chat.AddText(speaker, ": ", text)
 		end
@@ -217,6 +218,7 @@ else
 			net.WriteEntity(ply)
 			net.WriteString(text)
 			net.WriteBool(ply.ChatWhisper)
+			net.WriteBool(ply:Alive())
 		net.Send(rf)
 
 		-- log chat message to console
