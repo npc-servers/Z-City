@@ -493,38 +493,37 @@ function playerMeta:IsFirstPerson()
 	end
 end
 
-local ents_FindByClass = ents.FindByClass
-local player_GetAll = player.GetAll
-function playerMeta:BoneScaleChange()
-	do return end
-	local firstPerson = LocalPlayer():IsFirstPerson()
-	local viewEnt = LocalPlayer():GetPlayerViewEntity()
+-- local ents_FindByClass = ents.FindByClass
+-- function playerMeta:BoneScaleChange()
+-- 	do return end
+-- 	local firstPerson = LocalPlayer():IsFirstPerson()
+-- 	local viewEnt = LocalPlayer():GetPlayerViewEntity()
 	
-	for i,ent in ipairs(ents_FindByClass("prop_ragdoll")) do
-		if not ent:LookupBone("ValveBiped.Bip01_Head1") then continue end
-		if ent:GetManipulateBoneScale(ent:LookupBone("ValveBiped.Bip01_Head1")) == vector_origin then continue end
-		--if not hg.RagdollOwner(ent) then continue end
-		if ent == viewEnt then
-			ent:ManipulateBoneScale(ent:LookupBone("ValveBiped.Bip01_Head1"),firstPerson and vecPochtiZero or vecFull)
-		else
-			ent:ManipulateBoneScale(ent:LookupBone("ValveBiped.Bip01_Head1"),vecFull)
-		end
-	end
+-- 	for i,ent in ipairs(ents_FindByClass("prop_ragdoll")) do
+-- 		if not ent:LookupBone("ValveBiped.Bip01_Head1") then continue end
+-- 		if ent:GetManipulateBoneScale(ent:LookupBone("ValveBiped.Bip01_Head1")) == vector_origin then continue end
+-- 		--if not hg.RagdollOwner(ent) then continue end
+-- 		if ent == viewEnt then
+-- 			ent:ManipulateBoneScale(ent:LookupBone("ValveBiped.Bip01_Head1"),firstPerson and vecPochtiZero or vecFull)
+-- 		else
+-- 			ent:ManipulateBoneScale(ent:LookupBone("ValveBiped.Bip01_Head1"),vecFull)
+-- 		end
+-- 	end
 
-	for i,ent in ipairs(player_GetAll()) do
-		if not ent:LookupBone("ValveBiped.Bip01_Head1") then continue end
-		if ent:GetManipulateBoneScale(ent:LookupBone("ValveBiped.Bip01_Head1")) == vector_origin then continue end
-		if ent == viewEnt then
-			ent:ManipulateBoneScale(ent:LookupBone("ValveBiped.Bip01_Head1"),firstPerson and vecPochtiZero or vecFull)
-		else
-			ent:ManipulateBoneScale(ent:LookupBone("ValveBiped.Bip01_Head1"),vecFull)
-		end
-	end
-end
+-- 	for i,ent in player.Iterator() do
+-- 		if not ent:LookupBone("ValveBiped.Bip01_Head1") then continue end
+-- 		if ent:GetManipulateBoneScale(ent:LookupBone("ValveBiped.Bip01_Head1")) == vector_origin then continue end
+-- 		if ent == viewEnt then
+-- 			ent:ManipulateBoneScale(ent:LookupBone("ValveBiped.Bip01_Head1"),firstPerson and vecPochtiZero or vecFull)
+-- 		else
+-- 			ent:ManipulateBoneScale(ent:LookupBone("ValveBiped.Bip01_Head1"),vecFull)
+-- 		end
+-- 	end
+-- end
 
-hook.Add("PostCleanupMap","wtfdude",function()
-	LocalPlayer():BoneScaleChange()
-end)
+-- hook.Add("PostCleanupMap","wtfdude",function()
+-- 	LocalPlayer():BoneScaleChange()
+-- end)
 
 local function funcrag(ply, name, oldval, ragdoll)
 	--ragdoll = IsValid(ragdoll) and ragdoll or IsValid(ply:GetNWEntity("FakeRagdoll")) and ply:GetNWEntity("FakeRagdoll") or ply:GetNWEntity("RagdollDeath")
@@ -540,7 +539,7 @@ hook.Add("PlayerInitialSpawn","asdfgacke",function(ply)
 end)
 
 hook.Add("InitPostEntity","fuckyou",function()
-	for i,ply in ipairs(player.GetAll()) do
+	for i, ply in player.Iterator() do
 		ply:SetNWVarProxy("RagdollDeath",funcrag)
 		ply:SetNWVarProxy("FakeRagdoll", funcrag)
 	end
