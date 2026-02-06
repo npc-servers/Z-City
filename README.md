@@ -7,7 +7,8 @@ Optional Discord RPC module for clients:
 1. https://github.com/YuRaNnNzZZ/gmcl_steamrichpresencer/releases/tag/2023.07.20
 2. https://github.com/fluffy-servers/gmod-discord-rpc/releases/tag/1.2.1
 
-This is 1.03 version
+The current version in the repository is 1.06
+
 ## The numbers in the version number indicate:
 A.Bcc -> 1.000
 - A -> Global updates

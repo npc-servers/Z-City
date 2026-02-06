@@ -573,6 +573,7 @@ hg.ConVars = hg.ConVars or {}
 		local prev_on_ground,current_on_ground,speedPrevious,speed = false,false,0,0
 		local angle_hitground = Angle(0,0,0)
 		hook.Add("Think", "CP_detectland", function()
+			if IsValid(lply.FakeRagdoll) then return end
 			prev_on_ground = current_on_ground
 			current_on_ground = LocalPlayer():OnGround()
 
@@ -877,6 +878,13 @@ local IsValid = IsValid
 	end
 --//
 --\\ DrawPlayerRagdoll
+	local hg_ragdollcombat = ConVarExists("hg_ragdollcombat") and GetConVar("hg_ragdollcombat") or CreateConVar("hg_ragdollcombat", 0, FCVAR_REPLICATED, "ragdoll combat", 0, 1)
+	
+	function hg.RagdollCombatInUse(ply)
+		return hg_ragdollcombat:GetBool() and IsValid(ply.FakeRagdoll)
+	end
+	
+	local hg_firstperson_ragdoll = ConVarExists("hg_firstperson_ragdoll") and GetConVar("hg_firstperson_ragdoll") or CreateConVar("hg_firstperson_ragdoll", 0, FCVAR_ARCHIVE, "first person ragdoll", 0, 1)
 	local hg_gopro = ConVarExists("hg_gopro") and GetConVar("hg_gopro") or CreateClientConVar("hg_gopro", "0", true, false, "gopro camera", 0, 1)
 
 	local vector_full = Vector(1, 1, 1)
@@ -938,7 +946,7 @@ local IsValid = IsValid
 		--if !current:IsEqualTol(wawanted, 0.01) then
 			--ent:ManipulateBoneScale(lkp, wawanted)
 			local mat = ent:GetBoneMatrix(lkp)
-			if not hg_gopro:GetBool() then
+			if !hg_gopro:GetBool() and (ent == ply or (!hg_ragdollcombat:GetBool() or hg_firstperson_ragdoll:GetBool())) then
 				mat:SetScale(wawanted)
 			end
 			--angfuck[3] = -GetViewPunchAngles2()[2] - GetViewPunchAngles3()[2]
@@ -1519,7 +1527,7 @@ local IsValid = IsValid
 			return
 		end
 
-		if IsValid(ply.FakeRagdoll) or IsValid(ply:GetNWEntity("FakeRagdollOld")) then
+		if !hg.RagdollCombatInUse(ply) and (IsValid(ply.FakeRagdoll) or IsValid(ply:GetNWEntity("FakeRagdollOld"))) then
 			if IsValid(ply.FakeRagdoll) then
 				cmd:SetForwardMove(0)
 				cmd:SetSideMove(0)
@@ -1975,6 +1983,8 @@ local IsValid = IsValid
 			end
 		end
 
+		hook_Run("HG_PlayerFootstep_Notify", ply, pos, foot, sound, volume, rf)	--; Do not return anything from this _Notify hook
+		
 		local Hook = hook_Run("HG_PlayerFootstep", ply, pos, foot, sound, volume, rf)
 
 		if Hook then return Hook end
@@ -2049,6 +2059,15 @@ local IsValid = IsValid
 		if self.ReloadSound then util.PrecacheSound(self.ReloadSound) end
 	end
 --//
+--\\ Faster npcs (does not works)
+	--[[hook.Add("OnEntityCreated", "fasternpcs", function(ent)
+		if IsValid(ent) and ent:IsNPC() then
+			timer.Simple(.1, function()
+				ent:SetPlaybackRate(2)
+			end)
+		end
+	end)]]--
+--//
 --\\ timescale pitch change
 	local cheats = GetConVar( "sv_cheats" )
 	local timeScale = GetConVar( "host_timescale" )
@@ -2105,10 +2124,14 @@ local IsValid = IsValid
 		end
 
 		if not flashlightwep then --custom flashlight
+			if IsValid(wep) and (wep.IsPistolHoldType and not wep:IsPistolHoldType() and ply.PlayerClassName ~= "Gordon") then return end
+
 			local inv = ply:GetNetVar("Inventory",{})
 			if inv and inv["Weapons"] and inv["Weapons"]["hg_flashlight"] and enabled and hg.CanUseLeftHand(ply) then
-				hg.GetCurrentCharacter(ply):EmitSound("items/flashlight1.wav",65)
-				ply:SetNetVar("flashlight",not ply:GetNetVar("flashlight"))
+				local flashvar = ply:GetNetVar("flashlight")
+
+				hg.GetCurrentCharacter(ply):EmitSound("items/flashlight1.wav", 65, flashvar and 110 or 130)
+				ply:SetNetVar("flashlight",not flashvar)
 				--return true
 				if IsValid(ply.flashlight) then ply.flashlight:Remove() end
 			else
@@ -2307,7 +2330,7 @@ local IsValid = IsValid
 		["lunasflightschool_ah6"] = {multi = 20, AmmoType = "14.5x114mm BZTM"},
 		["npc_turret_floor"] = {multi = 1.25, AmmoType = "9x19 mm Parabellum"},
 		["npc_sniper"] = {multi = 3, AmmoType = "14.5x114mm BZTM", PenetrationMul = 4},
-		["npc_hunter"] = {multi = 4, AmmoType = "12/70 RIP", PenetrationMul = 1}, --;; не работает(
+		["npc_hunter"] = {multi = 4, AmmoType = "12/70 RIP", PenetrationMul = 1}, --;; не работает( потому что прожектайлами стреляет
 		["npc_turret_ceiling"] = {multi = 1.25, AmmoType = "9x19 mm QuakeMaker"},
 	}
 
@@ -2612,8 +2635,9 @@ duplicator.Allow( "homigrad_base" )
 	end)
 --//
 
---\\ Shared coldmaps
-hg.ColdMaps = {
+
+--\\ Shared maps with temperatures
+hg.TemperatureMaps = {
 	["gm_wintertown"] = true,
 	["cs_drugbust_winter"] = true,
 	["cs_office"] = true,
@@ -2627,7 +2651,8 @@ hg.ColdMaps = {
 	["mu_riverside_snow"] = true,
 	["gm_fork_north"] = true,
 	["gm_fork_north_day"] = true,
-	["gm_ijm_boreas"] = true
+	["gm_ijm_boreas"] = true,
+	["gm_construct"] = true, -- test
 }
 --//
 
@@ -2703,7 +2728,6 @@ hg.ColdMaps = {
     game.AddParticles( "particles/gf2_firework_small_01.pcf" )
 --//
 --\\ Fun commands
-	local hg_ragdollcombat = ConVarExists("hg_ragdollcombat") and GetConVar("hg_ragdollcombat") or CreateConVar("hg_ragdollcombat", 0, FCVAR_REPLICATED, "ragdoll combat", 0, 1)
 	local hg_thirdperson = ConVarExists("hg_thirdperson") and GetConVar("hg_thirdperson") or CreateConVar("hg_thirdperson", 0, FCVAR_REPLICATED, "thirdperson combat", 0, 1)
 --//
 --\\ Explosion Trace

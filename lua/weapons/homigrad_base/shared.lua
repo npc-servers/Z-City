@@ -81,6 +81,11 @@ SWEP.AmmoTypes2 = {
 		[4] = {"23x75 Zvezda"},
 		[5] = {"23x75 Waver"}
 	},
+	["20/70 gauge"] = {
+		[1] = {"20/70 gauge"},
+		[2] = {"20/70 Slug"},
+		[3] = {"20/70 Flechette"},
+	},
 }
 
 function SWEP:OnReloaded()
@@ -291,7 +296,7 @@ function SWEP:IsZoom()
 		(self:GetButtstockAttack() - CurTime() < -1) and 
 		(self:GetOwner():IsPlayer() and self:KeyDown(IN_ATTACK2) and not self:KeyDown(IN_SPEED)) and
 		!(self:IsSprinting() and !IsValid(owner.FakeRagdoll)) and
-		((IsValid(owner.FakeRagdoll) and self:KeyDown(IN_USE)) or
+		((IsValid(owner.FakeRagdoll) and (self:KeyDown(IN_USE) or hg.RagdollCombatInUse(owner))) or
 		(owner:IsOnGround() or owner:InVehicle())) and 
 		not owner.suiciding and !(owner.organism and (owner.organism.larm and !self:IsPistolHoldType())
 		and owner.organism.rarm and (owner.organism.larm > 0.99 or owner.organism.rarm > 0.99))
@@ -1434,9 +1439,10 @@ hg.postureFunctions2 = {
 			self.AdditionalPosPreLerp[2] = self.AdditionalPosPreLerp[2] - 2
 			self.AdditionalPosPreLerp[3] = self.AdditionalPosPreLerp[3] + 6 - add
 		else
-			self.AdditionalPosPreLerp[1] = self.AdditionalPosPreLerp[1] - 2
+			self.AdditionalPosPreLerp[1] = self.AdditionalPosPreLerp[1] - -5
 			self.AdditionalPosPreLerp[2] = self.AdditionalPosPreLerp[2] + -2
 			self.AdditionalPosPreLerp[3] = self.AdditionalPosPreLerp[3] + 6 - add
+			self.AdditionalAngPreLerp[1] = self.AdditionalAngPreLerp[1] + 12
 		end
 	end,
 	[9] = function(self,ply)
@@ -1720,6 +1726,20 @@ function SWEP:GetAdditionalValues()
 	self.AdditionalAngPreLerp[1] = self.AdditionalAngPreLerp[1] - y * 2 * lena
 	self.AdditionalAngPreLerp[3] = self.AdditionalAngPreLerp[3] - y * 3 * lena
 
+	if CLIENT and self:IsLocal() and owner:IsOnGround() then
+		local runMul = vellen / owner:GetRunSpeed()
+		if runMul >= 0.32 then
+			if not self:IsPistolHoldType() and not self.CanEpicRun then
+				self.AdditionalPosPreLerp[3] = self.AdditionalPosPreLerp[3] - y * 3 * runMul
+				self.AdditionalAngPreLerp[1] = self.AdditionalAngPreLerp[1] - y * 3 * -2 * runMul
+				self.AdditionalAngPreLerp[3] = self.AdditionalAngPreLerp[3] - y * 3 * -6 * runMul
+			--[[else
+				self.AdditionalPosPreLerp[2] = self.AdditionalPosPreLerp[2] - y * 2 * runMul * -1
+				self.AdditionalAngPreLerp[2] = self.AdditionalAngPreLerp[2] - y * 6 * runMul]]
+			end
+		end
+	end
+
 	if CLIENT and self:IsLocal2() then
 		angle_huy[1] = x / 300
 		angle_huy[2] = y / 300
@@ -1859,6 +1879,9 @@ end
 
 function SWEP:InUse()
 	local ply = self:GetOwner()
+	
+	if !IsValid(ply) then return false end
+	
 	local ent = IsValid(ply.FakeRagdoll) and ply.FakeRagdoll or ply
 	local org = ply.organism
 
@@ -1868,7 +1891,7 @@ function SWEP:InUse()
 		return false
 	end
 
-	return ( (not ply.InVehicle || !ply:InVehicle()) && self:KeyDown(IN_USE)) || (ply.InVehicle && ply:InVehicle() && not self:KeyDown(IN_USE)) || (self.reload and self.reload > 0) || (IsValid(ply.OldRagdoll))
+	return ( ((not ply.InVehicle || !ply:InVehicle()) and !hg.RagdollCombatInUse(ply)) && self:KeyDown(IN_USE)) || ((ply.InVehicle && ply:InVehicle() or hg.RagdollCombatInUse(ply) or ent == ply) && not self:KeyDown(IN_USE)) || (self.reload and self.reload > 0) || (IsValid(ply.OldRagdoll))
 end
 
 local veczero = Vector(0, 0, 0)
