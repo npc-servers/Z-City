@@ -377,20 +377,20 @@ hg.Accessories = {
         bonemerge = true,
         name = "Phoenix Balaclava"
     },
-
-   	--[["hood_balaclava"] = {
+   	--[[
+	["hood_balaclava"] = {
         model = "models/balaclava_hood/balaclava_hood.mdl",
         femmodel = "models/distac/feminine_mask.mdl",
         bone = "ValveBiped.Bip01_Head1",
-        malepos = {Vector(-30,-5,0),Angle(180,100,90),1},
+        malepos = {Vector(-27,-5,0),Angle(180,100,90),1},
 		fempos = {Vector(-0.6,-0.6,0),Angle(180,100,90),0.95},
         skin = 0,
         norender = true,
 		placement = "head",
 		vpos = Vector(-45,-45,0),
         name = "Hood Balaclava"
-    },]]
-
+    },
+	]]
     ["terrorist_band"] = {
         model = "models/distac/band_team.mdl",
         femmodel = "models/distac/band_team_f.mdl",

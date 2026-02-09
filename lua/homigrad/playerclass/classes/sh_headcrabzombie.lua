@@ -231,11 +231,31 @@ function CLASS.Think(self)
 	--\\ Organism stuff
 	local org = self.organism
 
-	hg.organism.Clear(org)
-
 	org.stamina["max"] = 200
 	org.stamina["range"] = 200
+
+	if org.otrub then
+		org.consciousness = 1
+		org.adrenalineAdd = 4
+		org.analgesia = 0.4
+	end
+
+	if org.pain >= 75 then
+		org.painadd = -10
+	end
+
+	org.pulse = 70
 	org.o2["curregen"] = 2
+
+	if org.consciousness <= 0.3 then
+		org.consciousness = 1
+		org.needotrub = false
+	end
+
+	org.jawdislocation = false
+	org.llegdislocation = false
+	org.rlegdislocation = false
+	org.rarmdislocation = false
 end
 
 --// Phrase stuff
