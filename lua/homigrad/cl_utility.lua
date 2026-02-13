@@ -142,6 +142,9 @@ hg.ConVars = hg.ConVars or {}
 	end
 
 	hook.Add("PostCleanupMap","fuckclientsidemodels",hg.ClearClientsideModels)
+	hook.Add("PostCleanupMap","remove_this_stupid_clside_ragdolls",function()
+		for k,v in ipairs(ents.FindByClass('class C_ClientRagdoll')) do v:Remove() end
+	end)
 --//
 
 --\\ Fake status info for scare mode
