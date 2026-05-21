@@ -1139,7 +1139,7 @@ hg.Accessories = {
         bone = "ValveBiped.Bip01_Head1",
         malepos = {Vector(0.2,4.8,0),Angle(0,90,90),1},
         fempos = {Vector(-1.2,3.5,0),Angle(0,90,90),1},
-        skin = function(ent) 
+        skin = function(ent)
             local colthes = IsValid(ent) and ent.GetNWString and ent:GetNWString("Colthesmain","normal") or ""
             --print(colthes == "cold" and 0 or 1)
             return colthes == "cold" and 0 or 1

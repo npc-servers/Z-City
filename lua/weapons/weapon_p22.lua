@@ -43,13 +43,13 @@ SWEP.lmagpos2 = Vector(0,-4.5,0.75)
 SWEP.lmagang2 = Angle(0,0,0)
 
 SWEP.FakeReloadEvents = {
-	[0.2] = function( self, timeMul ) 
+	[0.2] = function( self, timeMul )
 		if CLIENT and self:Clip1() < 1 then
 			self:GetWM():SetBodygroup(1,1)
 			self:GetOwner():PullLHTowards("ValveBiped.Bip01_L_Thigh", 1.5 * timeMul)
-		end 
+		end
 	end,
-	[0.43] = function( self ) 
+	[0.43] = function( self )
 		if CLIENT and self:Clip1() < 1 then
 			local ent = hg.CreateMag( self, Vector(0,15,-15) )
 			ent:SetSubMaterial(1,"models/zcity/skins/walther_p22/classic/walther1")
@@ -67,9 +67,9 @@ SWEP.FakeReloadEvents = {
 			end
 
 			self:GetWM():ManipulateBoneScale(92, vector_origin)
-		end 
+		end
 	end,
-	[0.55] = function( self ) 
+	[0.55] = function( self )
 		if CLIENT and self:Clip1() < 1 then
 			self:GetWM():SetBodygroup(1,0)
 			self:GetWM():ManipulateBoneScale(92, vector_full)
@@ -204,7 +204,7 @@ function SWEP:AnimHoldPost()
 	--self:BoneSet("l_finger1", vector_zero, finger3)
 	--self:BoneSet("r_finger1", vector_zero, finger4)
 	--self:BoneSet("r_finger11", vector_zero, finger5)
-	
+
 end
 
 SWEP.podkid = 1

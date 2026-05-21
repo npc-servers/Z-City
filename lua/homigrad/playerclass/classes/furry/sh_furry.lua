@@ -12,7 +12,7 @@ function CLASS.Off(self)
 
 	if SERVER then
 		self.organism.bloodtype = self.oldbloodtype or "o-"
-		
+
 		hg.ClearArmorRestrictions(self)
 	end
 
@@ -102,7 +102,7 @@ function CLASS.On(self, data)
 			self.SpeedGainClassMul = 5
 			self.StaminaExhaustMul = 0.75
 			self:SetNWInt("SpeedGainClassMul", self.SpeedGainClassMul)
-	
+
 			self.armors = {}
 			//self.armors["torso"] = "cmb_armor"
 			self.armors["head"] = "protovisor"
@@ -520,7 +520,7 @@ if CLIENT then
 		render.DrawSphere(pos, radius + 0.25, detailWithDs, detailWithDs, invisibleColor)
 
 		render.SetStencilCompareFunction(STENCIL_NOTEQUAL)
-		
+
 		cam.IgnoreZ(true)
 
 		render.SetStencilReferenceValue(1)
@@ -692,7 +692,7 @@ if CLIENT then
 
 			return
 		end
-		
+
 		local time = hg.converging[ply]
 
 		if !IsValid(ent) then
@@ -700,19 +700,19 @@ if CLIENT then
 
 			return
 		end
-		
+
 		local status = math.ease.OutSine(1 - math.Clamp((time - CurTime() + 3) / 3, 0, 1))
-		
+
 		if status == 1 then
 			hg.converging[ply] = nil
-			
+
 			if IsValid(ply.mdlfur) then
 				ply.mdlfur:Remove()
 			end
 
 			return
 		end
-		
+
 		render.SetStencilEnable( true )
 
 		render.ClearStencil()
@@ -762,7 +762,7 @@ if CLIENT then
 				local m2 = ent:GetBoneMatrix(bon)
 
 				if !m1 or !m2 then continue end
-				
+
 				local q1 = Quaternion()
 				q1:SetMatrix(m1)
 
@@ -795,7 +795,7 @@ if CLIENT then
 		ent:DrawModel()
 
 		render.DepthRange( 0, 1 )
-		
+
 		render.SetStencilWriteMask( 0xFF )
 		render.SetStencilTestMask( 0xFF )
 		render.SetStencilReferenceValue( 0 )

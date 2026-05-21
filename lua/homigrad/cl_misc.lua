@@ -102,7 +102,7 @@
 
 				buttons[category]:AddCVar(wep.PrintName, "gmod_npcweapon", classname)
 
-				list.Add("NPCUsableWeapons", { 
+				list.Add("NPCUsableWeapons", {
 					class = classname,
 					title = wep.PrintName,
 					category = wep.Category or "ZCity Other"

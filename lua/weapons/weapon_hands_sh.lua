@@ -848,7 +848,7 @@ function SWEP:ApplyForce()
 
 		return
 	end
-	
+
 	if IsValid(phys) then
 		local TargetPos = phys:GetPos()
 
@@ -1019,7 +1019,7 @@ function SWEP:ApplyForce()
 				tr.mask = MASK_SOLID
 				tr.filter = {self.CarryEnt, self, ply}
 				local trace = util.TraceLine(tr)
-				
+
 				if bone != "ValveBiped.Bip01_Spine2" or !trace.Hit then
 					phys:ApplyForceCenter(ply:GetAimVector() * math.min(5000, phys:GetMass() * 800))
 					self:SetCarrying()
@@ -1629,7 +1629,7 @@ function SWEP:AttackFront(special_attack, rand)
 		end
 
 		Mul = Mul * self:BlockingLogic(Ent, Mul, 0, trace)
-		
+
 		local glass = false
 		if string.find(Ent:GetClass(), "break") and Ent:GetBrushSurfaces()[1] and string.find(Ent:GetBrushSurfaces()[1]:GetMaterial():GetName(), "glass") then
 			glass = true
@@ -1829,22 +1829,22 @@ if SERVER then
 			local target,_ = LocalToWorld(target,angle_zero,ply:EyePos(),(ent.rememberedang or ply:EyeAngles()) - (not ply:KeyDown(IN_USE) and ent.addang or ent.oldaddang or angle_zero))
 			local vec = target - TargetPos
 			local len, mul = vec:Length(), phys:GetMass()
-	
+
 			vec:Normalize()
-	
+
 			if (ply.organism and ply.organism.superfighter) then
 				mul = mul * 5
 			end
-	
+
 			if (ply.organism and ply:IsBerserk()) then
 				mul = mul * (1 + ply.organism.berserk / 5)
 			end
-	
+
 			local avec = vec * len * 8 - phys:GetVelocity()
-	
+
 			local Force = avec * mul
 			local ForceMagnitude = math.min(Force:Length(), 3000) * (1 / math.max(phys:GetVelocity():Dot(vec) / 25, 1))
-	
+
 			Force = Force:GetNormalized() * ForceMagnitude
 
 			phys:Wake()
@@ -1852,10 +1852,10 @@ if SERVER then
 			if len > 100 then
 				hg.SetCarryEnt2(ply)
 				heldents[i] = nil
-				
+
 				continue
 			end
-	
+
 			ent:SetPhysicsAttacker(ply, 15)
 
 			Force = Force:GetNormalized() * ForceMagnitude
@@ -1884,7 +1884,7 @@ if SERVER then
 
 			if wep.GetCarrying and ply:KeyDown(IN_ATTACK) then
 				phys:ApplyForceCenter(ply:GetAimVector() * math.min(5000, phys:GetMass() * 800))
-				
+
 				hg.SetCarryEnt2(ply)
 				heldents[i] = nil
 			end

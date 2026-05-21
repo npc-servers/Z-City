@@ -108,7 +108,7 @@ function MODE:GiveEquipment()
 					end
 				end
 			end
-			
+
 			local inv = ply:GetNetVar("Inventory",{})
 			inv["Weapons"]["hg_sling"] = true
 			ply:SetNetVar("Inventory",inv)
@@ -176,9 +176,9 @@ end
 
 util.AddNetworkString("ZB_RequestAirStrike")
 
-local ACD_NextAirstrikeTime = 0 
-local ACD_MaxStrikes = 2 
-local ACD_StrikesLeft = {} 
+local ACD_NextAirstrikeTime = 0
+local ACD_MaxStrikes = 2
+local ACD_StrikesLeft = {}
 
 
 local function FindAccessibleAngle(pos)
@@ -196,7 +196,7 @@ end
 local function FindCanisterPos(pos, normal, dist)
     local offsetPos = pos + normal * 10
     local trace = util.QuickTrace(offsetPos, -normal * dist * 2)
-    
+
     if trace.Hit and util.PointContents(offsetPos) ~= CONTENTS_SOLID then
         local ang = FindAccessibleAngle(trace.HitPos + normal * 7)
         if ang then
@@ -211,9 +211,9 @@ end
 
 
 local function AirStrike(pos, normal, ply)
-    if CurTime() < ACD_NextAirstrikeTime then return end 
+    if CurTime() < ACD_NextAirstrikeTime then return end
     local canisterData = FindCanisterPos(pos, normal, 1000)
-    
+
     if canisterData then
         local ent = ents.Create("env_headcrabcanister")
         ent:SetPos(canisterData.Pos)
@@ -253,8 +253,8 @@ net.Receive("ZB_RequestAirStrike", function(len, ply)
 end)
 
 hook.Add("PostCleanupMap", "ACD_ResetAirstrikes", function()
-    ACD_StrikesLeft = {} 
-    ACD_NextAirstrikeTime = 0 
+    ACD_StrikesLeft = {}
+    ACD_NextAirstrikeTime = 0
 end)
 
 

@@ -3,7 +3,7 @@ MODE.name = "criresp"
 local song
 local songfade = 0
 net.Receive("criresp_start", function()
-	surface.PlaySound("zbattle/criresp.mp3") 
+	surface.PlaySound("zbattle/criresp.mp3")
 
 	timer.Simple(3, function()
 		sound.PlayFile( "sound/zbattle/criresp/criepmission.mp3", "mono noblock", function( station )
@@ -34,7 +34,7 @@ local teams = {
 function MODE:RenderScreenspaceEffects()
 	zb.RemoveFade()
 	if zb.ROUND_START + 85 < CurTime() then
-		 
+
 		if songfade <= 0.01 and IsValid( song ) then
 			song:Stop()
 			surface.PlaySound(lply:Team() == 0 and "zbattle/criresp/barricadedsuspectstart.mp3" or "snd_jack_hmcd_policesiren.wav")
@@ -51,7 +51,7 @@ end
 local posadd = 0
 function MODE:HUDPaint()
 	if zb.ROUND_START + 90 > CurTime() then
-		posadd = Lerp(FrameTime() * 5,posadd or 0, zb.ROUND_START + 7.3 < CurTime() and 0 or -sw * 0.4) 
+		posadd = Lerp(FrameTime() * 5,posadd or 0, zb.ROUND_START + 7.3 < CurTime() and 0 or -sw * 0.4)
 		local color = Color(255*-math.sin(CurTime()*3),25,255*math.sin(CurTime()*3))
 		draw.SimpleText( "SWAT will arrive in: "..string.FormattedTime(zb.ROUND_START + 90 - CurTime(), "%02i:%02i"	), "ZB_HomicideMedium", sw * 0.02 + posadd, sh * 0.95, Color(0,0,0), TEXT_ALIGN_LEFT, TEXT_ALIGN_CENTER)
 		draw.SimpleText( "SWAT will arrive in: "..string.FormattedTime(zb.ROUND_START + 90 - CurTime(), "%02i:%02i"	), "ZB_HomicideMedium", (sw * 0.02) - 2 + posadd, (sh * 0.95) - 2, color, TEXT_ALIGN_LEFT, TEXT_ALIGN_CENTER)

@@ -20,19 +20,19 @@ if (CLIENT) then
 
 		local key = net.ReadString()
     	local var = net.ReadType()
-		
+
         zb.net[index] = zb.net[index] or {}
         zb.net[index][key] = var
 
 		-- print(index, key)
-		
+
 		if IsValid(Entity(index)) then
 			hook.Run("OnNetVarSet", index, key, var)
 		else
 			zb.net[index].waiting = true
 		end
     end)
-	
+
     net.Receive("zbNetVarDelete", function()
     	zb.net[net.ReadUInt(16)] = nil
     end)
@@ -89,11 +89,11 @@ else
 	hook.Add("OnRequestFullUpdate", "OnRequestFullUpdate_zb", function(data)
 		local id = data.userid
 		local ply = Player(id)
-		
+
 		ply:SyncVars()
 	end)
-	
-	
+
+
     local entityMeta = FindMetaTable("Entity")
     local playerMeta = FindMetaTable("Player")
 
@@ -131,7 +131,7 @@ else
     function SetNetVar(key, value, receiver, unreliable)
     	if (CheckBadType(key, value)) then return end
     	--if (GetNetVar(key) == value) then return end
-		
+
     	zb.net.globals[key] = value
 
     	net.Start("zbGlobalVarSet", unreliable)
@@ -144,7 +144,7 @@ else
     		net.Send(receiver)
     	end
     end
-	
+
     function playerMeta:SyncVars()
     	for k, v in pairs(zb.net.globals) do
     		net.Start("zbGlobalVarSet")
@@ -176,7 +176,7 @@ else
     		end
     	end
     end
-	
+
     function playerMeta:GetLocalVar(key, default)
     	if (zb.net.locals[self] and zb.net.locals[self][key] != nil) then
     		return zb.net.locals[self][key]
@@ -213,9 +213,9 @@ else
 		--if not hg.IsChanged(value, key, zb.net.list[self]) then return end
 
     	if (zb.net.list[self][key] != value) then
-    		zb.net.list[self][key] = value 
+    		zb.net.list[self][key] = value
     	end
-		
+
 		self:SendNetVar(key, receiver)
 	end
 
@@ -245,7 +245,7 @@ else
     		net.Send(receiver)
     	end
     end
-	
+
 	hook.Add("EntityRemoved","ZB_clear_net",function(ent,fullUpdate)
 		ent:ClearNetVars()
 	end)

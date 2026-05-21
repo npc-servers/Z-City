@@ -127,7 +127,7 @@ function SWEP:Shoot(override)
 
 	local owner = self:GetOwner()
 	local gun = self:GetWeaponEntity()
-	
+
 	local tr,pos,ang = self:GetTrace(true)
 
 	if primary.Next > CurTime() then return false end
@@ -135,18 +135,18 @@ function SWEP:Shoot(override)
 	primary.Next = CurTime() + primary.Wait
 	self:SetLastShootTime(CurTime())
 	primary.Automatic = weapons.Get(self:GetClass()).Primary.Automatic
-	
+
     local gun = self:GetWeaponEntity()
 	local att = self:GetMuzzleAtt(gun, true)
 	--self:GetOwner():Kick("lol")
 	self:TakePrimaryAmmo(1)
-    
+
     self:EmitShoot()
 	self:PrimarySpread()
 
 	if SERVER then
 		local dir = ang:Forward()
-		
+
 		local tr
 		if owner:IsPlayer() then
 			owner:LagCompensation(true)
@@ -174,16 +174,16 @@ function SWEP:Shoot(override)
 
 		if tr.Entity then
             local ent = tr.Entity
-			
+
 			if not ent:IsPlayer() and not ent:IsRagdoll() then return end
             if IsValid(ent.FakeRagdoll) then return end
-            
+
 			//if ent == hg.GetCurrentCharacter( owner ) then return end
 			local d = DamageInfo()
 			d:SetDamage(5)
 			d:SetAttacker(owner)
 			d:SetInflictor(self)
-			d:SetDamageType(DMG_SLASH) 
+			d:SetDamageType(DMG_SLASH)
 			d:SetDamagePosition(tr.HitPos)
 			d:SetDamageForce(tr.Normal * 50)
 			ent:TakeDamageInfo(d)
@@ -201,7 +201,7 @@ function SWEP:Shoot(override)
 			local drugged = ply.organism and ply.organism.analgesia > 0.5
 
             local time = math.random(5,7) * (drugged and 0.2 or 1)
-			
+
 			hg.StunPlayer(ply, time + 3 * (drugged and 0.2 or 1))
 
 			if IsValid(ply) and ply:Alive() then
@@ -221,7 +221,7 @@ function SWEP:Shoot(override)
 					local localpos, _ = WorldToLocal(tr.HitPos + tr.Normal * 5, angle_zero, IsValid(phys) and phys:GetPos() or ent:GetPos(), IsValid(phys) and phys:GetAngles() or angle_zero)
 					local lpos2, _ = WorldToLocal(tr.StartPos, angle_zero, self:GetWM():GetPos(), self:GetWM():GetAngles())
 					--localpos = Vector()
-					
+
 					local cons = constraint.CreateKeyframeRope(tr.HitPos, 0.1, "cable/cable2", nil, ent, localpos + VectorRand(-0.5,0.5), tr.PhysicsBone, self:GetWM(), lpos2, 0,
 					{
 						["Slack"] = 200 - ent:GetPos():Distance(self:GetPos()),
@@ -250,10 +250,10 @@ function SWEP:Shoot(override)
 			local max = math.Round(time * 80)
 			timer.Create("Tasering"..ent:EntIndex(), 0.01, max,function()
 				i = i + 1
-				
+
                 local tasered = tasered
 				if !ragdoll.organism then return end
-				
+
 				if IsValid(self:GetWM()) and IsValid(owner) and owner:GetActiveWeapon() != self then
 					self:GetWM():SetPos(owner:HasWeapon(self:GetClass()) and owner:EyePos() or self:GetPos())
 					self:GetWM():SetAngles(owner:HasWeapon(self:GetClass()) and owner:EyeAngles() or self:GetAngles())
@@ -276,10 +276,10 @@ function SWEP:Shoot(override)
 
 					local mul = 1000 * ragdoll.organism.pulse / 70
 					local damp = 50
-					
+
 					--hg.ShadowControl(ragdoll, 0, 0.001, ang, mul, damp, vector_origin, 0, 0)
 					--hg.ShadowControl(ragdoll, 1, 0.001, ang, mul, damp, vector_origin, 0, 0)
-					
+
 					hg.ShadowControl(ragdoll, 3, 0.001, ang, mul, damp, vector_origin, 0, 0)
 					hg.ShadowControl(ragdoll, 4, 0.001, ang, mul, damp, vector_origin, 0, 0)
 					hg.ShadowControl(ragdoll, 5, 0.001, ang, mul, damp, vector_origin, 0, 0)
@@ -287,7 +287,7 @@ function SWEP:Shoot(override)
 					hg.ShadowControl(ragdoll, 2, 0.001, ang, mul, damp, vector_origin, 0, 0)
 					hg.ShadowControl(ragdoll, 6, 0.001, ang, mul, damp, vector_origin, 0, 0)
 					hg.ShadowControl(ragdoll, 7, 0.001, ang, mul, damp, vector_origin, 0, 0)
-					
+
 					hg.ShadowControl(ragdoll, 8, 0.001, ang, mul, damp, vector_origin, 0, 0)
 					hg.ShadowControl(ragdoll, 9, 0.001, ang, mul, damp, vector_origin, 0, 0)
 
@@ -326,7 +326,7 @@ if SERVER then
         end
     end)
 
-    hook.Add("CanControlFake","Tasered", function(ply,rag) 
+    hook.Add("CanControlFake","Tasered", function(ply,rag)
         local org = ply.organism
         if org and org.tasered and org.tasered > CurTime() then
             return true
@@ -334,7 +334,7 @@ if SERVER then
     end)
 
     hook.Add("Org Clear","RemoveTasered",function(org)
-		org.tasered = false 
+		org.tasered = false
 	end)
 end
 

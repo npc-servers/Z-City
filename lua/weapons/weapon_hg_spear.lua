@@ -125,7 +125,7 @@ if SERVER then
         //ply:EmitSound("weapons/slam/throw.wav",50,math.random(95,105))
         ply:SelectWeapon("weapon_hands_sh")
         ply:ViewPunch(Angle(0, 0, -8))
-        
+
         self:Remove()
 
         return true

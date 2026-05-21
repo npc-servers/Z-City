@@ -88,7 +88,7 @@ hook.Add("WeaponEquip", "homigrad-inventory", function(wep, ply)
 
     inv.Weapons = inv.Weapons or {}
     inv.Weapons[wep:GetClass()] = wep
-    
+
     if wep.sling then
         wep.sling = nil
         if not inv["Weapons"]["hg_sling"] then
@@ -236,10 +236,10 @@ function hg.TransferItems(ply,ragdoll)
 		ragdoll:SetNetVar("Armor",ply.armors)
 		ragdoll.armors = ragdoll:GetNetVar("Armor",{})
 		ragdoll:SetNetVar("HideArmorRender", ply:GetNetVar("HideArmorRender", false))
-		
+
 		ply:SetNetVar("Armor",{})
 		ply.armors = ply:GetNetVar("Armor",{})
-		
+
 		hg.SyncWeapons()
 	end
 end
@@ -264,7 +264,7 @@ local functions = {
 
         --local weapon = weapons.Get(wep)
         --if not weapon then return end
-        
+
         local weapon
         local weaponIsEnt = (not isbool(ent.inventory.Weapons[wep]) )and IsValid(ent.inventory.Weapons[wep]) and ent.inventory.Weapons[wep]:IsWeapon()
         --print(weaponIsEnt)
@@ -277,7 +277,7 @@ local functions = {
             weapon:Spawn()
             weapon:SetPos(ent:GetPos())
             weapon:SetAngles(ent:GetAngles())
-            
+
             local tbl = ent.inventory.Weapons[wep]
             if weapon.SetInfo then weapon:SetInfo(tbl) end
         else
@@ -312,17 +312,17 @@ local functions = {
         ply:DropObject()
 
         if not weapon:IsWeapon() then weapon:Use(ply) return end
-        
+
         weapon.IsSpawned = false
         weapon.init = false
 
-        if not hook.Run("PlayerCanPickupWeapon",ply,weapon) then 
+        if not hook.Run("PlayerCanPickupWeapon",ply,weapon) then
             --print("huy")
-            weapon.IsSpawned = true weapon.init = true 
+            weapon.IsSpawned = true weapon.init = true
             weapon:SetPos(ply:EyePos())
             return
         end
-        
+
         if IsValid(weapon) and weapon:IsWeapon() then
             ply:PickupWeapon(weapon)
         end
@@ -376,7 +376,7 @@ net.Receive("ply_take_item", function(len, ply)
     local thing = net.ReadString()
     local tbl = net.ReadTable()
     local ent = net.ReadEntity()
-    
+
     if !IsValid(ent) or !IsValid(ply) then return end
     if ent:IsPlayer() and not IsValid(ent.FakeRagdoll) then return end
 
@@ -421,10 +421,10 @@ hook.Add("Player Think", "loot-fellows",function(ply)
     --if not ply:GetLookTrace() then return end
 
     local use = IsValid(ply.FakeRagdoll) and (ply:KeyDown(IN_WALK) and ply:KeyDown(IN_SPEED) and not ply:KeyDown(IN_ATTACK) and not ply:KeyDown(IN_ATTACK2)) or (not IsValid(ply.FakeRagdoll) and (ply:KeyDown(IN_ATTACK2) and ply:KeyDown(IN_USE)))
-    
+
     if use then
         local trace = hg.eyeTrace(ply, 60)
-    
+
         if not trace then return end
         local ent = trace.Entity
         ent = IsValid(hg.RagdollOwner(ent)) and hg.RagdollOwner(ent) or ent
@@ -433,13 +433,13 @@ hook.Add("Player Think", "loot-fellows",function(ply)
 			ply.keypressed = true
 			return
 		end
-    
+
         hook.Run("ZB_InventoryChecked", ply, ent)
-        
+
         if not IsValid(ent) or not ent:GetNetVar("Inventory") then return end
-        
+
         if not ply.keypressed then ply:OpenInventory(ent) end
-        
+
         ply.keypressed = true
     else
         ply.keypressed = false

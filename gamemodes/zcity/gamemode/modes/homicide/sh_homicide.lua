@@ -30,12 +30,12 @@ You are equipped with various weapons, poisons and explosives, grenades and your
 		Objective = "You're geared up with items, poisons, explosives and weapons hidden in your pockets. Murder everyone here.",
 		SpawnFunction = function(ply)
 			local wep = ply:Give("weapon_zoraki")
-			
+
 			timer.Simple(1, function()
 				wep:ApplyAmmoChanges(2)
 			end)
-			
-			ply:Give("weapon_buck200knife")	
+
+			ply:Give("weapon_buck200knife")
 			ply:Give("weapon_hg_rgd_tpik")
 			ply:Give("weapon_adrenaline")
 			ply:Give("weapon_hg_shuriken")
@@ -46,11 +46,11 @@ You are equipped with various weapons, poisons and explosives, grenades and your
 			ply:Give("weapon_hg_jam")
 			-- ply:Give("weapon_traitor_poison2")
 			-- ply:Give("weapon_traitor_poison3")
-			
+
 			ply.organism.stamina.max = 220
 			local inv = ply:GetNetVar("Inventory", {})
 			inv["Weapons"]["hg_flashlight"] = true
-			
+
 			ply:SetNetVar("Inventory", inv)
 		end,
 	},
@@ -65,9 +65,9 @@ You are equipped with various weapons, poisons and explosives, grenades and your
 			local p22 = ply:Give("weapon_p22")
 			if not IsValid(p22) then return end
 			ply:GiveAmmo(p22:GetMaxClip1() * 1, p22:GetPrimaryAmmoType(), true)
-			
+
 			hg.AddAttachmentForce(ply, p22, "supressor4")
-			ply:Give("weapon_sogknife")	
+			ply:Give("weapon_sogknife")
 			ply:Give("weapon_hg_rgd_tpik")
 			-- ply:Give("weapon_walkie_talkie")
 			ply:Give("weapon_adrenaline")
@@ -75,17 +75,17 @@ You are equipped with various weapons, poisons and explosives, grenades and your
 			ply:Give("weapon_traitor_ied")
 			ply:Give("weapon_traitor_poison2")
 			ply:Give("weapon_traitor_poison3")
-			
+
 			ply.organism.recoilmul = 1
 			ply.organism.stamina.max = 220
 			local inv = ply:GetNetVar("Inventory", {})
 			inv["Weapons"]["hg_flashlight"] = true
-			
+
 			ply:SetNetVar("Inventory",inv)
 		end,
 	},
 	--==//
-	
+
 	--==\\
 	["traitor_infiltrator"] = {
 		Name = "Infiltrator",
@@ -98,11 +98,11 @@ For people who like to play chess.]],
 			ply:Give("weapon_sogknife")
 			ply:Give("weapon_adrenaline")
 			ply:Give("weapon_hg_smokenade_tpik")
-			
+
 			ply.organism.stamina.max = 220
 			local inv = ply:GetNetVar("Inventory", {})
 			inv["Weapons"]["hg_flashlight"] = true
-			
+
 			ply:SetNetVar("Inventory", inv)
 		end,
 	},
@@ -115,24 +115,24 @@ For people who like to play chess.]],
 		Objective = "You're an expert in diversion. Be discreet and kill one by one",
 		SpawnFunction = function(ply)
 			local taser = ply:Give("weapon_taser")
-			
+
 			ply:GiveAmmo(taser:GetMaxClip1() * 2, taser:GetPrimaryAmmoType(), true)
 			ply:Give("weapon_sogknife")
 			-- ply:Give("weapon_hg_rgd_tpik")
 			-- ply:Give("weapon_walkie_talkie")
 			ply:Give("weapon_adrenaline")
 			ply:Give("weapon_hg_smokenade_tpik")
-			
+
 			ply.organism.recoilmul = 1
 			ply.organism.stamina.max = 220
 			local inv = ply:GetNetVar("Inventory", {})
 			inv["Weapons"]["hg_flashlight"] = true
-			
+
 			ply:SetNetVar("Inventory", inv)
 		end,
 	},
 	--==//
-	
+
 	--==\\
 	--; СДЕЛАТЬ ЕМУ ЛУТ ДРУГИХ ИГРОКОВ ДАЖЕ ПОКА У НИХ НЕТ ПУШКИ В РУКАХ
 	--; Сделать ему вырубание по вагус нерву
@@ -147,16 +147,16 @@ Equipped with walkie-talkie.
 For people who like to play checkers.]],
 		Objective = "You're an expert in guns and in disarmament. Disarm gunman and use his weapon against others",
 		SpawnFunction = function(ply)
-			-- ply:Give("weapon_sogknife")	
+			-- ply:Give("weapon_sogknife")
 			-- ply:Give("weapon_adrenaline")
 			-- ply:Give("weapon_hg_smokenade_tpik")
 			-- ply:Give("weapon_hg_shuriken")
-			
+
 			ply.organism.recoilmul = 0.8
 			ply.organism.stamina.max = 300
 			--local inv = ply:GetNetVar("Inventory", {}) // WHY SOMEONE COMMENTED THIS
 			--inv["Weapons"]["hg_flashlight"] = true
-			
+
 			--ply:SetNetVar("Inventory", inv) // BUT NOT THIS???
 		end,
 	},
@@ -171,22 +171,22 @@ Equipped with walkie-talkie, knife, epipen and flashlight.
 For people who like to play checkers.]],
 		Objective = "You're an expert in guns and in disarmament. Disarm gunman and use his weapon against others",
 		SpawnFunction = function(ply)
-			ply:Give("weapon_sogknife")	
+			ply:Give("weapon_sogknife")
 			ply:Give("weapon_adrenaline")
 			-- ply:Give("weapon_walkie_talkie")
 			-- ply:Give("weapon_hg_smokenade_tpik")
 			-- ply:Give("weapon_hg_shuriken")
-			
+
 			ply.organism.recoilmul = 0.4
 			ply.organism.stamina.max = 300
 			--local inv = ply:GetNetVar("Inventory", {}) // WHY SOMEONE COMMENTED THIS
 			--inv["Weapons"]["hg_flashlight"] = true
-			
+
 			--ply:SetNetVar("Inventory", inv) // BUT NOT THIS???
 		end,
 	},
 	--==//
-	
+
 	--==\\
 	["traitor_chemist"] = {
 		Name = "Chemist",
@@ -202,11 +202,11 @@ Can detect presence and potency of chemical agents in the air.]],
 			ply:Give("weapon_traitor_poison3")
 			ply:Give("weapon_traitor_poison4")
 			ply:Give("weapon_traitor_poison_consumable")
-			
+
 			ply.organism.stamina.max = 220
 			local inv = ply:GetNetVar("Inventory", {})
 			inv["Weapons"]["hg_flashlight"] = true
-			
+
 			ply:SetNetVar("Inventory", inv)
 			CleanChemicalsOfPlayer(ply)
 		end,
@@ -226,11 +226,11 @@ Can detect presence and potency of chemical agents in the air.]],
 			-- ply:Give("weapon_hg_smokenade_tpik")
 			-- ply:Give("weapon_traitor_ied")
 			-- ply:Give("weapon_walkie_talkie")
-			
+
 			-- ply.organism.stamina.max = 220
 			-- local inv = ply:GetNetVar("Inventory", {})
 			-- inv["Weapons"]["hg_flashlight"] = true
-			
+
 			-- ply:SetNetVar("Inventory", inv)
 		-- end,
 	-- },
@@ -244,13 +244,13 @@ Has no weapons or any tools.
 Despite being zombie, still bears appearance of a normal human.]],
 		Objective = "You're the zombie. Infect everyone to win. Avoid doctor.",
 		SpawnFunction = function(ply)
-			-- ply:Give("weapon_sogknife")	
+			-- ply:Give("weapon_sogknife")
 			-- ply:Give("weapon_adrenaline")
-			
+
 			-- ply.organism.stamina.max = 220
 			-- local inv = ply:GetNetVar("Inventory", {})
 			-- inv["Weapons"]["hg_flashlight"] = true
-			
+
 			-- ply:SetNetVar("Inventory", inv)
 		end,
 	},
@@ -454,11 +454,11 @@ MODE.Roles.supermario = {
 
 function MODE.GetPlayerTraceToOther(ply, aim_vector, dist)
 	local trace = hg.eyeTrace(ply, dist, nil, aim_vector)
-	
+
 	if(trace)then
 		local aim_ent = trace.Entity
 		local other_ply = nil
-		
+
 		if(IsValid(aim_ent))then
 			if(aim_ent:IsPlayer())then
 				other_ply = aim_ent
@@ -468,7 +468,7 @@ function MODE.GetPlayerTraceToOther(ply, aim_vector, dist)
 				end
 			end
 		end
-		
+
 		return aim_ent, other_ply, trace
 	else
 		return nil

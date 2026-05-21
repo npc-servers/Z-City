@@ -12,7 +12,7 @@ function ENT:Initialize()
     self:SetCollisionGroup(COLLISION_GROUP_WEAPON)
     self:DrawShadow(true)
     self:AddEFlags(EFL_IN_SKYBOX)
-    
+
     local phys = self:GetPhysicsObject()
 
     if SERVER and IsValid(phys) then
@@ -40,7 +40,7 @@ util.AddNetworkString("paint_radio")
 net.Receive("RadioURLInput", function(len, ply)
 	local url = net.ReadString()
 	local ent = net.ReadEntity()
-	
+
 	if ent:GetClass() != "ent_hg_hmcd_radio" or (ent:GetPos():Distance(ply:EyePos()) > 75) then return end
 
 	net.Start("PlayRadioSound")
@@ -57,7 +57,7 @@ net.Receive("paint_radio", function(len, ply)
 
 	ent:SetTextureURL( url )
 
-	
+
 	net.Start("paint_radio")
 		net.WriteString( url )
 		net.WriteEntity( ent )
@@ -81,7 +81,7 @@ net.Receive("RadioChangeVolume", function(len, ply)
 	local val = net.ReadFloat()
 	local index = net.ReadInt(32)
 	local ent = Entity(index)
-	
+
 	if ent:GetClass() != "ent_hg_hmcd_radio" or (ent:GetPos():Distance(ply:EyePos()) > 75) then return end
 
 	net.Start("RadioChangeVolume")
@@ -93,9 +93,9 @@ end)
 net.Receive("RadioPause", function(len, ply)
 	local bool = net.ReadBool()
 	local ent = net.ReadEntity()
-	
+
 	if ent:GetClass() != "ent_hg_hmcd_radio" or (ent:GetPos():Distance(ply:EyePos()) > 75) then return end
-	
+
 	net.Start("RadioPause")
 		net.WriteBool(bool)
 		net.WriteInt(ent:EntIndex(),32)

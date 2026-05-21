@@ -116,7 +116,7 @@ SWEP.ReloadSound = "weapons/crossbow/reload1.wav"
 SWEP.ReloadSoundes = {
 	"none",
 	"weapons/tfa_hl2r/crossbow/crossbow_deploy.wav",
-	"none",	
+	"none",
 	"weapons/tfa_hl2r/crossbow/bolt_load2.wav",
 	"none",
 	"weapons/tfa_hl2r/ar2/weapon_movement1.wav",
@@ -151,10 +151,10 @@ function SWEP:Shoot(override)
 	primary.Next = CurTime() + primary.Wait
 	self:SetLastShootTime(CurTime())
 	primary.Automatic = weapons.Get(self:GetClass()).Primary.Automatic
-	
+
 	local tr,pos,ang = self:GetTrace(true)
 	local owner = self:GetOwner()
-	
+
 	if SERVER then
 		local dist, point = util.DistanceToLine(pos, pos - ang:Forward() * 50, owner:EyePos())
 
@@ -230,7 +230,7 @@ if CLIENT then
 
 	function SWEP:OwnerChanged()
 		if !IsValid(self:GetWM()) then return end
-		
+
 		self:PlayAnim( self:Clip1() < 1 and "idle_empty" or "idle_is",10,nil,nil,nil,true)
 		self:GetWM():SetSkin(self:Clip1() < 1 and 0 or 1)
 	end

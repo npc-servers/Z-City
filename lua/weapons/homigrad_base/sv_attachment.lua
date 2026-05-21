@@ -43,7 +43,7 @@ function hg.AddAttachment(ply,wep,att)
 
 	if not wep.attachments[placement].noblock then
 		local restrictAtt = hg.attachments[placement][att].restrictatt
-		
+
 		for i,att in pairs(wep.attachments) do
 			if not att or not istable(att) or table.IsEmpty(att) or att[1] == "empty" then continue end
 			if restrictAtt then
@@ -65,7 +65,7 @@ function hg.AddAttachment(ply,wep,att)
 		ply:ChatPrint("There is no space for this attachment.")
 		return
 	end
-	
+
 	--if not wep.availableAttachments[placement] then return end
 	local i
 	if wep.availableAttachments[placement] then
@@ -73,27 +73,27 @@ function hg.AddAttachment(ply,wep,att)
 			i = istable(atta) and atta[1] == att and n or i
 		end
 	end
-	
+
 	--if not i then ply:ChatPrint("You cant place this attachment on this weapon.") return end
 	local mountType = wep.availableAttachments[placement] and wep.availableAttachments[placement]["mountType"]
 	local mountType2 = hg.attachments[placement][att] and hg.attachments[placement][att].mountType
 	if not wep.availableAttachments[placement] then return end
-	
+
 	if not wep.availableAttachments[placement][i] and not (mountType or mountType2) then return end
 	local mounts = istable(mountType) and table.HasValue(mountType, hg.attachments[placement][att].mountType) or mountType == mountType2
-	
+
 	if not mounts then
 		return
 	end
-	
+
 
 	wep:AttachAnim()
 	timer.Simple(0.5,function()
 		if wep:IsValid() then
 			if not table.HasValue(ply.inventory.Attachments, att) then return end
-				
+
 			table.RemoveByValue(ply.inventory.Attachments, att)
-			
+
 			ply:SetNetVar("Inventory", ply.inventory)
 
 			wep.attachments[placement] = i and wep.availableAttachments[placement][i] or {att, {}}
@@ -106,7 +106,7 @@ end
 
 function hg.AddAttachmentForce(ply,wep,att)
 	if not IsValid(wep) or not wep.attachments or att == "" then return end
-	
+
 	if att and istable(att) then
 		for i,atta in pairs(att) do
 			hg.AddAttachmentForce(ply,wep,atta)
@@ -122,7 +122,7 @@ function hg.AddAttachmentForce(ply,wep,att)
 
 	if not wep.attachments[placement].noblock then
 		local restrictAtt = hg.attachments[placement][att].restrictatt
-		
+
 		for i,att in pairs(wep.attachments) do
 			if not att or not istable(att) or table.IsEmpty(att) or att[1] == "empty" then continue end
 		end
@@ -137,15 +137,15 @@ function hg.AddAttachmentForce(ply,wep,att)
 			i = istable(atta) and atta[1] == att and n or i
 		end
 	end
-	
+
 	--if not i then ply:ChatPrint("You cant place this attachment on this weapon.") return end
 	local mountType = wep.availableAttachments[placement] and wep.availableAttachments[placement]["mountType"]
 	local mountType2 = hg.attachments[placement][att] and hg.attachments[placement][att].mountType
 	if not wep.availableAttachments[placement] then return end
-	
+
 	if not wep.availableAttachments[placement][i] and not (mountType or mountType2) then return end
 	local mounts = istable(mountType) and table.HasValue(mountType, hg.attachments[placement][att].mountType) or mountType == mountType2
-	
+
 	if not mounts then
 		return
 	end
@@ -184,7 +184,7 @@ net.Receive("ZB_AttachRemove", function(len, ply)
 	for n, atta in pairs(wep.availableAttachments[placement]) do
 		i = istable(atta) and atta[1] == "empty" and n or i
 	end
-	
+
 	wep:AttachAnim()
 	timer.Simple(0.5, function()
 		if IsValid(wep) then

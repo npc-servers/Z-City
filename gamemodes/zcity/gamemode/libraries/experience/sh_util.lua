@@ -119,21 +119,21 @@ function zb.Experience.GetAwards( self )
     local Medal = nil
     for i = 1, #SHTable.SkillMedals do
         local MedalTab = SHTable.SkillMedals[i]
-        if skill >= tonumber( MedalTab.skill[1] ) and skill < tonumber( MedalTab.skill[2] ) then 
+        if skill >= tonumber( MedalTab.skill[1] ) and skill < tonumber( MedalTab.skill[2] ) then
             Medal = table.Copy( MedalTab )
-            break 
+            break
         end
     end
 
     local Band = nil
     for i = 1, #SHTable.Bands do
         local BandTab = SHTable.Bands[i]
-        if exp >= tonumber( BandTab.skill[1] ) and exp < tonumber( BandTab.skill[2] ) then 
+        if exp >= tonumber( BandTab.skill[1] ) and exp < tonumber( BandTab.skill[2] ) then
             Band = table.Copy( BandTab )
-            break 
+            break
         end
     end
-    
+
 
     return Band, Medal
 end
@@ -157,7 +157,7 @@ function plyMeta:GetStatVal(dataName, fallback)
         net.WriteString( dataName )
     net.SendToServer()
     if self.SvDB and self.SvDB[dataName] then
-        return self.SvDB[dataName] 
+        return self.SvDB[dataName]
     end
     return fallback
 end

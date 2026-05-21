@@ -42,7 +42,7 @@ hook.Add("HUDWeaponPickedUp", "HidePickedStuff", function(wep)
 
 	--[[if not IsValid(wep) then return end
 	if not wep.GetPrintName then return end
-	
+
 	lply:Notify("+ " .. wep:GetPrintName(), 0)]]
 
 	return false
@@ -209,7 +209,7 @@ local function CreateRadialMenu(options_arg, bAutoClose)
 	local sizeX, sizeY = ScrW(), ScrH()
 	hg.radialOptions = {}
 	local paining = lply.organism and lply.organism.pain and (lply.organism.pain > 100 or lply.organism.brain > 0.2) or false
-	
+
 	if !options_arg then
 		local functions = hook.GetTable()["radialOptions"]
 		for i, func in SortedPairs(functions) do
@@ -221,7 +221,7 @@ local function CreateRadialMenu(options_arg, bAutoClose)
 	local options1 = options_arg or hg.radialOptions
 
 	hg.radialOptions = options1
-	
+
 	if IsValid(MENUPANELHUYHUY) then
 		MENUPANELHUYHUY:Remove()
 		MENUPANELHUYHUY = nil
@@ -258,14 +258,14 @@ local function CreateRadialMenu(options_arg, bAutoClose)
 			thinkwait = CurTime() + 0.25
 			table.Empty(hg.radialOptions)
 			local functions = hook.GetTable()["radialOptions"]
-			
+
 			for i, func in SortedPairs(functions) do
 				//if i == "zmeyka_test" then continue end
 				func()
 			end
 		end
 	end
-	
+
 	local sizePan = 0
 	local optionSelected = {}
 	menuPanel.Paint = function(self, w, h)
@@ -277,7 +277,7 @@ local function CreateRadialMenu(options_arg, bAutoClose)
 		local deg = (vecXY:GetNormalized() - vecDown):Angle()
 		//deg[2] = deg[2] - 180
 		deg = math.NormalizeAngle((deg[2] - 180) * 2) + 180
-		
+
 		local options = {}
 		if paining then
 			options[#options + 1] = {function() RunConsoleCommand("hg_phrase") end, ""}
@@ -306,9 +306,9 @@ local function CreateRadialMenu(options_arg, bAutoClose)
 				surface.SetDrawColor(isMouseIntersecting and colBlack or colBlack)
 				draw.CirclePart(w / 2, h / 2, r, 40, #options, num)
 				local count = #option[4]
-				
+
 				local selectedPart = count - (math.floor((r - sqrt) / (r / count)))
-				
+
 				current_option_select = selectedPart
 				for i, opt in pairs(option[4]) do
 					local selected = selectedPart == i
@@ -329,7 +329,7 @@ local function CreateRadialMenu(options_arg, bAutoClose)
 
 				continue
 			end
-			
+
 			--print(options_arg ~= nil and true or false)
 			surface.SetMaterial(matHuy)
 			if option[6] and IsColor(option[6]) then --// Custom color
@@ -359,7 +359,7 @@ local function CreateRadialMenu(options_arg, bAutoClose)
 				surface.SetDrawColor(color_white)
 				local sizeW = scrW / 2.25 + math.sin(a) * r * 0.7
 				local sizeH = scrH / 2.2 + math.cos(a) * r * 0.7
-		
+
 				surface.DrawTexturedRect(sizeW, sizeH, scrW * 0.1, scrH * 0.1)
 			else
 				local txt = option[2] --// Text
@@ -465,7 +465,7 @@ hook.Add("Think", "hg-radial-menu", function()
 
 		return
 	end
-	
+
 	if (engine.ActiveGamemode() ~= "sandbox" and input.IsKeyDown(KEY_Q)) or (engine.ActiveGamemode() == "sandbox" and input.IsKeyDown(KEY_C)) then
 		if firstTime then
 			firstTime = false
@@ -615,7 +615,7 @@ local function CopyRight( text, font, x, y, color, ang, scale )
 	cam.PushModelMatrix( m, true )
 		draw.RoundedBox(5,0,2,w+52,h+2,Color(0,0,0))
 		draw.RoundedBox(5,0,2,w+50,h,Color(255,0,0))
-		draw.DrawText( text, font, 25, 0, color )	
+		draw.DrawText( text, font, 25, 0, color )
 	cam.PopModelMatrix()
 
 	--render.PopFilterMag()
@@ -630,10 +630,10 @@ end
 hook.Add("HUDPaint","Identifier",function()
 	if lply.organism and lply.organism.otrub then return end
 	if !lply:Alive() then return end
-	if lply:GetNetVar("disappearance", nil) then return end 
-	
+	if lply:GetNetVar("disappearance", nil) then return end
+
 	local trace = hg.eyeTrace(lply)
-	
+
 	if not trace then return end
 
 	local Size = math.max(math.min(1 - trace.Fraction, 1), 0.1)
@@ -676,10 +676,10 @@ local hg_hints = ConVarExists("hg_hints") and GetConVar("hg_hints") or CreateCli
 local HintBackgroundColor = Color( 0, 0, 0, 200 )
 
 hook.Add("HUDPaint","EntHints",function()
-	if not hg_hints:GetBool() then return end 
+	if not hg_hints:GetBool() then return end
 	if lply.organism and lply.organism.otrub then return end
 	if !lply:Alive() then return end
-	
+
 	local trace = hg.eyeTrace(lply)
 
 	if not trace then return end
@@ -698,7 +698,7 @@ function hg.BasicHudHint(ent, trace)
 	y = y + 145 + -45
 
 	draw.RoundedBox(2, x - hint:GetWidth() / 2 - 2.5, y - 2.5, hint:GetWidth() + 5, hint:GetHeight() + 5, HintBackgroundColor)
-	
+
 	hint:Draw(x, y, TEXT_ALIGN_CENTER, nil, 175 * (HintBackgroundColor.a / 200), TEXT_ALIGN_CENTER)
 
 	if ent.AdditionalInfoFunc then
@@ -719,7 +719,7 @@ local bkg = Color(43, 30, 30)
 hook.Add("HUDPaint","afflictionlist",function()
 	--[[if lply.organism and lply.organism.otrub then return end
 	if !lply:Alive() then return end
-	
+
 	local org = lply.organism
 
 	if org.lleg >= 0.99 then

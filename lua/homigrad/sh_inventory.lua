@@ -152,7 +152,7 @@ if CLIENT then
 			plyMenu:Remove()
 			plyMenu = nil
 		end
-		
+
 		cooldown = CurTime() + 0
 
 		if not IsValid(ent) then return end
@@ -187,7 +187,7 @@ if CLIENT then
 		plyMenu:ShowCloseButton(true)
 		plyMenu:SetVisible(true)
 		plyMenu.Created = CurTime()
-		--plyMenu.OldPaint = 
+		--plyMenu.OldPaint =
 		plyMenu.PaintOver = function(self, w, h)
 			draw.DrawText(name, "HomigradFontSmall", w / 2, 10, color_white, TEXT_ALIGN_CENTER)
 
@@ -263,7 +263,7 @@ if CLIENT then
 			draw.DrawText((plyMenu.Created + count + 3) < CurTime() and "" or txt, "ZCity_Small", w / 2, h / 2.8, Color(255,255,255,15), TEXT_ALIGN_CENTER)
 		end
 		local count2 = 0
-		
+
 		for tab, things in pairs(inv) do
 			if not istable(things) then continue end
 			local keys = table.GetKeys(things)
@@ -272,7 +272,7 @@ if CLIENT then
 				local wep = atbl and atbl.holsteredBone and not atbl.shouldntDrawHolstered
 				return (ent.foundloot[a] and 1 or 0) > (ent.foundloot[b] and 1 or 0)//(hg.TraitorLoot[a] or 0) < (hg.TraitorLoot[b] or (wep and 1 or 0) or 0)
 			end)
-			
+
 			for k, i in ipairs(keys) do
 				local thing = things[i]
 				local thing1 = istable(thing) and thing or {thing}
@@ -301,14 +301,14 @@ if CLIENT then
 						self.Created = nil
 					end
 				end
-				
+
 				button.DoClick = function()
 					if cooldown > CurTime() then return end
 
 					cooldown = CurTime() + 0.5
-					
+
 					if not functions[tab](ply, ent, i, unpack(thing1)) then
-						local OptionsMenu = DermaMenu() 
+						local OptionsMenu = DermaMenu()
 							OptionsMenu:AddOption( "You have item like this", function() end )
 						OptionsMenu:Open()
 						return
@@ -316,7 +316,7 @@ if CLIENT then
 					if istable(thing) then
 						thing["render"] = {}
 					end
-					
+
 					surface.PlaySound("arc9_eft_shared/generic_mag_pouch_in" .. math.random(7) .. ".ogg")
 					grid.SoundKD = CurTime() + 0.2
 					button:Remove()
@@ -331,9 +331,9 @@ if CLIENT then
 
 					cooldown = CurTime() + 0.5
 
-					
+
 					if not functions[tab](ply, ent, i, unpack(thing1)) then
-						local OptionsMenu = DermaMenu() 
+						local OptionsMenu = DermaMenu()
 							OptionsMenu:AddOption( "You have item like this", function() end )
 						OptionsMenu:Open()
 						return
@@ -341,11 +341,11 @@ if CLIENT then
 					if istable(thing) then
 						thing["render"] = {}
 					end
-					
+
 					surface.PlaySound("arc9_eft_shared/generic_mag_pouch_in" .. math.random(7) .. ".ogg")
 					grid.SoundKD = CurTime() + 0.2
 					--button:Remove()
-					local OptionsMenu = DermaMenu() 
+					local OptionsMenu = DermaMenu()
 						OptionsMenu:AddOption( "Take", function() button:Remove() TakeItem(tab, i, thing, ent) end )
 					OptionsMenu:Open()
 					--timer.Simple(0.5 * math.max(ply:Ping() / 50,1),function()

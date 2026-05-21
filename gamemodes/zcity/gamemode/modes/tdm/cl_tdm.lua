@@ -26,7 +26,7 @@ local teams = {
 
 hook.Add( "StartCommand", "TDM_DisallowMoveOrShoting", function( ply, mv )
 	--; BLYAT NY NAXUA PISAT VSE V ODNY LINIY BLYAAA
-	if zb.CROUND == "tdm" and (zb.ROUND_START or 0) + 20 > CurTime() then 
+	if zb.CROUND == "tdm" and (zb.ROUND_START or 0) + 20 > CurTime() then
 		mv:RemoveKey(IN_ATTACK)
 		mv:RemoveKey(IN_ATTACK2)
 		mv:RemoveKey(IN_FORWARD)
@@ -57,7 +57,7 @@ function MODE:HUDPaint()
 	end
 
     if StartTime + 20 < CurTime() then return end
-	 
+
 	if not lply:Alive() then return end
 	zb.RemoveFade()
     local fade = math.Clamp(StartTime + 8 - CurTime(),0,1)
@@ -141,7 +141,7 @@ CreateEndMenu = function()
 	closebutton:SetPos(5,5)
 	closebutton:SetSize(ScrW() / 20,ScrH() / 30)
 	closebutton:SetText("")
-	
+
 	closebutton.DoClick = function()
 		if IsValid(hmcdEndMenu) then
 			hmcdEndMenu:Close()
@@ -200,7 +200,7 @@ CreateEndMenu = function()
             local col = ply:GetPlayerColor():ToColor()
 			surface.SetFont( "ZB_InterfaceMediumLarge" )
 			local lengthX, lengthY = surface.GetTextSize( ply:GetPlayerName() or "He quited..." )
-			
+
 			surface.SetTextColor(0,0,0,255)
 			surface.SetTextPos(w / 2 + 1,h/2 - lengthY/2 + 1)
 			surface.DrawText(ply:GetPlayerName() or "He quited...")
@@ -209,7 +209,7 @@ CreateEndMenu = function()
 			surface.SetTextPos(w / 2,h/2 - lengthY/2)
 			surface.DrawText(ply:GetPlayerName() or "He quited...")
 
-            
+
 			local col = colSpect2
 			surface.SetFont( "ZB_InterfaceMediumLarge" )
 			surface.SetTextColor(col.r,col.g,col.b,col.a)
@@ -341,7 +341,7 @@ local function OpenBuyMenu()
 	Frame:MakePopup()
 	Frame:SetTitle("Buy menu")
 	Frame.Paint = PaintFrame
-	
+
 	local Sheet = vgui.Create( "DPropertySheet", Frame )
 	Sheet:Dock( FILL )
 	Sheet:SetTextInset(50)
@@ -410,10 +410,10 @@ local function OpenBuyMenu()
 					net.WriteTable(self.Item)
 				net.SendToServer()
 			end
-			
+
 			if weapon then
 				local ammo = weapon.Primary.Ammo != "none" and weapon.Primary.Ammo or weapon.Ammo or (weapons.GetStored( weapon.Base ) and weapons.GetStored( weapon.Base ).Primary.Ammo)
-				
+
 				if hg.ammotypeshuy[ammo] then
 					local amm = vgui.Create( "DButton", ItemButton)
 					amm:DockMargin(10,5,10,10)
@@ -421,7 +421,7 @@ local function OpenBuyMenu()
 					amm:SetText(ammo)
 					amm:SetTextColor(Color(200,200,200))
 					amm:SetFont("ZB_TDM_DESCSMALL")
-					
+
 					surface.SetFont("ZB_TDM_DESCSMALL")
 					local w, h = surface.GetTextSize(ammo)
 
@@ -435,7 +435,7 @@ local function OpenBuyMenu()
 							name = name2
 						end
 					end
-					
+
 					amm.huy = {"Ammo", name}
 
 					function amm:DoClick()

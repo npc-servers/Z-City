@@ -33,7 +33,7 @@ if CLIENT then
             if not IsValid(self) then return end
             local ent = self.FakeRagdoll
             if IsValid(ent) then return end
-            
+
             hg.renderOverride(self, ent, flags)
         end
     end
@@ -243,7 +243,7 @@ end
 
         game.GetWorld():EmitSound(name, 75, 100, 1, CHAN_AUTO, SND_STOP)
         local dur = estimate_data(file.Read("sound/"..name, "GAME"))
-        
+
         //print(SoundDuration(name), dur, name)
 
         hg.precachedsounds[name] = dur
@@ -308,7 +308,7 @@ if CLIENT then
 			surface.SetFont("DermaLarge")
 			surface.DrawText("Please set your DirectX to 9 or higher and restart your game to play, or leave this server.")
 		end
-		
+
 		hook.Add("HUDPaint", "noYouDon't", noYouDont)
 		hook.Add("HUDPaint", "noYouDon't", noYouDont)
 		hook.Add("HUDPaintBackground", "noYouDon't", noYouDont)
@@ -321,15 +321,15 @@ if CLIENT then
 	function SDOIsDoor(self)
 		return self:GetClass() == "prop_door_rotating" or self:GetClass() == "func_door_rotating"
 	end
-	
+
 	hook.Add("OnEntityCreated", "doorInstructions", function(ent)
 		if SDOIsDoor(ent) then
 			if CLIENT then
 				local use = input.LookupBinding("+use") or "BIND YOUR +USE KEY PLEASE. WRITE \"bind e +use\" IN CONSOLE FOR THE LOVE OF GOD"
 				local walk = input.LookupBinding("+walk") or "BIND YOUR +WALK KEY PLEASE. WRITE \"bind alt +walk\" IN CONSOLE FOR THE LOVE OF GOD"
 				local speed = input.LookupBinding("+speed") or "BIND YOUR +SPEED KEY PLEASE. WRITE \"bind shift +speed\" IN CONSOLE FOR THE LOVE OF GOD"
-				
-				ent.HowToUseInstructions = 
+
+				ent.HowToUseInstructions =
 				"<font=ZCity_Tiny>"..string.upper( use ).." open normally</font>\n"..
 				"<font=ZCity_Tiny>"..string.upper( walk ).." + ".. string.upper( use ) .." open slower</font>\n"..
 				"<font=ZCity_Tiny>"..string.upper( speed ).." + ".. string.upper( use ) .." open faster</font>\n"

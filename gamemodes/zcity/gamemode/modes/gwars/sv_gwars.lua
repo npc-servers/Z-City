@@ -28,7 +28,7 @@ function MODE:Intermission()
 	table.CopyFromTo(zb.GetMapPoints( "HMCD_TDM_CT" ),self.CTPoints)
 	self.TPoints = {}
 	table.CopyFromTo(zb.GetMapPoints( "HMCD_TDM_T" ),self.TPoints)
-	
+
 	for i, ply in player.Iterator() do
 		ply:SetupTeam(ply:Team())
 	end
@@ -47,7 +47,7 @@ function MODE:ShouldRoundEnd()
 	return endround or boringround
 end
 
-function MODE:BoringRoundFunction()		
+function MODE:BoringRoundFunction()
 	timer.Simple(2, function()
 		//PrintMessage(HUD_PRINTTALK, "IT IS A GANG SHOOTOUT FFS...")
 	end)
@@ -56,7 +56,7 @@ end
 local swatSpawned = false
 
 function MODE:RoundStart()
-    swatSpawned = false 
+    swatSpawned = false
 end
 
 local tblweps = {
@@ -120,7 +120,7 @@ function MODE:GiveEquipment()
 	self.TPoints = {}
 	table.CopyFromTo(zb.GetMapPoints( "HMCD_TDM_T" ),self.TPoints)
 	timer.Simple(0.1,function()
-		local teamArmorCount = { [0] = 0, [1] = 0 } 
+		local teamArmorCount = { [0] = 0, [1] = 0 }
 
 		for _, ply in player.Iterator() do
 			if not ply:Alive() then continue end

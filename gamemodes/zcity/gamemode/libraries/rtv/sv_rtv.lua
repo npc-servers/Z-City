@@ -86,7 +86,7 @@ local function getmaps()
 
     local maps = file.Find("maps/*.bsp", "GAME")
 
-    --[[ 
+    --[[
     if hg and hg.xmas then
         table.Empty(mappull)
         mappull = {
@@ -98,7 +98,7 @@ local function getmaps()
             "ttt_cosy_winter",
             "ttt_winterplant_v4"
         }
-        return 
+        return
     end
     ]]
 
@@ -183,18 +183,18 @@ function zb.EndRTV()
     end
 
     local mapFamily = GetMapFamily(winmap)
-    
+
     mapPopularity[winmap] = math.min((mapPopularity[winmap] or 0) + 5, 100)
-    
+
     local PlayedMaps = {}
     local playedMapsPath = GetDataPath("PlayedMaps.json")
     if file.Exists(playedMapsPath, "DATA") then
         PlayedMaps = util.JSONToTable(file.Read(playedMapsPath, "DATA")) or {}
     end
-    
+
     if not table.HasValue(PlayedMaps, winmap) then
         table.insert(PlayedMaps, 1, winmap)
-        
+
         if mapFamily then
             local familyMaps = GetFamilyMaps(mapFamily)
             for _, familyMap in ipairs(familyMaps) do
@@ -208,26 +208,26 @@ function zb.EndRTV()
         if #PlayedMaps > 20 then
             local lastFiveMaps = {}
             for i = math.max(1, #PlayedMaps - 5 + 1), #PlayedMaps do
-                if i > 1 then 
+                if i > 1 then
                     table.insert(lastFiveMaps, PlayedMaps[i])
                 end
             end
-            
+
             PlayedMaps = {winmap}
             for _, map in ipairs(lastFiveMaps) do
                 table.insert(PlayedMaps, map)
             end
         end
-        
+
         file.Write(playedMapsPath, util.TableToJSON(PlayedMaps))
     end
-    
+
     for map, pop in pairs(mapPopularity) do
         if map ~= winmap and not table.HasValue(PlayedMaps, map) then
             mapPopularity[map] = math.max(pop - 2, 0)
         end
     end
-    
+
     file.Write(popularityPath, util.TableToJSON(mapPopularity))
 
     net.Start("ZB_RockTheVote_end")
@@ -240,7 +240,7 @@ function zb.EndRTV()
         --zb.votestarted = false
         table.Empty(votes)
         table.Empty(playervote)
-        table.Empty(playerVoteWeight) 
+        table.Empty(playerVoteWeight)
         RunConsoleCommand("changelevel", winmap) --;; Gavnoooooo
     end)
 end
@@ -292,12 +292,12 @@ end
 
 local function getMapWeight(map)
     local pop = mapPopularity[map] or 0
-    return 1 - (pop / 100) 
+    return 1 - (pop / 100)
 end
 
 function zb.StartRTV(time)
     if zb.votestarted then return end
-    
+
     getmaps()
 
     rtvtime = CurTime() + (time or 45)
@@ -311,8 +311,8 @@ function zb.StartRTV(time)
         PlayedMaps = {}
     end
 
-    --;; Сначала попытаемся выбрать 3 "уникальных" префикса 
-    --;; через взвешенный рандом. В каждом должно быть >=4 карт, 
+    --;; Сначала попытаемся выбрать 3 "уникальных" префикса
+    --;; через взвешенный рандом. В каждом должно быть >=4 карт,
     --;; которые НЕ в PlayedMaps.
     local selectedPrefixes = getUniquePrefixes(PlayedMaps)
 
@@ -455,7 +455,7 @@ COMMANDS.forcertv = {function(ply, args)
 	0
 }
 
---;; чут чут переписал 
+--;; чут чут переписал
 local rtvVotes = {} -- Dagestani fleas heard lezginka and trampled a cat to death
 local rtvTimeout = nil
 
@@ -468,21 +468,21 @@ function zb.ClearRTVVotes()
     end
 end
 
--- ДЕКА КАК ТЫ ТАК СМОГ СДЕЛАТЬ, ЧТО ОНО СРЕТ БЕЗ ОСТНАОВКИ МНЕ ПРИНТОМ, ЧТО РТВ СОСТОИТСЯ, ГДЕ ТЫ НАСРАЛ 
+-- ДЕКА КАК ТЫ ТАК СМОГ СДЕЛАТЬ, ЧТО ОНО СРЕТ БЕЗ ОСТНАОВКИ МНЕ ПРИНТОМ, ЧТО РТВ СОСТОИТСЯ, ГДЕ ТЫ НАСРАЛ
 function zb.CheckRTVVotes(needPrint)
     local votesNeeded = math.ceil(#player.GetAll() / 2)
     local votes = table.Count(rtvVotes)
-    
+
     if votes >= votesNeeded then
         if needPrint then
             for _, v in player.Iterator() do
                 v:ChatPrint("Enough votes to change the map. RTV will be on next round.")
             end
         end
-        
+
         return true
     end
-    
+
     return false
 end
 local function rtv(ply, args)
@@ -493,21 +493,21 @@ local function rtv(ply, args)
 	end
 
     local steamID = ply:SteamID()
-    
+
     if rtvVotes[steamID] then
         rtvVotes[steamID] = nil
         ply:ChatPrint("You canceled your vote for map change.")
-        
+
         local votesNeeded = math.ceil(#player.GetAll() / 2)
         local votes = table.Count(rtvVotes)
         local remaining = votesNeeded - votes
-        
+
         --for _, v in pairs(player.GetAll()) do
         --    if v ~= ply then БЕСМЫСЛЕННЫЙ СПАМ
         --        v:ChatPrint(ply:Nick() .. " canceled their vote for map change. " .. remaining .. " more votes needed.")
         --    end
         --end
-        
+
         return
     end
     --;; Дебилы
@@ -522,17 +522,17 @@ local function rtv(ply, args)
             end
         end)
     end--]]
-	
+
     rtvVotes[steamID] = true
-    
+
     local votesNeeded = math.ceil(#player.GetAll() / 2)
     local votes = table.Count(rtvVotes)
     local remaining = votesNeeded - votes
-    
+
     for _, v in player.Iterator() do
         if remaining != 0 then
             v:ChatPrint(
-                ply:Nick() .. " voted for map change. " .. 
+                ply:Nick() .. " voted for map change. " ..
                 remaining .. " more votes needed. Type !rtv again to cancel your vote."
             )
         end
@@ -540,7 +540,7 @@ local function rtv(ply, args)
 
     if zb.CheckRTVVotes(true) then
         return
-    end 
+    end
 end
 
 COMMANDS.rtv = {rtv, 0}
@@ -554,11 +554,11 @@ end)
 hook.Add("PlayerDisconnected", "CheckRTVAfterDisconnect", function(ply)
     if rtvVotes[ply:SteamID()] then
         rtvVotes[ply:SteamID()] = nil
-        
+
         --for _, v in pairs(player.GetAll()) do
         --   v:ChatPrint(ply:Nick() .. " left the server (their RTV vote was removed).")
         --end
-        
+
         timer.Simple(0.1, zb.CheckRTVVotes)
     end
 end)

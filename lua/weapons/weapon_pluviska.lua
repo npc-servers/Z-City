@@ -47,14 +47,14 @@ function SWEP:DrawWorldModel2()
 	self.model:SetNoDraw(true)
 	local WorldModel = self.model
 	local owner = hg.GetCurrentCharacter(self:GetOwner())
-	
+
 	if not IsValid(WorldModel) then return end
 	if WorldModel:GetModel() ~= self:GetCurModel() then WorldModel:Remove() return end
 
 	--WorldModel:SetMaterial("phoenix_storms/gear")
 	--WorldModel:SetColor(Color(255, 84, 58))
 	WorldModel:SetModelScale(math.max(math.abs(math.sin(CurTime()*2)),0)+0.4)
-	
+
 	if IsValid(owner) then
 		local offsetVec = self.offsetVec
 		local offsetAng = self.offsetAng
@@ -70,7 +70,7 @@ function SWEP:DrawWorldModel2()
 		WorldModel:SetPos(self:GetPos())
 		WorldModel:SetAngles(self:GetAngles())
 	end
-	
+
 		WorldModel:DrawModel()
 	render.SetColorModulation(1,1,1)
 end

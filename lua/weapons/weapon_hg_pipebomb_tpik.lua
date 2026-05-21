@@ -1,7 +1,7 @@
 if SERVER then AddCSLuaFile() end
 SWEP.Base = "weapon_hg_grenade_tpik"
 SWEP.PrintName = "Pipe-Bomb"
-SWEP.Instructions = 
+SWEP.Instructions =
 [[This improvised explosive device is a heavy-gauge steel pipe filled with black powder and surrounded by nails. It has a simple short pyrotechnic fuze. This device achieves high detonation speed and shrapnel projection through tight containment of the black powder (a low explosive). It's still not as deadly or reliable as a proper grenade, though.
 
 LMB - High ready
@@ -91,7 +91,7 @@ SWEP.AnimList = {
 		if CLIENT then return end
 		--local tr = self:GetEyeTrace()
 		--self:Tie(tr)
-		
+
 		self:Throw(1200, self.SpoonTime or CurTime(),nil,Vector(2,4,0),Angle(-40,0,0))
 		self.InThrowing = false
 		self.ReadyToThrow = false
@@ -137,12 +137,12 @@ SWEP.AnimList = {
 			self:SetShowPin(true)
 		end)
 	end, 0.6 },
-	["pullbackhigh"] = {"pullback_high", 1.5, false, false, function(self) 
+	["pullbackhigh"] = {"pullback_high", 1.5, false, false, function(self)
 		self:SetShowPin(false)
 		--self:PlayAnim("attack")
 		self.ReadyToThrow = true
 	end,0.5},
-	["pullbacklow"] = {"pullback_low", 1.5, false, false, function(self) 
+	["pullbacklow"] = {"pullback_low", 1.5, false, false, function(self)
 		--self:PlayAnim("attack2")
 		self:SetShowPin(false)
 		self.IsLowThrow = true

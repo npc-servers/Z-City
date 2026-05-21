@@ -18,14 +18,14 @@ function ENT:Initialize()
 	end
 
     self.Loot = {
-        --[[ 
-            [ ID ] = { 
+        --[[
+            [ ID ] = {
                 class = "ИМЯ КЛАССА",
                 entData = {
                     DataETC = "ДАТА" --| Для контейнеров игроков, где можно хранить вещи.
                     --| Кстати с помощью этого можно делать уникальные ентити которые будут иметь свои приколы, хоть по суте один и тот-же класс
                 }
-            }, 
+            },
         --]]
     }
     self.ShowContainer = {
@@ -83,9 +83,9 @@ end
 
 function ENT:Use( activator ) --| Передача данных о крейте только в момент открытия. Чтобы не СРАЛО
     if !IsValid( activator ) or !activator:IsPlayer() then return false end --| Проверяем валидность игрока...
-    if ( activator:GetPos() - self:GetPos() ):Length() > 400 then 
-        print( "[ ZBox | LootSystem ]: ".. activator .. "[SteamID:".. activator:SteamID() .. "]" .." trying USE CONTAINER but, he not in radius CHEATS?" ) 
-        return false 
+    if ( activator:GetPos() - self:GetPos() ):Length() > 400 then
+        print( "[ ZBox | LootSystem ]: ".. activator .. "[SteamID:".. activator:SteamID() .. "]" .." trying USE CONTAINER but, he not in radius CHEATS?" )
+        return false
     end
 
     self:OpenContainer( activator )
@@ -103,29 +103,29 @@ function ZBox.LootSystem.SendLootTable( ent, ply, tbl ) --| Отправка к�
     return true
 end
 
-net.Receive( "ZBox_LootSystem_net", function( len, ply ) 
+net.Receive( "ZBox_LootSystem_net", function( len, ply )
     local Container = net.ReadEntity()
     Container.TakeCD = Container.TakeCD or 0
-    if Container.TakeCD > CurTime() then 
-        print( "[ ZBox | LootSystem ]: ".. ply .. "[SteamID:".. ply:SteamID() .. "]" .." trying TAKE ITEM but, cooldown is on." ) 
-        return false 
+    if Container.TakeCD > CurTime() then
+        print( "[ ZBox | LootSystem ]: ".. ply .. "[SteamID:".. ply:SteamID() .. "]" .." trying TAKE ITEM but, cooldown is on." )
+        return false
     end
 
     Container.TakeCD = CurTime() + 0.1
 
-    if ( ply:GetPos() - Container:GetPos() ):Length() > 400 then 
-        print( "[ ZBox | LootSystem ]: ".. ply .. "[SteamID:".. ply:SteamID() .. "]" .." trying TAKE ITEM but, he not in radius CHEATS?!" ) 
-        return false 
+    if ( ply:GetPos() - Container:GetPos() ):Length() > 400 then
+        print( "[ ZBox | LootSystem ]: ".. ply .. "[SteamID:".. ply:SteamID() .. "]" .." trying TAKE ITEM but, he not in radius CHEATS?!" )
+        return false
     end
 
     local ItemID = net.ReadUInt(10)
 
-    if not Container.Loot[ItemID] then 
-        print( "[ ZBox | LootSystem ]: ".. ply .. "[SteamID:".. ply:SteamID() .. "]" .." trying TAKE ITEM but, item is invalid." ) 
-        return false 
+    if not Container.Loot[ItemID] then
+        print( "[ ZBox | LootSystem ]: ".. ply .. "[SteamID:".. ply:SteamID() .. "]" .." trying TAKE ITEM but, item is invalid." )
+        return false
     end
 
-    Container:TakeItem( ply, ItemID ) 
+    Container:TakeItem( ply, ItemID )
 end)
 
 local SendLootTable = ZBox.LootSystem.SendLootTable
@@ -148,11 +148,11 @@ function ENT:GenerateLoot()
     for i = 1, ammout do
         if #self.Loot > 6 then return end
         local item = table.Random(self.LootTable)
-		
+
 		if(istable(item))then
 			_, item = hg.WeightedRandomSelect(tab, mul)
 		end
-		
+
         if count >= ammout then return end
         count = count + 1
         self.Loot[#self.Loot + 1] = { class = item.class }

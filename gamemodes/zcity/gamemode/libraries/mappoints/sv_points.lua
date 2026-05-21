@@ -25,8 +25,8 @@ function zb.GetMapPoints( pointGroup, forceupdatepoints ) -- Загрузить 
 
     local map = game.GetMap()
 
-    zb.Points[pointGroup].Points = util.JSONToTable( file.Read( "zbattle/mappoints/" .. map .. "/"..pointGroup..".json", "DATA" ) or "" ) 
-    
+    zb.Points[pointGroup].Points = util.JSONToTable( file.Read( "zbattle/mappoints/" .. map .. "/"..pointGroup..".json", "DATA" ) or "" )
+
     local newTbl = {}
     if zb.Points[pointGroup].Points then
         table.CopyFromTo(zb.Points[pointGroup].Points,newTbl)
@@ -70,7 +70,7 @@ function zb.RemoveMapPoint( pointGroup, pointNum, needsave, removeall ) -- Со�
         if not zb.Points[pointGroup].Points[ math.Clamp(pointNum or 0, 1, #zb.Points[pointGroup].Points) ] then PrintMessage( HUD_PRINTTALK, "sv_points.lua: point dosen't exist." ) return false end
         table.remove( zb.Points[pointGroup].Points, math.Clamp(pointNum or 0, 1, #zb.Points[pointGroup].Points) )
     end
-    
+
     needsave = needsave or true
     if needsave then
         zb.SaveMapPoints( pointGroup, zb.Points[pointGroup].Points )
@@ -97,13 +97,13 @@ function zb.GetAllPoints(forceupdate)
     forceupdate = forceupdate or true--ALWAYS TRUE LMAOOOOOO
     allpoints = {}
     for k, pointGroup in pairs(zb.Points) do
-        pointgroups = zb.GetMapPoints( k, forceupdate ) 
+        pointgroups = zb.GetMapPoints( k, forceupdate )
         if not pointgroups then continue end
         allpoints[k] = pointgroups
     end
 
     hook.Run("ZB_AfterAllPoints",zb.Points)
-    
+
     return allpoints
 end
 
@@ -172,7 +172,7 @@ end
 
 function zb.SendPoints()
     local rf = RecipientFilter()
-    
+
     for k, v in player.Iterator() do
         rf:AddPlayer(v)
     end
@@ -186,9 +186,9 @@ function zb.SendSpecificPointsToPly(ply, pointGroup, shouldprint)
     net.Start("zb_getspecificpoints")
         net.WriteString(pointGroup)
         net.WriteTable(zb.GetAllPoints()[pointGroup])
-    if IsValid(ply) then    
+    if IsValid(ply) then
         net.Send(ply)
-        
+
         if shouldprint then
             ply:ChatPrint("Points: Points transferred")
         end
@@ -212,7 +212,7 @@ end
 
 function zb.TranslatePointsToVectors(tbl)
 	local newtbl = {}
-    
+
 	for i,val in pairs(tbl) do
 		if istable(val) then
 			if val.pos and val.ang and isvector(val.pos) and isangle(val.ang) then
@@ -250,7 +250,7 @@ function zb.tdm_checkpoints()
     if #zb.GetMapPoints( "HMCD_CRI_T" ) == 0 then
         zb.SaveMapPoints( "HMCD_CRI_T", points )
     end
-    
+
     --||
 
     local vecs = {}
@@ -258,9 +258,9 @@ function zb.tdm_checkpoints()
     for i, ent in pairs(ents.FindByClass("info_player_counterterrorist")) do
         table.insert(vecs, ent:GetPos())
     end
-   
+
     local points = #points == 0 and zb.TranslateVectorsToPoints(vecs) or points
-    
+
     if #zb.GetMapPoints( "HMCD_TDM_CT" ) == 0 then
         zb.SaveMapPoints( "HMCD_TDM_CT", points )
     end

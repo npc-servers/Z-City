@@ -357,7 +357,7 @@ local function register()
 
         ENT.Male = v.Male
         ENT.FeMale = v.FeMale
-        
+
         if v.WarmSave then
             ENT.WarmSave = v.WarmSave
         end

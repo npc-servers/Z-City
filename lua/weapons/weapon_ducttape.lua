@@ -131,7 +131,7 @@ end
 --
 --	--WorldModel:SetColor(clr) -- поч не робит
 --	--WorldModel:SetMaterial(mat)
---	
+--
 --	WorldModel:DrawModel()
 --end
 

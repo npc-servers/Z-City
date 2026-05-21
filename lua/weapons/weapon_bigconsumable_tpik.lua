@@ -35,9 +35,9 @@ SWEP.FoodModelsKCNNeutralizers = {
 }
 
 SWEP.FoodModels = {
-	"models/jordfood/canned_burger.mdl", 
-	"models/jorddrink/the_bottle_of_water.mdl", 
-	"models/foodnhouseholditems/milk.mdl", 
+	"models/jordfood/canned_burger.mdl",
+	"models/jorddrink/the_bottle_of_water.mdl",
+	"models/foodnhouseholditems/milk.mdl",
 	"models/jordfood/can.mdl",
 	"models/foodnhouseholditems/juice.mdl",
 	"models/foodnhouseholditems/cola.mdl",
@@ -56,7 +56,7 @@ SWEP.FallSnd = "snd_jack_hmcd_foodbounce.wav"
 SWEP.DeploySnd = "snd_jack_hmcd_foodbounce.wav"
 
 function SWEP:SetupDataTables()
-	self:NetworkVar( "String", "CurModel" ) 
+	self:NetworkVar( "String", "CurModel" )
 	self:NetworkVar( "Float", 0, "Holding" )
 end
 

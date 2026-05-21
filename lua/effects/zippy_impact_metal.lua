@@ -16,7 +16,7 @@ function EFFECT:Init(data)
 
     for i = 1,4*intensity do
         local smoke = emitter:Add(smoke_mats[math.random(#smoke_mats)], pos)
-        
+
         smoke:SetStartAlpha(math.Rand(15, 25))
         smoke:SetEndAlpha(0)
         smoke:SetColor(255,255,255)
@@ -33,7 +33,7 @@ function EFFECT:Init(data)
 
     for i = 1,15*intensity do
         local spark = emitter:Add("effects/spark", pos+normal*8)
-        
+
         spark:SetStartAlpha(255)
         spark:SetEndAlpha(0)
         spark:SetCollide(true)

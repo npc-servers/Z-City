@@ -30,7 +30,7 @@ net.Receive("gwars_start", function()
 
 	//music_themes/ghetto_loop.wav
 	//music_themes/ghetto_start.wav
-	
+
 end)
 
 local teams = {
@@ -56,9 +56,9 @@ function MODE:RenderScreenspaceEffects()
 end
 
 surface.CreateFont("timer_Font2", {
-	font = "Bahnschrift", 
-	size = ScreenScale(12), 
-	extended = true, 
+	font = "Bahnschrift",
+	size = ScreenScale(12),
+	extended = true,
 	weight = 650,
 	antialias = true,
 	italic = false
@@ -96,12 +96,12 @@ function MODE:HUDPaint()
 		end
 
 		lerpsnd = LerpFT(0.01, lerpsnd, !ended and (lply:Alive() and lply.organism and !lply.organism.otrub and lply.organism.fear and math.Clamp(lply.organism.fear + 0.3 + (timeBeforeSWAT <= 0 and 2 or 0), 0, 1) or 0.3) or 0)
-		
+
 		if zb.ROUND_START + 12 < CurTime() then
 			if IsValid(GWARS_LoopStation) then
 				GWARS_LoopStation:SetVolume(lerpsnd * MusicVolume:GetFloat())
 				GWARS_LoopStation:Play()
-				
+
 				if IsValid(GWARS_LoopStation2) then
 					GWARS_LoopStation2:SetVolume(0)
 					GWARS_LoopStation2:Play()
@@ -112,12 +112,12 @@ function MODE:HUDPaint()
 		if IsValid(GWARS_LoopStation) and GWARS_LoopStation:GetState() == GMOD_CHANNEL_PLAYING then
 			GWARS_LoopStation:SetVolume(lerpsnd * MusicVolume:GetFloat())
 		end
-	
+
 		if timeBeforeSWAT <= 0 then
 			if IsValid(GWARS_LoopStation2) then
 				GWARS_LoopStation2:SetVolume(lerpsnd * MusicVolume:GetFloat())
 			end
-			
+
 			if IsValid(GWARS_LoopStation) then
 				GWARS_LoopStation:SetVolume(0)
 			end

@@ -47,7 +47,7 @@ if CLIENT then
 				hg.CreateMag( self, Vector(0,0,-50) )
 				self:GetWM():ManipulateBoneScale(40, vecPochtiZero)
 
-			end 
+			end
 		end,
 		[0.4] = function( self, timeMul )
 			if self:Clip1() < 1 then

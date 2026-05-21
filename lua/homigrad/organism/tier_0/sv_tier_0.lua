@@ -30,7 +30,7 @@ hook.Add("Player Spawn", "homigrad-organism", function(ply) hg.organism.Clear(pl
 hook.Add("PlayerDisconnected", "homigrad-organism", function(ply) hg.organism.Remove(ply) end)
 hook.Add("PostPlayerDeath", "homigrad-organism", function(ply)
 	local ragdoll = ply:GetNWEntity("RagdollDeath")
-	
+
 	if not IsValid(ragdoll) then ragdoll = ply.FakeRagdoll end
 
 	if IsValid(ragdoll) then
@@ -70,7 +70,7 @@ hook.Add("Think", "homigrad-organism", function()
 		start = SysTime()
 		return
 	end
-	
+
 	mulTime = (SysTime() - start) * game.GetTimeScale()
 
 	start = SysTime()

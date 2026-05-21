@@ -89,7 +89,7 @@ end
 function SWEP:CustomAttack2()
     local ent = ents.Create("ent_throwable")
     ent.WorldModel = "models/pwb/weapons/w_tomahawk_thrown.mdl"
-    
+
     local ply = self:GetOwner()
 
     ent:SetPos(select(1, hg.eye(ply,60,hg.GetCurrentCharacter(ply))) - ply:GetAimVector() * 2)

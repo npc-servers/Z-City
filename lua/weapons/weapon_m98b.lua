@@ -150,7 +150,7 @@ function SWEP:AnimationPostPost()
 	else
 		sin = sin * 1
 	end
-	
+
 	if sin > 0 then
 		sin = sin * 2
 		sin = math.ease.InOutSine(sin)

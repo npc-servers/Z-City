@@ -57,14 +57,14 @@ if CLIENT then
 				self:GetWM():ManipulateBoneScale(72, vecPochtiZero)
 				self:GetWM():ManipulateBoneScale(73, vecPochtiZero)
 
-			end 
+			end
 		end,
 		[0.4] = function( self, timeMul )
 			if self:Clip1() < 1 then
 				self:GetWM():ManipulateBoneScale(71, vector_full)
 				self:GetWM():ManipulateBoneScale(72, vector_full)
 				self:GetWM():ManipulateBoneScale(73, vector_full)
-			end 
+			end
 		end,
 	}
 end

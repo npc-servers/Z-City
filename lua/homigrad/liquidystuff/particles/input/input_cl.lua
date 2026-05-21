@@ -19,7 +19,7 @@ net.Receive("gas particle", function() addGasPart(net.ReadVector(), net.ReadVect
 hook.Add("Think","liquid_drum_pour",function()
 	for i = 1, #drums do
 		if not IsValid(drums[i]) then table.remove(drums,i) continue end
-		
+
 
 	end
 end)
@@ -28,7 +28,7 @@ hook.Add("OnNetVarSet","liquid_drum",function(index, key, var)
 	if key == "pouring" then
 		local ent = Entity(index)
 		if IsValid(ent) then
-			
+
 		end
 	end
 end)

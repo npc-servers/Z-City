@@ -33,7 +33,7 @@ function Hook.ZBox_Start()
     print("Cars: ZBox_Start called")
     timer.Create("CarSpawn", 150, 0, function()
         print("Cars: CarSpawn timer executed")
-        
+
         local mapSpots = spots[game.GetMap()]
         if not mapSpots then
             print("Cars: No spots found for this map")
@@ -63,9 +63,9 @@ function Hook.ZBox_Start()
 
         local carClass = table.Random(cars)
         print("Cars: Selected car class:", carClass)
-        
+
         local ent = simfphys.SpawnVehicleSimple(carClass, spot[2] + vector_up * 15, spot[3])
-        
+
         if IsValid(ent) then
             PLUGIN.Cars[spot[1]] = ent
             ent.ForceTransmission = 2

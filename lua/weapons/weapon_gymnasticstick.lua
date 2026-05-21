@@ -90,11 +90,11 @@ SWEP.DesiredSilks = {	--; WARNING POINTER
 function SWEP:DrawPostWorldModel()
 	if(hg.PhysSilk)then
 		local model_ent = self.worldModel
-		
+
 		if(IsValid(self.worldModel2))then
 			model_ent = self.worldModel2
 		end
-		
+
 		model_ent.Silk_RenderPos = model_ent:GetRenderOrigin()
 		model_ent.Silk_RenderAngles = model_ent:GetRenderAngles()
 		self.Silks = self.Silks or {}

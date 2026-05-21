@@ -29,7 +29,7 @@ function MODE:Intermission()
 		if ply:Team() == TEAM_SPECTATOR then
 			continue
 		end
-		
+
 		ApplyAppearance(ply)
 		ply:SetupTeam(0)
 	end

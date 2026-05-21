@@ -70,7 +70,7 @@ end
 
 net.Receive("check_lightness", function(len)
 	local ply = net.ReadEntity()
-	
+
 	if IsValid(ply) then
 		net.Start("check_lightness")
 		net.WriteVector(MODE:CheckInDarkness(ply))
@@ -119,7 +119,7 @@ function MODE:RenderScreenspaceEffects()
 		hg.fearphrase2 = nil
 		return
 	end
-	
+
 	local intensity = CurTime() - ghost
 
 	local time = 60
@@ -236,7 +236,7 @@ function MODE:RoundStart()
 		end
 
 		local pos = lply:GetPos() + Vector(math.Rand(-512, 512), math.Rand(-512, 512), math.Rand(0, 512))
-		
+
 		EmitSound(snd, pos, 0, nil)
 		timer.Adjust("FearSounds", math.Rand(40, 90))
 	end)

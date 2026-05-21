@@ -100,7 +100,7 @@ SWEP.LHPos = Vector(14,0.8,-3.7)
 SWEP.LHAng = Angle(-110,-180,0)
 
 function SWEP:AnimationPost()
-	
+
 end
 
 -- RELOAD ANIM AKM

@@ -157,8 +157,8 @@ local entsRestrict = {
     ["item_rpg_round"] = true, ["item_box_buckshot"] = true, ["item_ammo_smg1"] = true, ["item_ammo_smg1_large"] = true,
     ["item_ammo_smg1_grenade"] = true, ["item_battery"] = true, ["item_suitcharger"] = true, ["prop_thumper"] = true,
     ["npc_grenade_frag"] = true, ["bomb"] = true, ["ent_zac_whiskas"] = true, ["ent_hg_catfire"] = true,
-    ["ent_hg_cyanide_plotnypih"] = true, ["crossbow_projectile"] = true, ["ent_hg_fire"] = true, ["ent_hg_firesmall"] = true, 
-    ["ent_hg_molotov"] = true, ["projectile_base"] = true, ["projectile_nonexplosive_base"] = true, ["ent_hg_snowball"] = true, 
+    ["ent_hg_cyanide_plotnypih"] = true, ["crossbow_projectile"] = true, ["ent_hg_fire"] = true, ["ent_hg_firesmall"] = true,
+    ["ent_hg_molotov"] = true, ["projectile_base"] = true, ["projectile_nonexplosive_base"] = true, ["ent_hg_snowball"] = true,
     ["rpg_projectile"] = true
 }
 
@@ -194,9 +194,9 @@ end
 
 function Hook.PlayerNoClip(ply, desiredState)
     if ply:IsAdmin() then
-        return true 
+        return true
     else
-        return false 
+        return false
     end
 end
 

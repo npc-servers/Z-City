@@ -9,7 +9,7 @@ function ENT:Initialize()
 	self:SetMoveType(MOVETYPE_VPHYSICS)  -- Фурри
 	self:SetSolid(SOLID_VPHYSICS)
 	self:SetCollisionGroup(COLLISION_GROUP_WEAPON)
-	self:SetUseType(SIMPLE_USE) 
+	self:SetUseType(SIMPLE_USE)
 	self:DrawShadow(true)
 	self:SetBodygroup(1, 1)
 	self.Safety = CurTime() + 3
@@ -20,8 +20,8 @@ function ENT:Initialize()
 		phys:EnableMotion(true)
 		--phys:Sleep()
 	end
-	
-	
+
+
 	if IsValid(phys) then
 		phys:SetMass(20)
 	end
@@ -51,7 +51,7 @@ function ENT:ActivateExplosive()
 	bullet.Force = 350
 	bullet.Damage = 450
 	bullet.Speed = 3000
-	bullet.AmmoType = "14.5x114mm B32" 
+	bullet.AmmoType = "14.5x114mm B32"
 	bullet.Attacker = self.owner
 	bullet.Distance = 56756
 	bullet.Callback = hg.bulletHit

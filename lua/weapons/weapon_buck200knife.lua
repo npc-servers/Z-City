@@ -115,7 +115,7 @@ function SWEP:CustomBlockAnim(addPosLerp, addAngLerp)
     addAngLerp.r = addAngLerp.r + (self:GetBlocking() and 60 or 0)
     addAngLerp.y = addAngLerp.y + (self:GetBlocking() and 90 or 0)
 	addAngLerp.x = addAngLerp.x + (self:GetBlocking() and -60 or 0)
-    
+
     return true
 end
 

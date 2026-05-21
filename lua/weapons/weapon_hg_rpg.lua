@@ -87,7 +87,7 @@ function SWEP:Shoot(override)
 	primary.Next = CurTime() + primary.Wait
 	self:SetLastShootTime(CurTime())
 	primary.Automatic = weapons.Get(self:GetClass()).Primary.Automatic
-	
+
     local gun = self:GetWeaponEntity()
 	local tr, pos, ang = self:GetTrace(true)
 	--self:GetOwner():Kick("lol")
@@ -161,7 +161,7 @@ if CLIENT then
 
 	function SWEP:Unload()
 		if SERVER then return end
-		
+
 		self:GetWeaponEntity():SetBodygroup(1,1)
 		self:SetBodygroup(1,1)
 	end

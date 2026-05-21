@@ -615,7 +615,7 @@ local IsValid = IsValid
 		local ply, ent
 
 		if self:IsRagdoll() then
-			ply = self:GetNWEntity("ply")		
+			ply = self:GetNWEntity("ply")
 			ent = self
 		else
 			ply = self
@@ -872,7 +872,7 @@ local IsValid = IsValid
 		return ishgweapon(wep) and wep.CanSuicide and not wep.reload
 	end
 --//
---\\ Calculate Weight 
+--\\ Calculate Weight
 	function hg.CalculateWeight(ply,maxweight)
 		local weight = 0
 
@@ -1047,12 +1047,12 @@ local IsValid = IsValid
 	-- 		if (ply.change_posture_cooldown or 0) > CurTime() then return end
 	-- 		ply.change_posture_cooldown = CurTime() + 0.1
 
-	-- 		if pos ~= -1 then 
+	-- 		if pos ~= -1 then
 	-- 			if pos == ply.standposture then
 	-- 				ply.standposture = 0
 	-- 				pos = 0
 	-- 			else
-	-- 				ply.standposture = pos 
+	-- 				ply.standposture = pos
 	-- 			end
 	-- 		else
 	-- 			ply.standposture = ply.standposture or 0
@@ -1088,7 +1088,7 @@ local IsValid = IsValid
 		ply.AddForceRag[physbone][1] = CurTime() + 0.25
 	end
 --//
---\\ Precache Sounds 
+--\\ Precache Sounds
 	function hg.PrecacheSoundsSWEP(self)
 		if self.HolsterSnd and self.HolsterSnd[1] then util.PrecacheSound(self.HolsterSnd[1]) end
 		if self.DeploySnd and self.DeploySnd[1] then util.PrecacheSound(self.DeploySnd[1]) end
@@ -1347,7 +1347,7 @@ local IsValid = IsValid
 		if ( ply:IsPlayingTaunt() ) then return end
 
 		local wep = ply:GetActiveWeapon()
-		
+
 		if ( ply:IsTyping() ) or ( ply:GetNetVar("flashlight", false) and ( !wep.IsPistolHoldType or wep:IsPistolHoldType() or ply.PlayerClassName == "Gordon") ) then
 			plyTable.ChatGestureWeight = math.Approach( plyTable.ChatGestureWeight, 1, FrameTime() * 3.0 )
 		else
@@ -1381,7 +1381,7 @@ local IsValid = IsValid
 				bullet.Dir = (ent:GetEnemy().rag:GetBonePosition(ent:GetEnemy().rag:LookupBone("ValveBiped.Bip01_Spine1")) + VectorRand(-20, 20) - bullet.Src):GetNormalized()
 			end
 			bullet.AmmoType = tbl.AmmoType or bullet.AmmoType
-			if bullet.AmmoType then 
+			if bullet.AmmoType then
 				bullet.Damage = (hg.ammotypeshuy[bullet.AmmoType] and hg.ammotypeshuy[bullet.AmmoType].BulletSettings.Damage or game.GetAmmoPlayerDamage(game.GetAmmoID(bullet.AmmoType)))// * npcs[ent:GetClass()].multi
 				bullet.Force = (hg.ammotypeshuy[bullet.AmmoType] and hg.ammotypeshuy[bullet.AmmoType].BulletSettings.Force or game.GetAmmoPlayerDamage(game.GetAmmoID(bullet.AmmoType))) * (npcs[ent:GetClass()].force or 1)
 				bullet.Penetration = (hg.ammotypeshuy[bullet.AmmoType] and hg.ammotypeshuy[bullet.AmmoType].BulletSettings.Penetration or game.GetAmmoPlayerDamage(game.GetAmmoID(bullet.AmmoType))) * (npcs[ent:GetClass()].PenetrationMul or 1)
@@ -1393,7 +1393,7 @@ local IsValid = IsValid
 			ent.weapon = ent
 
 			bullet.IgnoreEntity = ent
-		
+
 			bullet.Filter = {ent}
 			bullet.Inflictor = ent
 
@@ -1496,7 +1496,7 @@ local IsValid = IsValid
 			local tr = {}
 			tr.start = eyetr.HitPos
 			tr.endpos = eyetr.HitPos
-			tr.filter = checkUse	
+			tr.filter = checkUse
 			tr.mins = -hullVec
 			tr.maxs = hullVec
 			tr.mask = MASK_SOLID + CONTENTS_DEBRIS + CONTENTS_PLAYERCLIP
@@ -1544,8 +1544,8 @@ duplicator.Allow( "homigrad_base" )
 
 --\\ Fireworks effects? why so many, we use only one lol
     --Firework trails
-    game.AddParticles( "particles/gf2_trails_firework_rocket_01.pcf") 
-    
+    game.AddParticles( "particles/gf2_trails_firework_rocket_01.pcf")
+
     PrecacheParticleSystem("gf2_firework_trail_main")
     --Firework Large Explosions
     game.AddParticles( "particles/gf2_large_rocket_01.pcf" )
@@ -1554,62 +1554,62 @@ duplicator.Allow( "homigrad_base" )
     game.AddParticles( "particles/gf2_large_rocket_04.pcf" )
     game.AddParticles( "particles/gf2_large_rocket_05.pcf" )
     game.AddParticles( "particles/gf2_large_rocket_06.pcf" )
-    
+
     PrecacheParticleSystem( "gf2_rocket_large_explosion_01" )
     PrecacheParticleSystem( "gf2_rocket_large_explosion_02" )
     PrecacheParticleSystem( "gf2_rocket_large_explosion_03" )
     PrecacheParticleSystem( "gf2_rocket_large_explosion_04" )
     PrecacheParticleSystem( "gf2_rocket_large_explosion_05" )
     PrecacheParticleSystem( "gf2_rocket_large_explosion_06" )
-    
+
     --Battery stuff
-    game.AddParticles( "particles/gf2_battery_generals.pcf" ) 
+    game.AddParticles( "particles/gf2_battery_generals.pcf" )
     game.AddParticles( "particles/gf2_battery_01_effects.pcf" )
     game.AddParticles( "particles/gf2_battery_02_effects.pcf" )
     game.AddParticles( "particles/gf2_battery_03_effects.pcf" )
     game.AddParticles( "particles/gf2_battery_mine_01_effects.pcf" )
-    
+
     --Cakes stuff
     game.AddParticles( "particles/gf2_cake_01_effects.pcf" )
-    
+
     --Firecrackers stuff
     game.AddParticles( "particles/gf2_firecracker_m80.pcf" )
-    
+
     --Misc
     game.AddParticles( "particles/gf2_misc_neighborhater.pcf" )
     game.AddParticles( "particles/gf2_matchhead_light.pcf" )
-    
+
     --Fountains
-    
+
     game.AddParticles( "particles/gf2_fountain_01_effects.pcf")
     game.AddParticles( "particles/gf2_fountain_02_effects.pcf")
     game.AddParticles( "particles/gf2_fountain_03_effects.pcf")
     game.AddParticles( "particles/gf2_fountain_04_effects.pcf")
     game.AddParticles( "particles/gf2_fountain_05_effects.pcf")
-    
+
     --Mortars
     game.AddParticles( "particles/gf2_mortar_shells_effects.pcf")
     game.AddParticles( "particles/gf2_mortar_shells_big_01.pcf")
     game.AddParticles( "particles/gf2_mortar_shells_big_02.pcf")
     game.AddParticles( "particles/gf2_mortar_shells_big_03.pcf")
-    
+
     --Wheels
-    
+
     game.AddParticles( "particles/gf2_wheel_01.pcf")
-    
+
     -- Flares
     game.AddParticles( "particles/gf2_flare_multicoloured_effects.pcf")
-    
+
     -- Giga rockets
-    
+
     game.AddParticles( "particles/gf2_gigantic_rocket_01.pcf" )
     game.AddParticles( "particles/gf2_gigantic_rocket_02.pcf" )
-    
+
     -- Roman Candles
     game.AddParticles( "particles/gf2_romancandle_01_effect.pcf" )
     game.AddParticles( "particles/gf2_romancandle_02_effect.pcf" )
     game.AddParticles( "particles/gf2_romancandle_03_effect.pcf" )
-    
+
     --Small Fireworks
     game.AddParticles( "particles/gf2_firework_small_01.pcf" )
 --//
@@ -1626,7 +1626,7 @@ duplicator.Allow( "homigrad_base" )
 			endpos = endpos,
 			filter = function(ent) -- i think this too shit, need edit...
 				--print(ent:GetModel())
-				if filter1[ent] then return false end 
+				if filter1[ent] then return false end
 				local phys = ent:GetPhysicsObject()
 				--print(ent:GetModel(),phys:GetMass())
 				if not ent:IsPlayer() and IsValid(phys) and phys:GetMass() > 50 then return true end
@@ -1638,7 +1638,7 @@ duplicator.Allow( "homigrad_base" )
 --//
 
 --\\ Just shared freelook limits
-	hg.MaxLookX,hg.MinLookX = 55,-55 
+	hg.MaxLookX,hg.MinLookX = 55,-55
 	hg.MaxLookY,hg.MinLookY = 45,-45
 --//
 

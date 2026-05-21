@@ -3,14 +3,14 @@ gasparticles_hook = gasparticles_hook or {}
 local gasparticles_hook = gasparticles_hook
 
 --;; За каждую оптимизацию на канале мир становится...
-local DECAL_BUDGET = 8          
-local DEDUP_CELL_SIZE = 4       
-local DEDUP_COOLDOWN = 0.15     
-local FAR_DISTANCE = 2500       
+local DECAL_BUDGET = 8
+local DEDUP_CELL_SIZE = 4
+local DEDUP_COOLDOWN = 0.15
+local FAR_DISTANCE = 2500
 local FAR_SKIP_CHANCE = 0.6
 local FAR_DISTANCE_SQR = FAR_DISTANCE * FAR_DISTANCE
 
-local recent_hits = {}  
+local recent_hits = {}
 
 local mats = {}
 for i = 1, 3 do
@@ -25,7 +25,7 @@ end
 
 local tr_out = {}
 local tr = {
-	mask = MASK_SOLID_BRUSHONLY,  
+	mask = MASK_SOLID_BRUSHONLY,
 	output = tr_out
 }
 

@@ -173,7 +173,7 @@ hook.Add( "EntityTakeDamage", "Glide.OverrideDamage", function( target, dmginfo 
     end
 
     if IsValid( inflictor ) and inflictor.IsGlideVehicle and dmginfo:IsDamageType( 1 ) then -- DMG_CRUSH
-        -- Set the vehicle's driver/creator as the attacker 
+        -- Set the vehicle's driver/creator as the attacker
         local driver = inflictor:GetDriver()
 
         if not IsValid( driver ) then

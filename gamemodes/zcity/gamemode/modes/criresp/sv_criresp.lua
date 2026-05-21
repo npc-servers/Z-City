@@ -38,13 +38,13 @@ function MODE:AssignTeams()
 	shuffle(players)
 
 	for i = 1, numSWAT do
-		if IsValid(players[i]) then 
+		if IsValid(players[i]) then
 			players[i]:SetTeam(0)
 		end
 	end
 
 	for i = numSWAT + 1, numPlayers do
-		if IsValid(players[i]) then 
+		if IsValid(players[i]) then
 			players[i]:SetTeam(1)
 		end
 	end
@@ -53,9 +53,9 @@ end
 util.AddNetworkString("criresp_start")
 function MODE:Intermission()
 	game.CleanUpMap()
-    
+
     self:AssignTeams()
-	
+
 	for k, ply in player.Iterator() do
 		if ply:Team() == TEAM_SPECTATOR or ply:Team() == 0 then ply:KillSilent() continue end
 		ply:SetupTeam(ply:Team())
@@ -99,18 +99,18 @@ end
 
 
 function MODE:RoundStart()
-    
+
 end
 
 local tblweps = {
-	[0] = { 
-		{"weapon_m4a1", {"holo15","grip3","laser4"} }, 
+	[0] = {
+		{"weapon_m4a1", {"holo15","grip3","laser4"} },
 		{"weapon_hk416", {"holo15","grip3","laser4"} },
 		{"weapon_p90", {} },
 		{"weapon_mp7", {"holo14"} },
 		{"weapon_m4a1", {"optic2","grip3","supressor7"} }
 	},
-	[1] = { 
+	[1] = {
 		"weapon_deagle",
 		"weapon_glock17",
 		"weapon_revolver2",
@@ -124,16 +124,16 @@ local tblweps = {
 }
 
 local tblotheritems = {
-	[0] = { 
-		"weapon_medkit_sh", 
+	[0] = {
+		"weapon_medkit_sh",
 		"weapon_tourniquet",
 		"weapon_walkie_talkie",
         "weapon_melee",
 		"weapon_handcuffs",
 		"weapon_hg_flashbang_tpik"
 	},
-	[1] = { 
-		"weapon_bigconsumable", 
+	[1] = {
+		"weapon_bigconsumable",
 		"weapon_bandage_sh",
 		"weapon_painkillers",
         "weapon_sogknife",
@@ -145,11 +145,11 @@ local tblotheritems = {
 
 
 local tblarmors = {
-	[0] = { 
-		{"ent_armor_vest8","ent_armor_helmet6"} 
+	[0] = {
+		{"ent_armor_vest8","ent_armor_helmet6"}
 	},
-	[1] = { 
-		{"ent_armor_vest8","ent_armor_helmet6"} 
+	[1] = {
+		{"ent_armor_vest8","ent_armor_helmet6"}
 	}
 }
 
@@ -162,7 +162,7 @@ end
 
 function MODE:GiveEquipment()
 	timer.Simple(0.5,function()
-		local swatPlayers = {} 
+		local swatPlayers = {}
 
 		for i, ply in player.Iterator() do
 			if ply:Team() == TEAM_SPECTATOR then continue end
@@ -182,11 +182,11 @@ function MODE:GiveEquipment()
 					inv["Weapons"]["hg_sling"] = true
 					ply:SetNetVar("Inventory",inv)
 
-					hg.AddArmor(ply, tblarmors[ply:Team()][math.random(#tblarmors[ply:Team()])]) 
+					hg.AddArmor(ply, tblarmors[ply:Team()][math.random(#tblarmors[ply:Team()])])
 
 					zb.GiveRole(ply, "SWAT", Color(0,0,190))
 
-					table.insert(swatPlayers, ply) 
+					table.insert(swatPlayers, ply)
 
 					local wep = tblweps[ply:Team()][math.random(#tblweps[ply:Team()])]
 					local gun = ply:Give(wep[1])

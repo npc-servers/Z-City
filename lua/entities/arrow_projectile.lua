@@ -45,10 +45,10 @@ if SERVER then
 			end
 
 			local mat = self.HitEntity:GetBoneMatrix(self.HitEntity:TranslatePhysBoneToBone(self.phys_bone_id or 0))
-			
+
 			if mat then
 				local lpos, lang = WorldToLocal(self:GetPos(), angle_zero, mat:GetTranslation(), mat:GetAngles())
-				
+
 				for i = 1, 5 do
 					hg.organism.AddWoundManual(self.HitEntity.organism.owner, 50, vector_origin, AngleRand(-180, 180), self.HitEntity:GetBoneName(self.HitEntity:TranslatePhysBoneToBone(self.phys_bone_id)), CurTime() + math.Rand(0, 2))
 				end
@@ -56,7 +56,7 @@ if SERVER then
 
 			self:EmitSound("arrow_tear.wav")
 		end
-		
+
 		self:Remove()
 	end
 end

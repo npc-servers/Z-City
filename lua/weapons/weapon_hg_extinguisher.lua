@@ -127,9 +127,9 @@ function SWEP:CanSecondaryAttack()
     self.AttackHit = "Canister.ImpactHard"
     self.Attack2Hit = "Canister.ImpactHard"
     if not self.allowsec then return end
-    
+
     if self:GetNWFloat("amountspray", 100) <= 0 then return end
-    
+
     if CLIENT then
         self:PlayAnim("attack2",1,false,nil,false)
         self.animtime = CurTime() + CurTime() % 1
@@ -148,7 +148,7 @@ function SWEP:CanSecondaryAttack()
         if (self.waitDecal or 0) < CurTime() then
             self.waitDecal = CurTime() + 0.02
             local tr = hg.eyeTrace(self:GetOwner(), 256)
-            
+
             if tr.Hit then
                 local norm = tr.HitNormal
                 local add = 70 * tr.Fraction * tr.Fraction
@@ -161,9 +161,9 @@ function SWEP:CanSecondaryAttack()
                 local view = render.GetViewSetup(true)
 
                 local dot = view.angles:Forward():Dot(tr.Normal)
-                
+
                 local pos = tr.StartPos:ToScreen()
-                
+
                 if dot < -0.99 and pos.x > 0 and pos.x < ScrW() and pos.y > 0 and pos.y < ScrH() and hg.isVisible(LocalPlayer():EyePos(), tr.StartPos, {LocalPlayer(), self}, MASK_VISIBLE) then
                     //amtflashed2 = amtflashed2 + (FrameTime() * 2)
                 end//покачто
@@ -171,7 +171,7 @@ function SWEP:CanSecondaryAttack()
         end
 
         self.sound = self:StartLoopingSound("fire_extinguisher/fire_extinguisger_startloop.wav")
-        
+
         timer.Create("extinguisher"..self:EntIndex(), 0.1, 1, function()
             if IsValid(self) then
                 if self.sound then
@@ -190,7 +190,7 @@ function SWEP:CanSecondaryAttack()
         self.sprayamt = self.sprayamt or 100
         self.sprayamt = self.sprayamt - FrameTime() * 40
         self:SetNWFloat("amountspray", self.sprayamt)
-        		
+
         for k, ent in ipairs(ents.FindInSphere(tr.HitPos,32)) do
             if ent:IsPlayer() and ent:Alive() and ent != self:GetOwner() then
                 local org = ent.organism

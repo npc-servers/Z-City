@@ -6,56 +6,56 @@ if(SERVER)then
 else
 	HGAmmo_PhysSilkTranslationExpectedEntitiesTable = HGAmmo_PhysSilkTranslationExpectedEntitiesTable or {}
 	HGAmmo_PhysSilkTranslationTable = HGAmmo_PhysSilkTranslationTable or {}
-	
+
 	local function translate_silk_to_ent(ent, bullet_key)
 		local translation_info = HGAmmo_PhysSilkTranslationTable[bullet_key]
-		
+
 		if(translation_info)then
 			if(ent.Silks)then
 				for key, silk in pairs(ent.Silks) do
 					silk:Die()
 				end
 			end
-		
+
 			for key, silk in pairs(translation_info.Silks) do
 				silk.Entity = ent
 			end
-		
+
 			ent.Silks = translation_info.Silks
 			HGAmmo_PhysSilkTranslationTable[bullet_key] = nil
 		end
 	end
-	
+
 	hook.Add("Think", "HGAmmo_PhysSilkTranslationTable", function()
 		for bullet_key, translation_info in pairs(HGAmmo_PhysSilkTranslationTable) do
 			if(translation_info.DeathTime <= CurTime())then
 				for key, silk in pairs(translation_info.Silks) do
 					silk:Die()
 				end
-				
+
 				HGAmmo_PhysSilkTranslationTable[bullet_key] = nil
 			end
 		end
 	end)
-	
+
 	hook.Add("NotifyShouldTransmit", "HGAmmo_PhysSilkTranslationTable", function(ent, state)
 		if(state == true)then
 			local ent_id = ent:EntIndex()
-			
+
 			if(HGAmmo_PhysSilkTranslationExpectedEntitiesTable[ent_id])then
 				translate_silk_to_ent(ent, HGAmmo_PhysSilkTranslationExpectedEntitiesTable[ent_id])
-				
+
 				HGAmmo_PhysSilkTranslationExpectedEntitiesTable[ent_id] = nil
 			end
 		end
 	end)
-	
+
 	net.Receive("HGAmmo(TranslateSilkToEntity)", function(len, ply)
 		-- Entity(1):ChatPrint(12312)
 		local bullet_key = net.ReadUInt(hg.PhysBullet.MaxKeyBits)
 		local ent_id = net.ReadUInt(HGAmmo_MaxKeyBits)
 		local ent = Entity(ent_id)
-		
+
 		if(IsValid(ent))then
 			translate_silk_to_ent(ent, bullet_key)
 		else
@@ -75,25 +75,25 @@ local function scrape_blood(self, trace, len, len_before)
 				hit_organism.disorientation = (hit_organism.disorientation or 0) + 5
 			else--if(trace.Entity:IsNPC() or trace.Entity:IsNextBot())then
 				local dmg = DamageInfo()
-				
+
 				if(IsValid(self.Shooter))then
 					dmg:SetAttacker(self.Shooter)
 				else
 					dmg:SetAttacker(game.GetWorld())
 				end
-				
+
 				dmg:SetDamageType(DMG_DISSOLVE)
 				dmg:SetDamage(80)
 				trace.Entity:TakeDamageInfo(dmg)
 			end
-			
+
 			local effect_data = EffectData()
-			
+
 			effect_data:SetOrigin(trace.HitPos)
 			util.Effect("BloodImpact", effect_data)
 		end
 	end
-	
+
 	-- self:Die()
 end
 
@@ -116,23 +116,23 @@ local function draw_silk(self)
 		local model_ent = ClientsideModel(self.FunctionInfo.Model)
 		self.Draw_Model = model_ent
 	end
-	
+
 	local model_ent = self.Draw_Model
 	local vel_ang = self.Vel:Angle()
-	
+
 	model_ent:SetPos(self.Pos)
 	model_ent:SetAngles(vel_ang)
-	
+
 	--if(hg.PhysSilk)then
 	--	if(!self.DesiredSilks)then
 	--		self.DesiredSilks = self.FunctionInfo.DesiredSilks
 	--	end
-	--	
+	--
 	--	self.Silks = self.Silks or {}	--; TODO, Network translation to entity
 --
 	--	for silk_desired_key, silk_desired in ipairs(self.DesiredSilks) do
 	--		local desired_pos, _ = LocalToWorld(silk_desired.EntityOffset, angle_zero, self.Pos, vel_ang)
-	--		
+	--
 	--		if(IsValid(self.Silks[silk_desired_key]))then
 	--			self.Silks[silk_desired_key].Pos = desired_pos
 	--		else
@@ -144,14 +144,14 @@ local function draw_silk(self)
 	--end
 	-- if(self.PathPoints)then
 		-- local color = self.TracerSetings.TracerColor or color_white
-		
+
 		-- render.SetColorMaterial()
 		-- render.StartBeam(math.min(#self.PathPoints, self.TracerSetings.MaxPathPoints))
-		
+
 		-- for i = math.max(#self.PathPoints - self.TracerSetings.MaxPathPoints, 1), #self.PathPoints do
 			-- render.AddBeam(self.PathPoints[i], self.TracerSetings.TracerWidth or 0.4, 1, color)
 		-- end
-		
+
 		-- render.EndBeam()
 	-- end
 end
@@ -182,7 +182,7 @@ local function arrow_hit(self, last_unsure_penetration_pos, reason, trace)
 			projectile:SetAngles(normal:Angle())
 			projectile:Spawn()
 			self.SpawnedEntity = projectile
-			
+
 			if(trace)then
 				projectile:Hit(trace.Entity, trace.HitPos + normal * -4, trace.PhysicsBone, normal)
 			end
@@ -194,7 +194,7 @@ local function preremove_silk(self)
 	if(IsValid(self.Draw_Model))then
 		self.Draw_Model:Remove()
 	end
-	
+
 	if(CLIENT and self.Silks)then
 		HGAmmo_PhysSilkTranslationTable[self.Key] = {	--; СЕЛФ КЕУ МОЖЕТ БЫТЬ ОДИН И ТОТ ЖЕ У 2 ПУЛЬ ЕСЛИ ПРОШЛАЯ УСПЕЛА УДАЛИТЬСЯ
 			Silks = self.Silks,
@@ -235,10 +235,10 @@ local function draw_explosive(self)
 		local model_ent = ClientsideModel(self.FunctionInfo.Model)
 		self.Draw_Model = model_ent
 	end
-	
+
 	local model_ent = self.Draw_Model
 	local vel_ang = self.Vel:Angle()
-	
+
 	model_ent:SetPos(self.Pos)
 	model_ent:SetAngles(vel_ang)
 end
@@ -256,7 +256,7 @@ local function onstopped_explosive(self, last_unsure_penetration_pos, reason, tr
 			local pos = self.Pos - self.Vel:GetNormalized() * 2
 			local vec_cone = Vector(0, 0, 0)
 			local shrapnel_coroutine_id = #APScheduledExplosions + 1
-			
+
 			util.ScreenShake(self.Pos, 35, 1, 1, 3000)
 
 			timer.Simple(.01,function()
@@ -271,7 +271,7 @@ local function onstopped_explosive(self, last_unsure_penetration_pos, reason, tr
 				net.WriteBool(false)
 				net.WriteString("")
 			net.Broadcast()
-			
+
 			util.BlastDamage(Entity(0), IsValid(attacker) and attacker or Entity(0), self.Pos, 100, 50)
 			hg.ExplosionEffect(self.Pos, 1500 / 0.01905, 250)
 
@@ -279,7 +279,7 @@ local function onstopped_explosive(self, last_unsure_penetration_pos, reason, tr
 			--effectdata:SetOrigin(selfPos)
 			--effectdata:SetScale(0.9)
 			--util.Effect("eff_jack_fragsplosion", effectdata)
-	
+
 			timer.Simple(.15,function()
 				local coroutine_antilag = coroutine.create(function()
 					local last_shrapnel = SysTime()
@@ -287,13 +287,13 @@ local function onstopped_explosive(self, last_unsure_penetration_pos, reason, tr
 					for i = 1, 600 do
 						last_shrapnel = SysTime()
 						local dir = VectorRand(-1, 1)
-						
+
 						dir:Normalize()
-						
+
 						dir[3] = dir[3] > 0 and math.abs(dir[3] - 0.5) or -math.abs(dir[3] + 0.5)
-						
+
 						dir:Normalize()
-						
+
 						local bullet = {}
 						bullet.Src = pos
 						bullet.Spread = vec_cone
@@ -305,7 +305,7 @@ local function onstopped_explosive(self, last_unsure_penetration_pos, reason, tr
 						bullet.Distance = 567
 						bullet.DisableLagComp = true
 						bullet.Dir = dir
-						
+
 						game.GetWorld():FireLuaBullets(bullet, true)
 
 						last_shrapnel = SysTime() - last_shrapnel
@@ -314,12 +314,12 @@ local function onstopped_explosive(self, last_unsure_penetration_pos, reason, tr
 							coroutine.yield()
 						end
 					end
-					
+
 					APScheduledExplosions[shrapnel_coroutine_id] = nil
 				end)
 
 				APScheduledExplosions[shrapnel_coroutine_id] = coroutine_antilag
-				
+
 				coroutine.resume(coroutine_antilag)
 			end)
 			util.ScreenShake( self.Pos, 35, 1, 1, 1000, true )
@@ -770,7 +770,7 @@ hg.ammotypes = {
 			TracerTPoint2 = 1,
 			TracerSpeed = 10000,
 			NoSpin = true,
-			
+
 		},
 		BulletSettings = {
 			Damage = 200,
@@ -1800,7 +1800,7 @@ hg.ammotypes = {
 			Icon = matPistolAmmo
 		}
 	},
-	["14.5x114mmb32"] = { -- Салат ты у нас тут балансище, сделаешь конфетку 
+	["14.5x114mmb32"] = { -- Салат ты у нас тут балансище, сделаешь конфетку
 		name = "14.5x114mm B32",
 		dmgtype = DMG_BULLET + DMG_AIRBOAT,
 		tracer = TRACER_NONE,
@@ -2528,13 +2528,13 @@ local ammoents = {
 		Model = "models/items/ammo_76239.mdl",
 		Scale = 1
 	},
-	["7.62x51mm"] = {  
+	["7.62x51mm"] = {
 		Icon = "vgui/hud/hmcd_round_792",
 		Model = "models/items/ammo_76251.mdl",
 		Scale = 1,
 		Count = 25,
 	},
-	["7.62x51mmm993"] = {  
+	["7.62x51mmm993"] = {
 		Icon = "vgui/hud/76251m993zcity",
 		Model = "models/items/ammo_76251.mdl",
 		Scale = 1,
@@ -2887,7 +2887,7 @@ hg.ammoents = ammoents
 local function addAmmoTypes()
 	for name, tbl in pairs(ammotypes) do
 		game.AddAmmoType(tbl)
-		
+
 		if(!tbl.noentity)then
 			if CLIENT then language.Add(tbl.name .. "_ammo", tbl.name) end
 			local ammoent = {}
@@ -2970,7 +2970,7 @@ if CLIENT then
         local Frame = vgui.Create( "ZFrame" )
         Frame:SetTitle( "" ) -- "Ammunition"
         Frame:SetSize( 200,300 )
-        Frame:Center()			
+        Frame:Center()
         Frame:MakePopup()
 		Frame:SetVisible(false)
 
@@ -2997,13 +2997,13 @@ if CLIENT then
         local ammos = LocalPlayer():GetAmmo()
 
         for k,v in pairs(ammos) do
-            local DermaButton = vgui.Create( "DButton", DPanel ) 
-            DermaButton:SetText( game.GetAmmoName( k )..": "..v )	
-            DermaButton:SetTextColor( Color(255,255,255) )	
+            local DermaButton = vgui.Create( "DButton", DPanel )
+            DermaButton:SetText( game.GetAmmoName( k )..": "..v )
+            DermaButton:SetTextColor( Color(255,255,255) )
 			DermaButton:SetFont("HomigradFontVSmall")
-            DermaButton:SetPos( 0, 0 )	
+            DermaButton:SetPos( 0, 0 )
             DermaButton:Dock( TOP )
-            DermaButton:DockMargin( 2, 2.5, 2, 0 )	
+            DermaButton:DockMargin( 2, 2.5, 2, 0 )
             DermaButton:SetSize( 120, 25 )
 
             DermaButton.Paint = function( self, w, h ) -- 'function Frame:Paint( w, h )' works too
@@ -3011,9 +3011,9 @@ if CLIENT then
                 DermaButton.a = Lerp(0.1,DermaButton.a or 100,DermaButton:IsHovered() and 180 or 100)
 				draw.RoundedBox(0, 0, 0, w, h, Color(red.r,red.g,red.b,DermaButton.a))
                 --BlurBackground(DermaButton)
-            end				
+            end
             DermaButton.DoClick = function()
-                --print( math.min(ammodrop,v),game.GetAmmoName( k ))				
+                --print( math.min(ammodrop,v),game.GetAmmoName( k ))
                 net.Start( "drop_ammo" )
                     net.WriteFloat( k )
                     net.WriteFloat( math.min(ammodrop,v) )
@@ -3075,7 +3075,7 @@ if SERVER then
         if count < 1 then ply:ChatPrint("You can't drop zero ammo") return end
 			--if not ammolistent[ammotype] then ply:ChatPrint("Invalid entitytype...") return end
 			--print(game.GetAmmoName(ammotype))
-		
+
         local AmmoEnt = ents.Create( "ent_ammo_"..string.lower( string.Replace(game.GetAmmoName(ammotype)," ", "") ) )
 		if not IsValid(AmmoEnt) then
 			ply:ChatPrint("Invalid entitytype...")

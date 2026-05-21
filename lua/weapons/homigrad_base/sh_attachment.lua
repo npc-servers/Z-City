@@ -65,7 +65,7 @@ function hg.ClearAttachments(wep)
 			hg.SetAttachment(tbl.attachments,att,wep)
 		end
 	end
-	
+
 	return tbl.attachments
 end
 
@@ -87,7 +87,7 @@ function hg.SetAttachment(tbl,att,wep)
 			i = istable(atta) and atta[1] == att and n or i
 		end
 	end
-	
+
 	tbl[placement] = i and wep.availableAttachments[placement][i] or {att, {}}
 end
 
@@ -101,7 +101,7 @@ function SWEP:HasAttachment(whereabouts, attachment)
 	else
 		has = has[1] ~= "empty"
 	end
-	
+
 	return has and self.attachments[whereabouts], has and hg.attachments[whereabouts][self.attachments[whereabouts][1]]
 end
 
@@ -142,28 +142,28 @@ function SWEP:DrawAttachments()
 	self.attacments = self:GetNetVar("attachments",{})
 	//self.Supressor = (self:HasAttachment("barrel", "supressor") and true) or self.SetSupressor
 	local magwell, magwellData = self:HasAttachment("magwell")
-	if magwellData then 
+	if magwellData then
 		self.Primary.ClipSize = magwellData.capacity
 	else
 		self.Primary.ClipSize = self.Primary.ClipSize2 or self.Primary.ClipSize
 	end
-	
+
 	if SERVER then return end
 
 	local gun = self:GetWeaponEntity()
 	local att = self:GetMuzzleAtt(self:GetWM(), true)
 	if not att then return end
 	local pos, ang = att.Pos, att.Ang
-	
+
 	local available = self.availableAttachments
 
 	if not IsValid(gun) or not att then return end
-	
+
 	if self.attachments == nil and CLIENT then
 		self:SyncAtts()
 		return
 	end
-	
+
 
 	if self.availableAttachments.mount then
 		if self.availableAttachments.mount then
@@ -174,23 +174,23 @@ function SWEP:DrawAttachments()
 			end
 		end
 	end
-	
+
 
 	self.modelAtt = self.modelAtt or {}
 	local flagRemovehuy = false
 	for plc,att in pairs(self.attachments) do
 		local attdata = hg.attachments[plc][att[1]]
-		
+
 		local tblhuy = self:HasAttachment(plc) and available[plc] and ((available[plc][att[1]] and istable(available[plc][att[1]]) and available[plc][att[1]][2]) or (istable(available[plc]["removehuy"]) and available[plc]["removehuy"][attdata.mountType] or available[plc]["removehuy"]))
 		if tblhuy then flagRemovehuy = true end
-		
+
 		if not tblhuy and not flagRemovehuy then tblhuy = att[2] end
-		
+
 		if istable(tblhuy) and not table.IsEmpty(tblhuy) then
 			for index, mat in pairs(tblhuy) do
 				local submat = gun:GetSubMaterial(index)
 				--submat = #submat > 0 and submat or gun:GetMaterials()[index]
-				
+
 				if submat ~= (mat or "null") then gun:SetSubMaterial(index, mat or "null") end
 			end
 		end
@@ -198,15 +198,15 @@ function SWEP:DrawAttachments()
 		if not self:HasAttachment(plc,att[1]) then continue end
 
 		local model = self.modelAtt[plc]
-		
+
 		if owner ~= LocalPlayer() and hg_attachment_draw_distance:GetInt() ~= 0 and (hg_attachment_draw_distance:GetInt() ^ 2) < ((LocalPlayer():GetPos() - gun:GetPos()):LengthSqr()) and not attdata.shouldalwaysdraw then if IsValid(model) then model:Remove() end continue end
-		
+
 		if not IsValid(model) and attdata[2] and attdata[2] ~= "" then
 			self.modelAtt[plc] = ClientsideModel(attdata[2])
 			model = self.modelAtt[plc]
 			model:SetNoDraw(true)
 		end
-		
+
 		if not IsValid(model) then continue end
 
 		if attdata[4] and not table.IsEmpty(attdata[4]) then
@@ -250,11 +250,11 @@ if CLIENT then
 			local ang = select(3,self:GetTrace())
 			ang:RotateAroundAxis(ang:Forward(),90)
 			local pos = LocalToWorld(newview,angle_zero,model:GetPos(),ang)
-			
+
 			if info.viewFunction then
 				pos = info.viewFunction(self,model,pos)
 			end
-			
+
 			return pos
 		end
 		return false
@@ -292,7 +292,7 @@ function SWEP:Attachment_Transform(model,pos,ang,plc,att,attdata,available)
 
 	model:SetPos(vecadd)
 	model:SetAngles(ang)
-	
+
 	model:SetupBones()
 	local addred = string.find(att[1], "supressor") and 5 * self.dmgStack2 / 30 or 0
 	render.SetColorModulation(1 + addred,1,1)
@@ -308,7 +308,7 @@ function SWEP:Attachment_Transform(model,pos,ang,plc,att,attdata,available)
 		end
 
 		local mount = self.modelAtt["mountex"]
-		
+
 		local pos = vecZero
 		pos:Set(attdata.mountVec)
 		pos:Rotate(model:GetAngles())
@@ -328,13 +328,13 @@ function SWEP:Attachment_Transform(model,pos,ang,plc,att,attdata,available)
 			model2 = ClientsideModel(attdata[2])
 			model2:SetNoDraw(true)
 			model.model = model2
-			
+
 			self.holomodels = self.holomodels or {}
 			self.holomodels[model2] = true
 
 			model:CallOnRemove("removeshithole",function()
 				self.holomodels = self.holomodels or {}
-				
+
 				if self.holomodels then
 					self.holomodels[model2] = nil
 				end
@@ -345,7 +345,7 @@ function SWEP:Attachment_Transform(model,pos,ang,plc,att,attdata,available)
 			end)
 
 		end
-		
+
 		if not model2.submats then
 			model2:SetSubMaterial(0,"null")
 			model2:SetSubMaterial(1,"white")
@@ -448,13 +448,13 @@ if CLIENT then
 			self.modelAtt = {}
 			return
 		end
-		
+
 		local model = self.modelAtt["underbarrel"] or self:GetWeaponEntity()
 		if not IsValid(model) then return end
 		local pos, anga = model:GetPos(), model:GetAngles()
 		local pos, ang = LocalToWorld(attachmentData.offsetPos or vecZero, attachmentData.offsetAng or angZero, pos, anga)
 		//local tr, _, _ = self:GetTrace()
-		
+
 		//if not IsValid(self:GetOwner()) or not self:GetOwner():IsPlayer() then ang = anga end
 
 		--[[
@@ -510,13 +510,13 @@ if CLIENT then
 				self.flashlight:SetLinearAttenuation(attachmentData.brightness or 50)
 				self.flashlight:SetPos(pos + ang:Forward() * 10)
 				self.flashlight:SetAngles(ang)
-				if (self.flashlightupdate or 0) < CurTime() then 
+				if (self.flashlightupdate or 0) < CurTime() then
 					self.flashlightupdate = CurTime() + 0.01
 					self.flashlight:Update()
 				end
 				local view = render.GetViewSetup(true)
 				local deg = ang:Forward():Dot(view.angles:Forward())
-				
+
 				local chekvisible = util.TraceLine({
 					start = pos + ang:Forward() * 10,
 					endpos = view.origin,
@@ -561,7 +561,7 @@ if CLIENT then
 				render.SetStencilFailOperation( STENCIL_KEEP )
 				render.SetStencilZFailOperation( STENCIL_KEEP )
 				render.ClearStencil()
-				
+
 				-- Enable stencils
 				render.SetStencilEnable( true )
 				-- Set everything up everything draws to the stencil buffer instead of the screen
@@ -577,14 +577,14 @@ if CLIENT then
 				render.SetStencilCompareFunction( STENCIL_EQUAL )
 
 				--render.ClearBuffersObeyStencil(128,128,128,128,false)
-				
+
 				render.SetMaterial(mat2)
 				local bLPly = self:GetOwner() == LocalPlayer()
 				if bLPly then
 					distance = distance * 1.5
 				end
 				local div = distance/(bLPly and 6 or 2.5) * (attachmentData.laserSize ~= nil and (attachmentData.laserSize / 10) or 1)
-				local colore = Color(attachmentData.color.r/(div),attachmentData.color.g/(div),attachmentData.color.b/(div))		
+				local colore = Color(attachmentData.color.r/(div),attachmentData.color.g/(div),attachmentData.color.b/(div))
 				local fSize = math.min(5 * (attachmentData.laserSize or 1) * distance,bLPly and 120 or 30)
 				render.DrawSprite(tr.HitPos, fSize, fSize, colore)
 
@@ -691,7 +691,7 @@ if CLIENT then
 
 	local blurMat = Material("pp/blurscreen")
     local Dynamic = 0
-	
+
 	local function refreshtbl()
 		local tblcpy = {}
 
@@ -704,7 +704,7 @@ if CLIENT then
 		if IsValid(wep) and ishgweapon(wep) then
 			achtbl = lply:GetActiveWeapon():GetNetVar("attachments")
 		end
-		
+
 		for i, att in pairs(tbl) do
 			if !att then continue end
 			table.insert(tblcpy, {att, false})
@@ -738,7 +738,7 @@ if CLIENT then
 			hg.attachmentsMenuPanel:Remove()
 			hg.attachmentsMenuPanel = nil
 		end
-	
+
 		local tblcpy = refreshtbl()
 
 		local frame = vgui.Create( "ZFrame" )
@@ -750,12 +750,12 @@ if CLIENT then
 		frame:SetKeyboardInputEnabled(false)
 
 		frame:SetAlpha(0)
-	
+
 		frame:MoveTo(frame:GetX(), ScrH() / 2 - frame:GetTall() / 2, 0.5, 0, 0.3, function() end)
 		frame:AlphaTo( 255, 0.2, 0.1, nil )
 
 		function frame:First()
-		end 
+		end
 
 		local lbl = vgui.Create("DLabel", frame)
 		lbl:SetText( "" )
@@ -771,7 +771,7 @@ if CLIENT then
 		local scroll = vgui.Create("DScrollPanel",frame)
 		scroll:Dock(FILL)
 		frame.scroll = scroll
-	
+
 		local sbar = scroll:GetVBar()
 		sbar:SetHideButtons(true)
 
@@ -798,7 +798,7 @@ if CLIENT then
 			scroll = vgui.Create("DScrollPanel", frame)
 			scroll:Dock(FILL)
 			frame.scroll = scroll
-			
+
 			table.sort(tblcpy, function(a, b) return ((string.byte(a[1][1], 1, 1) + (a[2] and 9999 or 0)) > (string.byte(b[1][1], 1, 1) + (b[2] and 9999 or 0))) end)
 			for k, v in pairs(tblcpy) do
 				if !hg.attachmentslaunguage[v[1]] then continue end
@@ -829,7 +829,7 @@ if CLIENT then
 					surface.SetDrawColor(v[2] and 50 or 100, v[2] and 0 or typea * 9, 0, 255)
 					surface.DrawTexturedRect(0, 0, w, h)
 				end
-	
+
 				local img = vgui.Create("DImage", but)
 				img:SetSize(ScreenScaleH(20), ScreenScaleH(20))
 				img:Dock(LEFT)
@@ -840,24 +840,24 @@ if CLIENT then
 
 				/*but.Think = function()
 					if !hg.attachmentslaunguage[tblcpy[k][1]] then return end
-	
+
 					img:SetImage( hg.attachmentsIcons[tblcpy[k][1]] )
-	
+
 					but:SetText( hg.attachmentslaunguage[tblcpy[k][1]]..(tblcpy[k][2] and " - on the weapon" or "") )
 				end*/
-	
+
 				but.DoClick = function()
 					if v[2] then return end
-	
+
 					addAttachment(v[1])
 				end
-	
+
 				but.DoRightClick = function()
 					if !v[2] then return end
-	
+
 					removeAttachment(v[1])
 				end
-	
+
 				scroll:AddItem(but)
 			end
 		end

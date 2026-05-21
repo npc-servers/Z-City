@@ -34,7 +34,7 @@ function CurrentRound()
 	end
 
 	local round = zb.CROUND_MAIN
-	
+
 	return zb.modes[round], zb.CROUND
 end
 
@@ -137,7 +137,7 @@ function zb:EndRoundThink()
 				SetGlobalVar("coop_first_round_timer", zb.END_TIME)
 			end
 		end
-		
+
 		zb.SHOULD_FADE = zb.SHOULD_FADE != nil and zb.SHOULD_FADE or true
 
 		if zb.SHOULD_FADE and (zb.END_TIME < CurTime() + 1.5) then
@@ -222,7 +222,7 @@ function zb:KillPlayers()
 
 			continue
 		end
-		
+
 		if ply:FlashlightIsOn() then ply:Flashlight(false) end
 
 		ply:KillSilent()

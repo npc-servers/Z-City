@@ -29,7 +29,7 @@ function MODE:Intermission()
 
 	for i, ply in player.Iterator() do
 		ply:SetupTeam(ply:Team())
-		
+
 		ply:SetNWInt( "TDM_Money", self.StartMoney )
 	end
 
@@ -90,7 +90,7 @@ function MODE:GiveEquipment()
 
 		for _, ply in player.Iterator() do
 			if not ply:Alive() then continue end
-			
+
 			local inv = ply:GetNetVar("Inventory")
 			inv["Weapons"]["hg_sling"] = true
 			ply:SetNetVar("Inventory",inv)
@@ -111,7 +111,7 @@ function MODE:GiveEquipment()
 			--[[if giveweapons:GetBool() then
 				local gun = ply:Give(tblweps[ply:Team()][mrand])
 				ply:GiveAmmo(gun:GetMaxClip1() * 3,gun:GetPrimaryAmmoType(),true)
-				
+
 				hg.AddAttachmentForce(ply,gun,tblatts[ply:Team()][mrand])
 				hg.AddArmor(ply, tblarmors[ply:Team()][mrand])
 
@@ -212,7 +212,7 @@ net.Receive("tdm_buyitem",function(len,ply)
 
 	if ((ply:GetNWInt("TDM_Money",0) - item.Price) < 0) then ply:ChatPrint("Not enough money.") return end
 	local ent = ply:Give(item.ItemClass)
-	
+
 	if ent.Use and IsValid(ent) then
 		ent:Use( ply )
 	end

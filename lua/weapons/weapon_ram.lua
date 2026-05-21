@@ -90,7 +90,7 @@ function SWEP:PrimaryAttackAdd(ent,trace)
 	if phys and not ent:IsRagdoll() then
         local pushvec = trace.Normal * 1000
         local pushpos = trace.HitPos
-        
+
         phys:ApplyForceOffset(pushvec, pushpos)
     end
 
@@ -102,7 +102,7 @@ end
 
 --function SWEP:DrawPostWorldModel()
 --    local model = self:GetWM()
---    
+--
 --    if not IsValid(model) then return end--
 
 --end

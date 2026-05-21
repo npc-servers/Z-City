@@ -32,7 +32,7 @@ hook.Add( "PlayerInitialSpawn","ZB_Exp_OnInitSpawn", function( ply )
     if not zb.Experience.Active then
         zb.Experience.PlayerInstances[steamID64] = {}
         return
-    end 
+    end
 
 	local query = mysql:Select("zb_experience")
 		query:Select("skill")
@@ -122,7 +122,7 @@ function plyMeta:GiveSkill( ammout )
     if not zb.Experience.Active then
         zb.Experience.PlayerInstances[steamID64] = {}
         return
-    end 
+    end
 
 
     zb.Experience.PlayerInstances[steamID64].skill = math.max( zb.Experience.PlayerInstances[steamID64].skill + ammout, 0 )
@@ -132,7 +132,7 @@ function plyMeta:GiveSkill( ammout )
 		updateQuery:Where("steamid", steamID64)
 	updateQuery:Execute()
     --self:SetNWFloat( "skill", skill + ammout )
-    
+
 end
 
 function plyMeta:GetDeaths()
@@ -148,7 +148,7 @@ function plyMeta:GiveDeaths( ammout )
     if not zb.Experience.Active then
         zb.Experience.PlayerInstances[steamID64] = {}
         return
-    end 
+    end
 
 
     zb.Experience.PlayerInstances[steamID64].deaths = math.max( zb.Experience.PlayerInstances[steamID64].deaths + ammout, 0 )
@@ -173,7 +173,7 @@ function plyMeta:GiveKills( ammout )
     if not zb.Experience.Active then
         zb.Experience.PlayerInstances[steamID64] = {}
         return
-    end 
+    end
 
     zb.Experience.PlayerInstances[steamID64].kills = math.max( zb.Experience.PlayerInstances[steamID64].kills + ammout, 0 )
 
@@ -198,7 +198,7 @@ function plyMeta:GiveSuicides( ammout )
     if not zb.Experience.Active then
         zb.Experience.PlayerInstances[steamID64] = {}
         return
-    end 
+    end
 
     zb.Experience.PlayerInstances[steamID64].suicides =  math.max( zb.Experience.PlayerInstances[steamID64].suicides + ammout, 0 )
 
@@ -219,7 +219,7 @@ net.Receive("zb_xp_get",function(len,ply)
     if not zb.Experience.Active then
         zb.Experience.PlayerInstances[steamID64] = {}
         return
-    end 
+    end
 
     local get_ply = net.ReadEntity()
 

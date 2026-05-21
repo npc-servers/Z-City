@@ -193,7 +193,7 @@ function SWEP:Step()
 				self.AnimShootHandMul = twohands and 0.25 or 1
 				self.RHPos = not twohands and Vector(9,-5,3) or Vector(3,-5.5,3.5)
 				self.RHAng = not twohands and Angle(0,0,90) or Angle(0,-5,90)
-		
+
 				self.LHPos = not twohands and Vector(-1,-2,-3) or Vector(14,0.1,-3.9)
 				self.LHAng = not twohands and Angle(-0,0,-100) or Angle(-110,-90,-90)
 				net.Start("send_huyhuy2")

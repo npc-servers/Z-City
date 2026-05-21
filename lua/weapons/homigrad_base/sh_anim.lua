@@ -15,7 +15,7 @@ end
 hook.Add("Bones", "homigrad-weapons-bone", function(ply)
 	local wep = ply:GetActiveWeapon()
 	local func = wep.Animation
-	
+
 	if func then func(wep, ply) end
 end)
 
@@ -27,7 +27,7 @@ function SWEP:Animation()
 	--local systime = SysTime()
 	--print("first",systime)
 	local owner = self:GetOwner()
-	
+
 	--local bon = owner:LookupBone("ValveBiped.Bip01_Spine")
 	--local mat = owner:GetBoneMatrix(bon)
 	--mat:SetTranslation(Player(3):GetBoneMatrix(1):GetTranslation())
@@ -71,18 +71,18 @@ end
 local bone, name
 function SWEP:BoneSet(lookup_name, vec, ang, layer, lerp)
 	if self:GetOwner():IsPlayer() then
-	
+
 		local bon = hg.bone.client_only[lookup_name]
 
 		if bon then
 			local ent = hg.GetCurrentCharacter(self:GetOwner())
-			local boneIndex = ent:LookupBone(bon) 
-			
-			if not boneIndex then return end 
-			
-			local mat = ent:GetBoneMatrix(boneIndex) 
-			if not mat then return end 
-			
+			local boneIndex = ent:LookupBone(bon)
+
+			if not boneIndex then return end
+
+			local mat = ent:GetBoneMatrix(boneIndex)
+			if not mat then return end
+
 			local nvec, nang = LocalToWorld(vec or vector_origin, ang or angle_zero, mat:GetTranslation(), mat:GetAngles())
 			mat:SetTranslation(nvec)
 			mat:SetAngles(nang)
@@ -109,7 +109,7 @@ function SWEP:SuicideAnim()
 end
 
 function SWEP:IsPistolHoldType()
-	return self.IsPistol or ((self.HoldType == "revolver") or (self.HoldType == "pistol")) 
+	return self.IsPistol or ((self.HoldType == "revolver") or (self.HoldType == "pistol"))
 end
 
 local ang1 = Angle(0, 0, 0)
@@ -126,10 +126,10 @@ hg.postureFunctions = {
 	[6] = function(self,ply)
 	end,
 	[7] = function(self,ply)
-		if self.IsPistolHoldType and not self:IsPistolHoldType() then ply.posture = 0 end		
+		if self.IsPistolHoldType and not self:IsPistolHoldType() then ply.posture = 0 end
 	end,
 	[8] = function(self,ply)
-		if self.IsPistolHoldType and not self:IsPistolHoldType() then ply.posture = 0 end		
+		if self.IsPistolHoldType and not self:IsPistolHoldType() then ply.posture = 0 end
 	end,
 }
 
@@ -142,7 +142,7 @@ function SWEP:AnimHold()
 	self.rotfuckinghands = self.IsPistolHoldType and not self:IsPistolHoldType()
 	local _
 	local ply = self:GetOwner()
-	
+
 	if not self.attachments then return end
 	//self.holdtype = self.attachments.grip and #self.attachments.grip ~= 0 and hg.attachments.grip[self.attachments.grip[1]].holdtype or self.HoldType
 	self.holdtype = self.HoldType
@@ -159,7 +159,7 @@ function SWEP:AnimHold()
 	local stam = (ply.organism ~= nil and ply.organism.stamina and ply.organism.stamina[1]) or 180
 	local timea = 0.4 * ((math.max(0, (self.weight - 3)) * 0.2) + 1) * (math.Clamp((180 - stam) / 90, 1, 1.5))
 	local progress = (1 - math.Clamp(self:GetButtstockAttack() - CurTime() + timea * 2, 0, timea * 2) / timea)
-	
+
 	if progress > 0 then
 		progress = 1 - progress
 		progress = math.ease.InOutSine(progress)
@@ -198,7 +198,7 @@ function SWEP:AnimZoom()
 	angZoom1[1] = self:IsZoom() and (self.desiredPos - pos):GetNormalized():Dot(owner:EyeAngles():Right()) or 0
 	angZoom1[1] = self:IsZoom() and (-angZoom1[1] * 50) or 0
 	angZoom1[1] = self:IsZoom() and math.Clamp(angZoom1[1],-20,20) or 0
-	
+
 	if !angZoom1:IsEqualTol(angle_zero, 0.01) then
 		self:BoneSet("head", vecZero, angZoom1, "aiming", 0.1)
 	end
@@ -243,21 +243,21 @@ function SWEP:CloseAnim(dtime)
 	if owner:InVehicle() then self.lerpaddcloseanim = 0 return 0 end
 	if owner:IsNPC() then self.lerpaddcloseanim = 0 return 0 end
 	if owner.suiciding then self.lerpaddcloseanim = 0 return 0 end
-	
+
 	//local desiredPos, desiredAng = self:PosAngChanges(owner, nil, nil, true, true)
-	
+
 	//if not desiredPos or not desiredAng then return end
 
 	//desiredAng = owner:EyeAngles()
 
 	//local newPos, newAng = LocalToWorld(self.WorldPos, self.WorldAng, desiredPos, desiredAng)
 	//newAng:RotateAroundAxis(newAng:Forward(),180)
-	
+
 	--print(desiredAng)
 	local _, pos, ang = self:GetTrace(nil, nil, nil, true, true)
-	
+
 	if !ang or !pos or !self.fuckingfuckangle then return 0 end
-	
+
 	local mat = Matrix()
 	--mat:SetTranslation(self.CloseAnimAddVec)
 	--mat:SetAngles(self.CloseAnimAddAng)
@@ -284,11 +284,11 @@ function SWEP:CloseAnim(dtime)
 			self:SetNWFloat("lower_weapon", 0)
 		end
 	end--]]
-	
+
 	local _, point, dis = util.DistanceToLine(pos, pos - ang:Forward() * 70, owner:EyePos())
-	
+
 	--dis = math.ceil(dis)
-	
+
 	local tr = util.TraceLine({
 		start = point,
 		endpos = pos,
@@ -296,18 +296,18 @@ function SWEP:CloseAnim(dtime)
 		mask = MASK_PLAYERSOLID,
 		collisiongroup = COLLISION_GROUP_PLAYER,
 	})
-	
+
 	local frac = tr.Fraction
 	local dist = 1 - frac
-	
+
 	if dtime and isnumber(dtime) then
 		local set = math.min(dist, (self:IsPistolHoldType() and 0.71 or 0.4))
-		
+
 		self.lerpaddcloseanim = Lerp(self.lerpaddcloseanim > set and hg.lerpFrameTime(0.01, dtime) or hg.lerpFrameTime(0.0000000000001, dtime), self.lerpaddcloseanim, set)
 		self.closeanimdis = dis
 		self.closeanimtr = tr
 	end
-	
+
 	return dist, tr
 end
 
@@ -347,7 +347,7 @@ Angle(3, 0, 0), Angle(2, -5, 0), Angle(4, -5, 0), Angle(-5, -8, 0), Angle(35, -2
 
 hook.Add("Bones", "homigrad-lean-bone", function(ply, dtime)
 	ply.weightmul = weightmul or hg.CalculateWeight(ply, 140)
-	
+
 	local mul = ply.weightmul ^ 2
 	local ragdollcombat = hg.RagdollCombatInUse(ply)
 	local isragdoll = IsValid(ply.FakeRagdoll) and !IsValid(ply:GetNWEntity("FakeRagdollOld"))
@@ -355,7 +355,7 @@ hook.Add("Bones", "homigrad-lean-bone", function(ply, dtime)
 	local right = ((isragdoll and !ragdollcombat and hg.KeyDown(ply, IN_MOVELEFT)) or hg.KeyDown(ply, IN_ALT1)) and not hg.KeyDown(ply, IN_ALT2)
 
 	ply.lean = Lerp(
-		hg.lerpFrameTime( ( left or right ) and 0.045 * ply:GetNetVar("leanSpeedMul",1) or 0.075, dtime * game.GetTimeScale()), 
+		hg.lerpFrameTime( ( left or right ) and 0.045 * ply:GetNetVar("leanSpeedMul",1) or 0.075, dtime * game.GetTimeScale()),
 		ply.lean or 0,
 		hg.IsLocal(ply) and ( (left and right and 0) or (left and 1.3) or (right and -1.3) or 0) or ply:GetNWFloat("PlayerLean", 0)
 	)
@@ -382,7 +382,7 @@ hook.Add("Bones", "homigrad-lean-bone", function(ply, dtime)
 	local amt = 0.7
 	local div = 0.33
 	local leanspeed = 0.0001
-	
+
 	if ply.lean < -0.01 then
 		local self = ply:GetActiveWeapon()
 		if self.IsPistolHoldType and not self:IsPistolHoldType() then
@@ -421,7 +421,7 @@ hook.Add("Bones", "homigrad-lean-bone", function(ply, dtime)
 			ply.leanHolding = false
 		end
 	end
-	
+
 	if ply.lean > 0.01 then
 		local self = ply:GetActiveWeapon()
 		if self.IsPistolHoldType and not self:IsPistolHoldType() then
@@ -478,12 +478,12 @@ hook.Add("Bones", "homigrad-lean-bone", function(ply, dtime)
 		Angle(0,-40,0),
 		Angle(0,-40,0),
 	}
-	
+
 	hg.bone.Set(ply, "r_thigh", vecZero, tbl[math.Round((CurTime()*10)%#tbl)])
 	hg.bone.Set(ply, "r_calf", vecZero, tbl2[math.Round((CurTime()*10)%#tbl2)])
 	--]]
 	--пинок early access ^^^
-	
+
 	if ply:IsFlagSet(FL_ANIMDUCKING) and not ply:InVehicle() and not isragdoll then
 		local normaldist = 80
 
@@ -496,7 +496,7 @@ hook.Add("Bones", "homigrad-lean-bone", function(ply, dtime)
 
 		local dist = tr.HitPos:Distance(ply:GetPos())
 		local frac = math.max(1 - dist / normaldist,0)
-		
+
 		hg.bone.Set(ply, "spine1", vecZero, Angle(0, frac * (60 + (isMoving(ply) and 30 or 0)), 0), "crouch", 0.2, dtime)
 		hg.bone.Set(ply, "head", vecZero, Angle(0, frac * (30 + (isMoving(ply) and 30 or 0)), 0), "crouch", 0.2, dtime)
 	end
@@ -509,14 +509,14 @@ function SWEP:Step_Inspect(time)
 	end
 
 	local time2 = self.inspect
-	
+
 	if time2 and time2 < time then
 		self.inspect = nil
 	end
 
 	if time2 then
 		local part = 1 - (time2 - time) / 5
-		
+
 		part = math.ease.InOutQuad(part)
 
 		self:AnimationInspect(part)
@@ -541,14 +541,14 @@ SWEP.InspectAnimWepAng = {
 
 function SWEP:AnimationInspect(time)
 	local wep = self--weapons.Get( self:GetClass() )
-	
+
 	local anims = wep.InspectAnimLH
 	local anims2 = wep.InspectAnimLHAng
 	local floortime = math.floor(time * (#anims))
 	local floortime2 = math.floor(time * (#anims2))
 	local lerp = time * (#anims) - floortime
 	local lerp2 = time * (#anims2) - floortime2
-	
+
 	local pos1,pos2 = anims[math.Clamp(floortime,1,#anims)],anims[math.Clamp(floortime+1,1,#anims)]
 
 	self.LHPosOffset = Lerp(lerp,pos1,pos2)
@@ -560,7 +560,7 @@ function SWEP:AnimationInspect(time)
 	local floortime2 = math.floor(time * (#anims2))
 	local lerp = time * (#anims) - floortime
 	local lerp2 = time * (#anims2) - floortime2
-	
+
 	local pos1,pos2 = anims[math.Clamp(floortime,1,#anims)],anims[math.Clamp(floortime+1,1,#anims)]
 
 	self.RHPosOffset = Lerp(lerp,pos1,pos2)
@@ -572,9 +572,9 @@ function SWEP:AnimationInspect(time)
 
 	--self.WepPosOffset = Lerp(lerp,anims[math.Clamp(floortime,1,#anims)],anims[math.Clamp(floortime+1,1,#anims)])
 	local ang1,ang2 = anims2[math.Clamp(floortime2,1,#anims2)],anims2[math.Clamp(floortime2+1,1,#anims2)]
-	
+
 	local oldang = -(-self.WepAngOffset)
-	
+
 	self.WepAngOffset = Lerp(lerp2,ang1,ang2) + self.angvel
 
 	self.angvel:Add((self.WepAngOffset-oldang)/75)

@@ -85,7 +85,7 @@ function SWEP:PrintWeaponInfo( x, y, alpha )
         self.InfoMarkup = markup.Parse( str, 250 )
     end
 
-    x = ScrW()*0.85   
+    x = ScrW()*0.85
     y = ScrH()*0.055
 
     --surface.SetDrawColor( 0, 0, 0, alpha-25 )
@@ -197,7 +197,7 @@ end
 -----------------------------------------------------------]]
 
 function SWEP:FireAnimationEvent( pos, ang, event, options )
-	
+
 	if ( !self.CSMuzzleFlashes ) then return end
 
 	-- CS Muzzle flashes

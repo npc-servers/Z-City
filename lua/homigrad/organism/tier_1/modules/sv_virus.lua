@@ -51,7 +51,7 @@ function VirusModule.UpdateVirusStage(ply)
             virus.Damage = 5
             virus.LungDamage = 0.3
             virus.InternalBleeding = true
-            ply.organism.internalBleed = 10 
+            ply.organism.internalBleed = 10
             ply.organism.otrub = true
             timer.Simple(math.random(10, 20), function()
                 if IsValid(ply) then
@@ -63,7 +63,7 @@ function VirusModule.UpdateVirusStage(ply)
             virus.Damage = 4
             virus.LungDamage = 0.5
             virus.BrainDamage = 0.03
-            ply.organism.internalBleed = 20 
+            ply.organism.internalBleed = 20
             ply.organism.otrub = true
         end
 

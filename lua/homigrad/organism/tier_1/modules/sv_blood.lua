@@ -35,7 +35,7 @@ module[1] = function(org)
 	org.vomitInThroat = nil
 
 	org.bloodtype = table.GetKeys(hg.organism.bloodtypes)[math.random(8)]
-	
+
 	if org.bloodtype == "c-" then
 		org.bloodtype = "o-" --эпик
 	end
@@ -65,11 +65,11 @@ module[2] = function(owner, org, mulTime)
 
 	if org.vomitInThroat then
 		local ent = hg.GetCurrentCharacter(owner)
-		
+
 		local bon = "ValveBiped.Bip01_Head1"
 		local bone = ent:LookupBone(bon)
 		local mat = ent:GetBoneMatrix(bone)
-	
+
 		if mat and mat:GetAngles():Right()[3] < 0.25 then
 			org.vomitInThroat = nil
 
@@ -109,7 +109,7 @@ module[2] = function(owner, org, mulTime)
 	local bleedoutspeed = 0
 	if #org.wounds > 0 then
 		local ent = IsValid(owner.FakeRagdoll) and owner.FakeRagdoll or owner
-		
+
 		for i, wound in pairs(org.wounds) do
 			local rand1 = math.Rand(4, 10) * 1
 			local rand2 = math.Rand(0.5, 1) * 1
@@ -117,12 +117,12 @@ module[2] = function(owner, org, mulTime)
 			local coagulate = 2 * mulTime * rand2 * (adrenaline * 0.1 + 1) * 0.04-- / #org.wounds
 			bleedoutspeed = bleedoutspeed + bleed / rand1 * 3--we pray for the luck of it being in the center
 			coagulatespeed = coagulatespeed + coagulate / rand2 * 1
-			
+
 			local rand = math.Rand(0, 2) * 2
 			//if wound[5] + beatsPerSecond * 2 < time then
 				wound[5] = time
 				org.blood = max(org.blood - bleed, 1)
-				
+
 				if (owner:IsPlayer() and owner:Alive()) or not owner:IsPlayer() then
 					hg.organism.BloodDroplet2(owner, org, wound, ent:GetVelocity() + VectorRand(-15, 15), false)
 					wound[1] = max(wound[1] - coagulate, 0)
@@ -179,14 +179,14 @@ module[2] = function(owner, org, mulTime)
 	org.internalBleed = math.Approach(org.internalBleed, 0, org.internalBleedHeal > 0 and mulTime / 2 or mulTime / 55)
 	coagulatespeed = coagulatespeed + mulTime
 	org.internalBleedHeal = math.Approach(org.internalBleedHeal, 0, mulTime / 2)
-	
+
 	if bleed > 0 then org.blood = max(org.blood - bleed * mulTime * 10 * org.pulse / 70, 1) end
-	
+
 	if (org.internalBleed > 1 or org.pneumothorax > 0) and org.blood > 2000 and org.o2[1] > 0 then
 		org.wantToVomit = org.wantToVomit or 0
 
 		org.wantToVomit = org.wantToVomit + math.Rand(0, org.internalBleed / 1000 + org.pneumothorax / 200) * mulTime * 5
-		
+
 		if org.wantToVomit > 0.90 then
 			//owner:Notify(about_to_puke[math.random(#about_to_puke)], 15, "internalbleed_pre")
 		end
@@ -201,13 +201,13 @@ module[2] = function(owner, org, mulTime)
 	end
 
 	org.bleed = (bleedoutspeed + bleedoutspeed2 + bleed)--в секунду
-	
+
 	local timetouncon = (org.blood - 2500) / org.bleed
-	
+
 	local bleeding_will_stop = (timetouncon ~= timetouncon) or ((coagulatespeed * timetouncon - org.bleed) > 0)
 	local canwakeup_pain = ((org.pain - 5) / (org.painlessen)) < timetouncon
 	org.timetouncon = (timetouncon ~= timetouncon) and timetouncon or Lerp(hg.lerpFrameTime2(0.01,mulTime), org.timetouncon or 10000, timetouncon)
-	
+
 	if org.otrub and ((not bleeding_will_stop and not (canwakeup_pain and org.blood > 3000)) or (org.brain > 0.4) or (org.pulse < 15) or (org.o2[1] < 5) or (org.trachea >= 0.5) or org.heartstop or (org.spine3 >= hg.organism.fake_spine3) or (org.spine2 >= hg.organism.fake_spine2)) then
 		org.incapacitated = true
 	else
@@ -227,7 +227,7 @@ util.AddNetworkString("bloodsquirt2")
 
 function hg.organism.Vomit(owner, snd)
 	if !hg.IsValidPlayer(owner) then return end
-	
+
 	local org = owner.organism
 	org.blood = math.max(org.blood - 200, 0)
 	local ent = hg.GetCurrentCharacter(owner)
@@ -247,7 +247,7 @@ function hg.organism.Vomit(owner, snd)
 
 	ent:EmitSound(snd or "zcitysnd/real_sonar/"..(ThatPlyIsFemale(ent) and "female" or "male").."_cough"..math.random(4)..".mp3")
 	if !on_spine then ent:EmitSound("vomit/vomit5.mp3") end
-	
+
 	if owner.armors and owner.armors.face and hg.armor.face[owner.armors.face].voice_change then
 		owner:SetNetVar("zableval_masku", true)
 	else

@@ -87,26 +87,26 @@ local math_random, math_Rand = math.random, math.Rand
 		if IsValid(ent) and IsValid(rag) and ent:IsNPC() and loot then
 			rag.inventory = {}
 			rag.inventory.Weapons = {}
-		
+
 			if ent.organism then
 				local newOrg = hg.organism.Add(rag)
 				table.Merge(newOrg, ent.organism)
-		
+
 				hook.Run("RagdollDeath", ent, rag)
-		
+
 				table.Merge(zb.net.list[rag], zb.net.list[ent])
-		
+
 				newOrg.alive = false
 				newOrg.owner = rag
 				rag:CallOnRemove("organism", hg.organism.Remove, rag)
 				newOrg.owner.fullsend = true
 				hg.send_bareinfo(newOrg)
-			
+
 				ent.organism = nil
 			end
 
 			rag.armors = ent.armors
-			
+
 			for k, wep in pairs(loot) do
 				local weapon = weapons.Get(wep)
 				if rag.inventory.Weapons and rag.inventory.Weapons[wep] then return end
@@ -406,7 +406,7 @@ local math_random, math_Rand = math.random, math.Rand
 		for _, wep in ipairs(weaponlist) do
 			local classname = wep.ClassName
 			if (based(classname, "homigrad_base") or based(classname, "weapon_melee") or classname == "weapon_melee" or based(classname, "weapon_medkit_sh") or classname == "weapon_medkit_sh") and wep.Spawnable then
-				list.Add("NPCUsableWeapons", { 
+				list.Add("NPCUsableWeapons", {
 					class = classname,
 					title = wep.PrintName,
 					category = wep.Category or "ZCity Other"

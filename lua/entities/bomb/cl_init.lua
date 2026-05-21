@@ -15,11 +15,11 @@ function BombInSite(pos, site)
 		vec2 = -(-pts[2].pos)
 		vec2[3] = vec2[3] + 256
 	end
-	
+
 	return (#pts < 2 or pos:WithinAABox(vec1,vec2))
 end
 
- 
+
 
 local offsetAng = Angle(-90,0,0)
 local offsetVec = Vector(0,0,0)
@@ -44,13 +44,13 @@ modelHuybombb:SetNoDraw(true)
 
 function ENT:Draw()
 	local view = render.GetViewSetup(true)
-	
+
 	if not IsValid(modelHuybombb) then
 		modelHuybombb = ClientsideModel(self.Model)
 		modelHuybombb:SetNoDraw(true)
 	end
 
-	 
+
 	local pos = view.origin + view.angles:Forward() * 25
 	local ang = view.angles
 
@@ -67,12 +67,12 @@ function ENT:Draw()
 	ang:Add(dir)
 
 	local pos,ang = LocalToWorld(offsetVec,offsetAng,pos,ang)
-	
+
 	self:SetRenderOrigin()
 	self:SetRenderAngles()
 
 	if self:GetNetVar("timer") then
-		if self.nextbeep < CurTime() and self:GetNetVar("timer") > CurTime() then		
+		if self.nextbeep < CurTime() and self:GetNetVar("timer") > CurTime() then
 			self.nextbeep = CurTime() + math.max((self:GetNetVar("timer") - CurTime()) / self.ExplodeTime,0.05)
 		end
 	end
@@ -96,7 +96,7 @@ function ENT:Draw()
 	if IsValid(bombMenu) and bombMenu.bomb == self then
 		local pos,ang = LocalToWorld(offsetVec1, offsetAng1, self.pos, self.ang)
 		local size = ScrW() / 1920
-		
+
 		vgui.Start3D2D(pos, ang, 0.012 * 0.5 / size)
 			bombMenu:Paint3D2D()
 		vgui.End3D2D()
@@ -139,16 +139,16 @@ net.Receive("bomb_look",function()
 	end
 	bomb = net.ReadEntity()
 	bomb = IsValid(bomb) and bomb
-	
+
 	if bomb then
 		bomb.islooked = true
 	end
-	
+
 	CreateMenu(bomb)
 end)
 
 hook.Add("HUDPaint","Draw3D2DFrameBomb",function()
-	
+
 end)
 
 if IsValid(bombMenu) then
@@ -192,14 +192,14 @@ CreateMenu = function(bomb)
 	bombMenu.bomb = bomb
 	local sizeX,sizeY = ScrW() ,ScrH()
 	local posX,posY = ScrW() / 2 - sizeX / 2,ScrH() / 2 - sizeY / 2
-	
+
 	bombMenu:SetPos(posX,posY)
 	bombMenu:SetSize(sizeX,sizeY)
 	bombMenu:SetBackgroundColor(colGray)
 	bombMenu:MakePopup()
 	bombMenu:ParentToHUD()
 	--bombMenu:SetKeyboardInputEnabled(false)
-	
+
 	local x,y = sizeX / 2 + 60 * size, 100 * size
 	local w1,h1 = sizeX / 2 - 175 * size, sizeY / 2 - 125 * size
 
@@ -217,14 +217,14 @@ CreateMenu = function(bomb)
 		surface.SetFont( "ZCity_Fixed_Big" )
 		surface.SetTextColor(col.r,col.g,col.b,col.a)
 		local lengthX, lengthY = surface.GetTextSize(txt)
-		
+
 		local txtcopy = txt
-		
+
 		surface.SetTextPos(x + 30 * size,y + 25 * size)
 		surface.DrawText(txt)
 	end
 
-	function bombMenu:OnKeyCodePressed() 
+	function bombMenu:OnKeyCodePressed()
 		if IsValid(bombMenu) then
 			bombMenu.bomb.islooked = nil
 			bombMenu:Remove()
@@ -240,7 +240,7 @@ CreateMenu = function(bomb)
 		dir[2] = -dir[2]
 		dir[1] = -dir[1]
 		dir = dir / 5
-		
+
 		if input.IsMouseDown(MOUSE_LEFT) then
 			if not bombMenu.keypress then
 				addDir = -(-dir)
@@ -252,12 +252,12 @@ CreateMenu = function(bomb)
 	end
 
 	local grid = vgui.Create("DGrid",bombMenu)
-	
+
 	grid:SetPos(x + 14 * size,y + 530 * size)
 	grid:SetCols(5)
 	grid:SetColWide(156 * size)
 	grid:SetRowHeight(184 * size)
-	
+
 	for i = 1, 10 do
 		local but = vgui.Create("DButton")
 		if i == 10 then i = 0 end
@@ -318,7 +318,7 @@ CreateMenu = function(bomb)
 		end
 		if #txt < 6 then
 			chat.AddText("The code must be of 6 numbers.")
-			return 
+			return
 		end
 		surface.PlaySound("weapons/tfa_ins2_sr25_eft/m14_empty.wav")
 		net.Start("bomb_enter")

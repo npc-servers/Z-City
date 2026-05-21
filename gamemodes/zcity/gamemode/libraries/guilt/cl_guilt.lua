@@ -1,7 +1,7 @@
 --[[    TO-DO
     -- Добавить менюшку с прощением! |
     -- Добавить нетворкинг |
-    -- Ну и все | 
+    -- Ну и все |
 --]]
 
 hook.Add("OnNetVarSet", "Guilt",function(index, key, var)
@@ -43,7 +43,7 @@ local OpenMenu
 
 net.Receive("open_guilt_menu", function()
     local tbl = net.ReadTable()
-    
+
     OpenMenu(tbl)
 end)
 
@@ -67,7 +67,7 @@ end
 local showstuff = CurTime() + 5
 hook.Add("Player_Death","karmacheck",function(ply)
     if ply != LocalPlayer() then return end
-    
+
     showstuff = CurTime() + 5
 end)
 
@@ -102,7 +102,7 @@ OpenMenu = function(tbl)
 		guiltMenu:Remove()
 		guiltMenu = nil
 	end
-    
+
 	local sizeX,sizeY = ScrW() / 2 ,ScrH() / 3
 	local posX,posY = ScrW() / 2 - sizeX / 2,ScrH() / 2 - sizeY / 2
 

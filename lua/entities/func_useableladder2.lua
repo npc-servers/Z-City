@@ -14,9 +14,9 @@ ENT.AutomaticFrameAdvance = true -- Must be set on client
 
 if SERVER then
     hook.Add("PostCleanupMap", "fuckthoseladders", function()
-        --[[for i, ent in pairs(ents.FindByClass("func_useableladder")) do        
+        --[[for i, ent in pairs(ents.FindByClass("func_useableladder")) do
             local ent2 = ents.Create("func_useableladder2")
-            
+
             ent2:SetPos(ent:GetPos())
             ent2:SetNWVector("p1", ent:GetInternalVariable("point0"))
             ent2:SetNWVector("p2", ent:GetInternalVariable("point1"))
@@ -51,7 +51,7 @@ function ENT:Think()
 
         if ent:KeyDown(IN_USE) then
             local dist, point, dist_line = util.DistanceToLine(point1, point2, ent:GetPos())
-        
+
             ent:SetPos(point)
             ent:SetNWEntity("Ladder", self)
         end

@@ -61,11 +61,11 @@ SWEP.FakeEmptyReloadSounds = {
 }
 SWEP.MagModel = "models/weapons/zcity/w_glockmag.mdl"
 SWEP.FakeReloadEvents = {
-	[0.73] = function( self ) 
+	[0.73] = function( self )
 		if CLIENT and self:Clip1() < 1 then
 			--hg.CreateMag( self )
 			self:GetWM():SetBodygroup(1,1)
-		end 
+		end
 	end,
 }
 

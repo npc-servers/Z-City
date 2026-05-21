@@ -45,7 +45,7 @@ SWEP.AnimList = {
 
 	["idle"] = {"idle01", 0.5, false},
 	["idle_empty"] = {"idle01dry", 0.5, false},
-	
+
 	["meleeattack"] = {"shove", 0.9, false, false, function(self)
 		self.CurState = -1
 	end},
@@ -126,9 +126,9 @@ end
 SWEP.Initialzed = false
 function SWEP:Deploy()
 	local owner = self:GetOwner()
-    
+
 	if SERVER and self.Initialzed and not owner.noSound then owner:EmitSound(self.DeploySnd, 65) end
-	
+
 	if not self.Initialzed then
 		owner:SetAmmo((owner:GetAmmoCount("Arrow") or 0) + 1, "Arrow")
 	end -- no nab

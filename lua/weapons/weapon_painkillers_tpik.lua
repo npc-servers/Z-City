@@ -88,7 +88,7 @@ if SERVER then
 		org.analgesiaAdd = math.min(org.analgesiaAdd + self.modeValues[1] * 0.3, 4)
 		owner:SelectWeapon("weapon_hands_sh")
 		self:Remove()
-		
+
 		return true
 	end
 end

@@ -569,7 +569,7 @@ function SWEP:Think()
 		end
 		self.changedName = true
 	-- end
-	
+
 
 	if self:GetBlocking() then
 		if not self.blockSound then

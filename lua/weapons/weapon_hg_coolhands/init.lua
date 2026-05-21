@@ -572,7 +572,7 @@ function SWEP:Think()
 				self.SpecialTime = 0
 			end
 		end
-		
+
 		if self:GetBlocking() then
 			self:SetNextDown(Time + 1)
 
@@ -617,7 +617,7 @@ function SWEP:PrimaryAttack(forcespecial)
 				rand = 1
 				side = "fists_right"
 			end
-		
+
 			if owner.organism and owner.organism.rarmamputated then
 				rand = 2
 				side = "fists_left"
@@ -629,7 +629,7 @@ function SWEP:PrimaryAttack(forcespecial)
 				rand = 1
 				side = "attack_quick_1"
 			end
-		
+
 			if owner.organism and owner.organism.rarmamputated then
 				rand = 2
 				side = "attack_quick_2"

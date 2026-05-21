@@ -137,7 +137,7 @@ if CLIENT then
 			wm:ManipulateBoneScale(58, vector_full)
 			wm:ManipulateBoneScale(57, vector_full)
 		end,
-		
+
 		[0.40] = function(self,timeMul)
 			if self:Clip1() < 1 then
 				hg.CreateMag( self, Vector(50,10,10) )

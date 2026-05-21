@@ -34,7 +34,7 @@ local function CreateNotification(ply, msg, delay, msgKey, showTime, func, clr)
             end
         end
     end
-    
+
     showTime = showTime or 0
 
     local clr = clr or color_white
@@ -101,7 +101,7 @@ local function CreateNotificationBerserk(ply, msg, delay, msgKey, showTime, func
             end
         end
     end
-    
+
     showTime = showTime or 0
 
     local clr = clr or color_white

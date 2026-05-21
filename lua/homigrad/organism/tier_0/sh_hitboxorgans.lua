@@ -116,7 +116,7 @@ hook.Add("PostDrawTranslucentRenderables", "homigrad-organism", function()
 			//pos, dir, size, maxpen, boxs, center, endDis, organs, ricochetable, funcInput, ...
 			local endPos, hitBoxs, inputHole, outputHole = hg.organism.Trace(start, dir, 1, 0, boxs, pos, sphere, organs, false, hg.organism.Trace_Bullet, organs)
 			--render.DrawWireframeBox(endPos, angZero, -box, box)
-			
+
 			render.DrawWireframeBox(start, LocalPlayer():EyeAngles(), -Vector(0,distance / 50,distance / 50),Vector(distance / 1,distance / 50,distance / 50))
 			for i = 1, #boxs do
 				local box = boxs[i]

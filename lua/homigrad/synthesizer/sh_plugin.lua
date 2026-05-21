@@ -18,7 +18,7 @@ PLUGIN.Version = 1
 		if(SERVER)then
 			if(!ply.NextVocalTime or ply.NextVocalTime <= CurTime())then
 				ply.NextVocalTime = CurTime() + 5
-				
+
 				net.Start("Synthesizer(PlayOnPlayer)")
 					net.WriteString(utf8.sub(text, 1, 20))
 					net.WriteEntity(ply)
@@ -37,7 +37,7 @@ PLUGIN.Version = 1
 			if(GetGlobalBool("Synthesizer_Enable_Chat", false) and ply:Alive())then
 				if(string.StartsWith(text, "№"))then
 					local stripped_text = string.Right(text, #text - 3)
-					
+
 					PLUGIN.PlayVocalOnPlayer(stripped_text, ply)
 				end
 			end
@@ -200,7 +200,7 @@ PLUGIN.Version = 1
 
 	function xoshiro128:NextFloat()
 		assert( self.state, "Attempted to call NextFloat on an uninitialized xoshiro128 object!" )
-		
+
 		return self:NextUInt() / UINT32_MAX_PLUS_ONE
 	end
 

@@ -21,7 +21,7 @@ function EFFECT:Init(data)
 	dir = dir:Forward()
 	local addvel = ply:GetVelocity()
 	local emitter = ParticleEmitter(pos)
-	
+
 	--[[for i = 1, math.Round(quality*math.Clamp(wpn.Primary.Force/30,1,5)) do
         local particle = emitter:Add(SIB_GetSmokeImage(), pos)
 

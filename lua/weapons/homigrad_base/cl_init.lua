@@ -25,13 +25,13 @@ matproxy.Add({
     end,
     bind = function(self, mat, ent)
         local swent = ent
-        
+
         if IsValid(swent) then
             local herg = color_white
             local r = 255
             local g = 255
             local b = 255
-            
+
             if swent.GetShellColor then
                 herg = swent:GetShellColor() or color_white
                 r = herg.r or 255

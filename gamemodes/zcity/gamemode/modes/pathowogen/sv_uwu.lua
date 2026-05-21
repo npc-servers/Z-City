@@ -280,7 +280,7 @@ function MODE:RoundStart()
 	self.saved.Escaped = {}
 
 	self.saved.DeathNames = {}
-	
+
 	self.saved.ContractorEscapee = nil
 
 	// shitcode, change it later (or not i guess)

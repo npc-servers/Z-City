@@ -36,7 +36,7 @@ local function getIconThing(i)
     end
 
     local entss = scripted_ents.Get(i)
-    if entss then 
+    if entss then
         local GunTable = scripted_ents.Get(i)
         --print(GunTable.WepSelectIcon2)
         local Icon = (GunTable.IconOverride ~= nil and GunTable.IconOverride) or GunTable.IconOverride
@@ -64,7 +64,7 @@ local function OpenContainer( ent )
 	zbContainerMenu:SetVisible(false)
 	zbContainerMenu.Created = CurTime()
     zbContainerMenu:SetAlpha(0)
-    zbContainerMenu.OnClose = function() zbContainerMenu = nil end 
+    zbContainerMenu.OnClose = function() zbContainerMenu = nil end
 
     zbContainerMenu:MoveTo(0,0, 0.5, 0, 0.3, function()
     end)
@@ -72,7 +72,7 @@ local function OpenContainer( ent )
 
     function zbContainerMenu:Close()
 		self.Closing = true
-	
+
         self:MoveTo(0, 500, 0.5, 0, 0.3, function()
             self:Remove()
         end)
@@ -138,7 +138,7 @@ local function OpenContainer( ent )
 	grid:SetColWide(sizeX / 5 - sizeX / 16 / 9)
 	grid:SetRowHeight(sizeY / 6.5 + sizeY / 32)
 
-    for k,item in pairs(ent.Loot) do 
+    for k,item in pairs(ent.Loot) do
         local button = vgui.Create("DButton", plyMenu)
 		button:SetText("")
 		button:DockMargin(5, 0, 2, 0)
@@ -146,7 +146,7 @@ local function OpenContainer( ent )
 		button:SetSize(sizeX / 5.8, sizeY / 5.8)
 		button.Think = function(self)
 		end
-		
+
 		button.DoClick = function()
 			if cooldown > CurTime() then return end
 			cooldown = CurTime() + 0.5
@@ -192,7 +192,7 @@ local function OpenContainer( ent )
     zbContainerMenu:SlideDown(0.5)
 end
 
-net.Receive( "ZBox_LootSystem_net", function( ) 
+net.Receive( "ZBox_LootSystem_net", function( )
     local ent = net.ReadEntity()
     hg.OpenedContainer = ent
     ent.Loot = util.JSONToTable( net.ReadString() )
@@ -222,7 +222,7 @@ local modelOffset = {
     ["models/kali/props/cases/hard case a.mdl"] = { Vector(5,0,30), Angle(0,90,40) },
     ["models/props/cs_militia/footlocker01_closed.mdl"] = { Vector(5,0,12), Angle(0,90,30) },
     ["models/kali/props/cases/hard case c.mdl"] = { Vector(5,0,25), Angle(0,90,30) },
-    
+
 }
 
 local offsetVec1,offsetAng1 = Vector(25,0,15),Angle(0,90,0)

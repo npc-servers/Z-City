@@ -113,7 +113,7 @@ local function giveSubClassLoadout(ply, subclass)
                 if item.ammo_mult then
                     ply:GiveAmmo(wep:GetMaxClip1() * item.ammo_mult, wep:GetPrimaryAmmoType(), true)
                 end
-                --;; пример кастомной какахи 
+                --;; пример кастомной какахи
                 if item.count then
                     wep.count = item.count
                 end

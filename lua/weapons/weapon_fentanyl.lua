@@ -84,7 +84,7 @@ if SERVER then
 
 			--if self:GetHolding() < 100 then return end
 		end
-		
+
 		local entOwner = IsValid(owner.FakeRagdoll) and owner.FakeRagdoll or owner
 
 		local injected = math.min(FrameTime() * 1, self.modeValues[1])

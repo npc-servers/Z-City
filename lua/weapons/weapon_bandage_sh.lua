@@ -71,7 +71,7 @@ function SWEP:DrawWorldModel2(nodraw)
 	if self.Color then
 		WorldModel:SetColor(self.Color or color_white)
 	end
-	
+
 	if IsValid(owner) then
 		local offsetVec = self.offsetVec
 		local offsetAng = self.offsetAng
@@ -93,7 +93,7 @@ function SWEP:DrawWorldModel2(nodraw)
 	if self.AfterDrawModel then
 		self:AfterDrawModel(WorldModel,nodraw)
 	end
-	
+
 	if not nodraw then WorldModel:DrawModel() end
 
 	if self.Color then
@@ -178,9 +178,9 @@ function SWEP:Think()
 			local usedmuch = (self.endheal - self.startheal) / self.usetime
 
 			self:Heal(self.healsubject, self.mode, usedmuch)
-			self.startheal = nil 
-			self.endheal = nil 
-			self.attack = nil 
+			self.startheal = nil
+			self.endheal = nil
+			self.attack = nil
 			self.healsubject = nil
 		end
 	end--]]
@@ -191,7 +191,7 @@ function SWEP:PrimaryAttack()
 
 		self.healbuddy = self:GetOwner()
 		local done = self:Heal(self.healbuddy, self.mode)
-		
+
 		if(done and self.PostHeal)then
 			self:PostHeal(self.healbuddy, self.mode)
 		end
@@ -266,7 +266,7 @@ if CLIENT then
 						--surface.DrawText(tostring(self.modeNames[i]))
 						colBrown.a = reveal * 255
 						draw.SimpleTextOutlined(txt, "ZCity_Small", x, y, Color(255,i == self.mode and 0 or 255,i == self.mode and 0 or 255, 255 * reveal), TEXT_ALIGN_LEFT, TEXT_ALIGN_TOP, 1.5, colBrown)
-					
+
 						surface.SetDrawColor(0,100,0,255 * reveal)
 						surface.DrawRect(x + ScreenScale(210),y,ScrW() / 10 * val / 100,ScrH() / 25)
 						surface.SetDrawColor(0,0,0,255 * reveal)
@@ -315,7 +315,7 @@ function SWEP:Initialize()
 	util.PrecacheSound(self.HolsterSnd)
 	util.PrecacheSound(self.FallSnd)
 	util.PrecacheSound("snd_jack_hmcd_needleprick.wav")
-	
+
 	self:AddCallback("PhysicsCollide",function(ent,data)
 		if data.Speed > 200 then
 			ent:EmitSound(self.FallSnd or self.DeploySnd,65,math.random(90,110))
@@ -356,7 +356,7 @@ function SWEP:SecondaryAttack()
 		local done = self:Heal(self.healbuddy, self.mode)
 		if(done and self.PostHeal)then
 			self:PostHeal(self.healbuddy, self.mode)
-		end		
+		end
 
 		if self.net_cooldown2 < CurTime() then
 			self:SetNetVar("modeValues",self.modeValues)
@@ -467,14 +467,14 @@ if SERVER then
 		local org = ent.organism
 		local owner = self:GetOwner()
 		if not org then return end
-		
+
 		-- Если растрелять труп а потом его взорвать гранатой, после перевязать - крашнет сервер why?
 		if self.modeValues[1] <= 0 or not (#org.wounds > 0 or org.lleg == 1 or org.rleg == 1 or org.skull >= 0.6 or org.chest == 1 or org.rarm == 1 or org.larm == 1) then return end
 		table.sort(org.wounds, function(a, b) return a[1] > b[1] end)
-		
+
 		local done = false
 		local bandaged = false
-		
+
 		if not bone then
 			--print(#org.wounds)
 			for i = 1, #org.wounds do
@@ -485,7 +485,7 @@ if SERVER then
 					org.bleed = math.max(org.bleed - (biggestWound - healedWound), 0)
 					org.wounds[1][1] = healedWound
 					self.modeValues[1] = woundHeal > 0.1 and woundHeal or 0
-					
+
 					if (biggestWound - healedWound) > 0.1 then
 						bandaged = true
 					end
@@ -505,13 +505,13 @@ if SERVER then
 			end
 		else
 			local bonewounds = {}
-			
+
 			for i, tbl in pairs(org.wounds) do
 				if ent:GetBoneName(ent:LookupBone(tbl[4])) == bone then
 					table.insert(bonewounds,i)
 				end
 			end
-			
+
 			for i = 1, #bonewounds do
 				if self.modeValues[1] ~= 0 and #bonewounds > 0 then
 					if org.wounds[bonewounds[1]] then
@@ -530,7 +530,7 @@ if SERVER then
 
 						ent.bandaged_limbs = ent.bandaged_limbs or {}
 						local bone_name = ent:GetBoneName(ent:LookupBone(org.wounds[bonewounds[1]][4]))
-						
+
 						if not ent.bandaged_limbs[bone_name] then
 							ent.bandaged_limbs[bone_name] = true
 							done = true
@@ -616,7 +616,7 @@ if SERVER then
 
 		local org = ent.organism
 		if not org then return end
-	
+
 		local owner = self:GetOwner()
 		if ent == hg.GetCurrentCharacter(owner) and hg_healanims:GetBool() then
 			self:SetHolding(math.min(self:GetHolding() + 10, 100))
@@ -629,44 +629,44 @@ if SERVER then
 			owner:SelectWeapon("weapon_hands_sh")
 			self:Remove()
 		end
-		
+
 		return done
 	end
-	
+
 	function SWEP:PostHeal(ent, mode)
 		local org = ent.organism
-		
+
 		if(org and IsValid(org.owner))then
 			local organism_owner = org.owner
-			
+
 			if(organism_owner.SubRole == "traitor_chemist")then
 				if(self.FoodModelsKCNNeutralizers and self.FoodModelsKCNNeutralizers[self:GetModel()])then
 					self.ConsumePoisoned_KCN = math.max(self.ConsumePoisoned_KCN or 0 - self.FoodModelsKCNNeutralizers[self:GetModel()], 0)
 				end
-				
+
 				if((self.ConsumePoisoned_KCN or 0) > 0)then
 					local ply_kcn_accumulated = AddChemicalToPlayer(organism_owner, "KCN", 50 * (self.ConsumePoisoned_KCN or 0))
-					
+
 					if(ply_kcn_accumulated > 100)then
 						self:PoisonKCNOrganism(org)
 					end
-					
+
 					NetworkChemicalResistanceOfPlayer(organism_owner)
-					
+
 					organism_owner.PassiveAbility_ChemicalAccumulation_NextNetworkTime = CurTime() + 1
 				end
 			else
 				if(self.FoodModelsKCNNeutralizers and self.FoodModelsKCNNeutralizers[self:GetModel()])then
 					self.ConsumePoisoned_KCN = math.max(self.ConsumePoisoned_KCN or 0 - self.FoodModelsKCNNeutralizers[self:GetModel()], 0)
 				end
-				
+
 				if((self.ConsumePoisoned_KCN or 0) > 0)then
 					self:PoisonKCNOrganism(org)
 				end
 			end
 		end
 	end
-	
+
 	function SWEP:PoisonKCNOrganism(org)
 		if(org and self.ConsumePoisoned_KCN)then
 			org.Poison_KCN = org.Poison_KCN or {}
@@ -691,7 +691,7 @@ if SERVER then
 		if not IsValid(ent) then return 7 end
 		return ent:TranslateBoneToPhysBone(ent:LookupBone(string))
 	end
-	
+
 	function SWEP:CreateFake(ragdoll)
 		if IsValid(self:GetNWEntity("fakeGun")) then return end
 		local ent = ents.Create("prop_physics")
@@ -786,8 +786,8 @@ if SERVER then
 			local bonewounds = {}
 			if not bone then
 				for i,wound in pairs(org.arterialwounds) do
-					if wound[7] != "arteria" then 
-						pw = i 
+					if wound[7] != "arteria" then
+						pw = i
 						for i1,tbl in pairs(org.wounds) do
 							if !tbl or !tbl[4] or !ent:LookupBone(tbl[4]) then continue end
 							local bonename = ent:GetBoneName(ent:LookupBone(tbl[4]))
@@ -801,7 +801,7 @@ if SERVER then
 						--PrintTable(bonewounds)
 					break end
 				end
-				
+
 			else
 				for i,wound in pairs(org.arterialwounds) do
 					if ent:GetBoneName(ent:LookupBone(wound[4])) == bone then pw = i break end
@@ -812,12 +812,12 @@ if SERVER then
 						table.insert(bonewounds,i)
 					end
 				end
-			end		
+			end
 			pw = pw or math.random(#org.arterialwounds)
 
 			local wound = org.arterialwounds[pw]
 			if not wound then return false end
-			
+
 			ent.tourniquets[#ent.tourniquets + 1] = {wound[2], wound[3], wound[4]}
 			org[wound[7]] = 0
 
@@ -845,7 +845,7 @@ if SERVER then
 			if IsValid(ent.FakeRagdoll) then
 				ent.FakeRagdoll:SetNetVar("Tourniquets",ent.tourniquets)
 			end
-			
+
 			if not table.HasValue(hg.TourniquetGuys,ent) then
 				table.insert(hg.TourniquetGuys,ent)
 			end
@@ -890,24 +890,24 @@ if SERVER then
 		ply:SetNetVar("bandaged_limbs",{})
 		ply.bandaged_limbs = {}
 	end)
-	
+
 
 	hook.Add("Fake", "rtourniquetsss", function(ply,ragdoll)
-		if not IsValid(ragdoll) then return end	
-		
+		if not IsValid(ragdoll) then return end
+
 		ragdoll.tourniquets = table.Copy(ply.tourniquets)
 		ply:SetNetVar("Tourniquets",ply.tourniquets)
 		ragdoll:SetNetVar("Tourniquets",ragdoll.tourniquets)
 	end)
 
 	hook.Add("Fake", "bandages-setfake", function(ply,ragdoll)
-		if not IsValid(ragdoll) then return end	
-		
+		if not IsValid(ragdoll) then return end
+
 		ragdoll.bandaged_limbs = table.Copy(ply.bandaged_limbs)
 		ply:SetNetVar("bandaged_limbs",ply.bandaged_limbs)
 		ragdoll:SetNetVar("bandaged_limbs",ragdoll.bandaged_limbs)
 	end)
-	
+
 else
 	local boneScale = {
 		["ValveBiped.Bip01_Head1"] = 1,
@@ -936,7 +936,7 @@ else
 
 	local function remove_tourniquets(ent)
 		if not ent.tourniquetsM then return end
-		
+
 		for i,model in pairs(ent.tourniquetsM) do
 			if IsValid(model) then
 				model:Remove()
@@ -949,11 +949,11 @@ else
 		if not IsValid(Entity(index)) then return end
 		if key == "Tourniquets" then
 			local ent = Entity(index)
-			
+
 			remove_tourniquets(ent)
-			
+
 			ent.tourniquets = var
-			
+
 			ent:CallOnRemove("remove_tourniquets",function()
 				remove_tourniquets(ent)
 			end)
@@ -981,15 +981,15 @@ else
 			model:SetNoDraw(true)
 
 			if not IsValid(model) then return end
-			
+
 			local matrix = ent:GetBoneMatrix(ent:LookupBone(wound[3]))
 			if not matrix then
 				model:SetNoDraw(true)
 				return
 			end
-			
+
 			local bonePos, boneAng = matrix:GetTranslation(), matrix:GetAngles()
-			
+
 			local tourniquetOffset = -wound[1]:GetNegated()
 			tourniquetOffset[2] = 0
 			tourniquetOffset[3] = 0
@@ -1009,7 +1009,7 @@ else
 	end
 	--end)
 
-	
+
 
 	function remove_bandages(ent)
 		if IsValid(ent.bandagesModel) then
@@ -1021,13 +1021,13 @@ else
 	hook.Add("OnNetVarSet","bandage_netvar",function(index, key, var)
 		if key == "bandaged_limbs" then
 			local ent = Entity(index)
-	
+
 			if IsValid(ent) then
-	
+
 				remove_bandages(ent)
-	
+
 				ent.bandaged_limbs = var
-	
+
 				ent:CallOnRemove("remove_bandages",function()
 					remove_bandages(ent)
 				end)
@@ -1086,7 +1086,7 @@ else
 				end
 			end)
 		end
-		
+
 		local model = ent.bandagesModel
 		model:SetNoDraw(true)
 		model:SetPos(ent:GetPos() + vector_up * 1)
@@ -1094,8 +1094,8 @@ else
 		model:AddEffects(EF_BONEMERGE)
 		local dontmakehands = false
 		if !hg.Appearance.FuckYouModels[1][ent:GetModel()] and !hg.Appearance.FuckYouModels[2][ent:GetModel()] then dontmakehands = true end
-		
-		if not model.BodygroupsApplied then 
+
+		if not model.BodygroupsApplied then
 			for k, v in pairs(ent.bandaged_limbs) do
 				if dontmakehands and (k == "ValveBiped.Bip01_L_Hand" or k == "ValveBiped.Bip01_R_Hand") then continue end -- ez
 				model:SetBodygroup(model:FindBodygroupByName( ThatPlyIsFemale(ent) and BodyGroupsFemale[k] or BodyGroupsMale[k] or ""), 1)
@@ -1104,7 +1104,7 @@ else
 			for k, v in pairs(hg.amputatedlimbs2) do
 				local children = hg.get_children(ent, k)
 				table.insert(children, k)
-				
+
 				for k2, v2 in ipairs(children) do
 					if ent.bandaged_limbs[v2] and ent.organism and ent.organism[hg.amputatedlimbs2[v2].."amputated"] then
 						model:SetBodygroup(model:FindBodygroupByName( ThatPlyIsFemale(ent) and BodyGroupsFemale[v2] or BodyGroupsMale[v2] or ""), 0)

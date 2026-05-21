@@ -8,13 +8,13 @@ hook.Add("Org Think", "regenerationfurry", function(owner, org, timeValue)
 	for i, wound in pairs(org.wounds) do
 		wound[1] = math.max(wound[1] - timeValue * 0.6,0)
 	end
-	
+
 	for i, wound in pairs(org.arterialwounds) do
 		wound[1] = math.max(wound[1] - timeValue * 0.6,0)
 	end
-	
+
 	org.internalBleed = math.max(org.internalBleed - timeValue * 0.6, 0)
-	
+
 	local regen = timeValue / 60
 
 	org.lleg = math.max(org.lleg - regen, 0)

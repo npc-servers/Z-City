@@ -30,23 +30,23 @@ function ENT:StartTouch( ent )
 		--if hg.CheckMapCompleted(self.map) then return end
 
 		--ent.CompletedMap = true
-	
+
 		-- Remove their vehicle
 		if ( IsValid( ent:GetVehicle() ) ) then
-		
-			
+
+
 			--ent:GetVehicle():Remove()
 			ent:ExitVehicle()
 		end
-	
+
 		--;; oops
 		if hg.CoopPersistence and hg.CoopPersistence.SavePlayerData then
 			hg.CoopPersistence.SavePlayerData(ent)
 		end
-	
+
 		-- Freeze them and make sure they don't push people away
         ent:KillSilent()
-	
+
 		hg.MapCompleted = true
 		hg.NextMap = self.map or ""
 	end

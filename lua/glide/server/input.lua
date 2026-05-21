@@ -118,7 +118,7 @@ do
         for _, groupId in ipairs( inputGroups ) do
             AddActions( settings.binds, groupId, buttons )
         end
-        
+
         -- Let our input hooks handle this
         activeData[ply] = {
             vehicle = vehicle,

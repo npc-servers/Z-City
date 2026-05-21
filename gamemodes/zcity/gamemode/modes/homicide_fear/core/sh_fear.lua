@@ -29,7 +29,7 @@ function MODE:StartEvent(name, ply)
 	local userID = ply:UserID()
 
 	if MODE.StartedEvents[userID] != nil and MODE.StartedEvents[userID].IsActive and MODE.StartedEvents[userID]:IsActive(ply) then return end
-	
+
 	MODE.StartedEvents[userID] = table.Copy(MODE.Events[name])
 	MODE.StartedEvents[userID]:StartScare(ply)
 	hook.Add("Think","ScareThatGuy"..userID,function()

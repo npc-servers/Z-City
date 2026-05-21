@@ -27,19 +27,19 @@ module[2] = function(owner, org, timeValue)
 	//if org.isPly and not org.otrub and org.heartstop then org.owner:Notify("",true,"heartstop",6) end
 
 	local stamina = org.stamina
-	
+
 	local pulse = 70-- + 120 * ((stamina.max or 180) - stamina[1]) / (stamina.max or 180) * (org.lungsfunction and 1 or 0)
 	--pulse = pulse + math.min(org.adrenaline, 2) * 40 + (!org.otrub and math.max(org.fear * 50, 0) or 0)
 	pulse = org.alive and pulse or 0
 	pulse = math.Clamp(pulse, 0, 200)
-	
+
 	org.pulse = math.Approach(org.pulse, pulse, pulse > org.pulse and timeValue * 2 or timeValue * 2)
-	
+
 	--local k = heart * o2 * (1 / math.Clamp((org.blood - 2000) / 3000,0.2,1)) * brain * (org.heartstop and 0.1 or 1) --* halfValue2(stamina[2], stamina.fatigueRange, stamina.fatigueK)
 	local k = heart * o2 * (math.Clamp((org.blood - 1000) / 4000,0,1)) * brain * (org.heartstop and 0.1 or 1)
 	pulse = pulse * k
 	pulse = pulse * (math.Clamp(math.Remap(org.temperature, 28, 36.7, 0.5, 1), 0.5, 1))
-	
+
 	org.pulse = math.Approach(org.pulse, pulse, heart == 0 and timeValue * 10 or timeValue * 5)
 
 	org.fearadd = math.Clamp(org.fearadd, 0, 3)
@@ -48,7 +48,7 @@ module[2] = function(owner, org, timeValue)
 
 	local runnin_or_exhausted = org.analgesia < 1 and (org.stamina.sub > 0 or org.stamina[1] < (org.stamina.max * 0.66))
 	org.heartbeat = math.Approach(org.heartbeat, math.max(heartbeat - 10, runnin_or_exhausted and ((1 - math.min(1, org.stamina[1] / (org.stamina.max * 1))) * 110 + 90) or 60), !runnin_or_exhausted and timeValue * 2 or timeValue * 15)
-	
+
 	heartbeat = heartbeat + (owner.suiciding and 50 or 0)
 	heartbeat = heartbeat + 40 * math.max(0, org.fear)
 	heartbeat = heartbeat + math.Clamp(org.shock, 0, 40)
@@ -59,7 +59,7 @@ module[2] = function(owner, org, timeValue)
 	heartbeat = heartbeat - 160 * (1 - math.Clamp(math.Remap(org.temperature, 28, 36.7, 0, 1), 0, 1))
 
 	org.heartbeat = math.Approach(org.heartbeat, heartbeat, heartbeat > org.heartbeat and timeValue * 5 or timeValue * 3)
-	
+
 	if org.heartbeat > 300 then -- fibrillation into cardiac arrest
 		org.heartstop = true
 	end
@@ -74,7 +74,7 @@ module[2] = function(owner, org, timeValue)
 	local gainfear = hg.organism.should_gain_fear(org)
 	org.fearadd = math.Approach(org.fearadd, 0, gainfear and timeValue or timeValue / 4.9) -- 15 seconds to stop fearing something and start to calm down
 	org.fearadd = math.Approach(org.fearadd, 1, gainfear and timeValue / 5 or 0)
-	
+
 	local adrenK = max(1 + org.adrenaline, 1)
 	local adren = org.adrenaline
 
@@ -94,7 +94,7 @@ module[2] = function(owner, org, timeValue)
 	else
 		org.needed_temp = needed_temp
 	end
-	
+
 	if not org.heartstop then
 		org.last_heartbeat = CurTime()
 	end
@@ -123,7 +123,7 @@ module[2] = function(owner, org, timeValue)
 	if org.alive and org.heartstoptime and org.heartstoptime + 30 < CurTime() and (org.lastsoundtime or 0) < CurTime() and org.otrub then
 		org.owner:EmitSound("breathing/agonalbreathing_"..math.random(13)..".wav", 60)
 		--org.owner:EmitSound("breathing/agonalbreathing_"..math.random(13)..".wav", 50)
-		
+
 		org.lastsoundtime = CurTime() + math.random(25,35)
 	end
 end

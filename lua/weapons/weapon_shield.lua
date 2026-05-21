@@ -39,7 +39,7 @@ function SWEP:DrawWorldModel()
 	local WorldModel = self.model
 	local owner = self:GetOwner()
 	if not IsValid(WorldModel) then return end
-	
+
 	if IsValid(owner) then
 		local offsetVec = self.offsetVec
 		local offsetAng = self.offsetAng

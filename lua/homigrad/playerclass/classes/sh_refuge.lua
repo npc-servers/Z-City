@@ -34,7 +34,7 @@ local rebels = {
 
 function CLASS.Off(self)
     if CLIENT then return end
-    
+
     for k,v in ipairs(ents.FindByClass("npc_*")) do
         if table.HasValue(rebels,v:GetClass()) then
             v:AddEntityRelationship( self, D_HT, 99 )
@@ -178,9 +178,9 @@ function CLASS.GiveEquipment(self, class)
     if currentRound and currentRound.name == "defense" then
         return
     end
-    
+
     local ply = self
-    
+
     local wep = ply:Give(primary[math.random(#primary)])
     ply:GiveAmmo(wep:GetMaxClip1() * 2, wep:GetPrimaryAmmoType(), true)
 
@@ -204,7 +204,7 @@ function CLASS.GiveEquipment(self, class)
 
     ply:Give("weapon_melee")
     ply:Give("weapon_walkie_talkie")
-    
+
     if class == "medic" then
         ply:Give("weapon_bandage_sh")
         ply:Give("weapon_medkit_sh")
@@ -215,14 +215,14 @@ end
 
 function CLASS.On(self, data)
     if CLIENT then return end
-    
-    
+
+
     if type(data) == "table" then
         bNoEquipment = data.bNoEquipment
     elseif type(data) == "boolean" then
         bNoEquipment = data
     end
-    
+
     local currentRound = CurrentRound and CurrentRound()
     local isDefenseMode = currentRound and currentRound.name == "defense"
     local isCommander = self:GetNWString("PlayerRole") == "Commander"
@@ -236,13 +236,13 @@ function CLASS.On(self, data)
             appearance.AAttachments = ""
             appearance.AColthes = ""
             local currentModel = string.lower(appearance.AModel)
-            
+
             local commanderModel = commander_models[currentModel]
             if not commanderModel then
                 local keys = table.GetKeys(commander_models)
                 commanderModel = commander_models[keys[math.random(#keys)]]
             end
-            
+
             self:SetModel(commanderModel)
 
             if commander_submaterials[commanderModel] ~= nil then
@@ -265,7 +265,7 @@ function CLASS.On(self, data)
         if self.subClass == "medic" then
             --self:SetModel(medic[self:GetModel()] or self:GetModel())
         end
-        
+
         self.subClass = nil
     end
 
@@ -281,7 +281,7 @@ function CLASS.On(self, data)
         end
         self.CurAppearance = Appearance
     end
-    
+
     for k,v in ipairs(ents.FindByClass("npc_*")) do
         if table.HasValue(rebels,v:GetClass()) then
             v:AddEntityRelationship( self, D_LI, 0 )
@@ -291,7 +291,7 @@ function CLASS.On(self, data)
             v:ClearEnemyMemory()
         end
     end
-    
+
     local index = self:EntIndex()
     hook.Add( "OnEntityCreated", "refugee_relation_ship"..index, function( ent )
         if not IsValid(self) then hook.Remove("OnEntityCreated","refugee_relation_ship"..index) return end

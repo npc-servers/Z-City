@@ -1,4 +1,4 @@
--- 
+--
 util.AddNetworkString("Get_Appearance")
 util.AddNetworkString("OnlyGet_Appearance")
 hg.Appearance = hg.Appearance or {}
@@ -186,7 +186,7 @@ function ApplyAppearanceRagdoll(ent, ply)
     end
 end
 
--- Sandbox applyApperance 
+-- Sandbox applyApperance
 if engine.ActiveGamemode() == "sandbox" then
     hook.Add("PlayerSpawn","SetAppearance",function(ply)
         if OverrideSpawn then return end

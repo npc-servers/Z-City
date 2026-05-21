@@ -184,7 +184,7 @@ function SWEP:DrawPost()
 end
 
 local function cock(self,time)
-	
+
 	if SERVER then
 		self:Draw(true)
 	end
@@ -200,7 +200,7 @@ local function cock(self,time)
 	net.WriteBool(self.drawBullet)
 	net.WriteFloat(CurTime())
 	net.Broadcast()
-	
+
 	self.Primary.Next = CurTime() + self.AnimDraw + self.Primary.Wait
 	--self:PlaySnd(self.CockSound or "weapons/shotgun/shotgun_cock.wav",true,CHAN_AUTO)
 
@@ -217,26 +217,26 @@ local vector_full = Vector(1,1,1)
 
 local function reloadFunc(self)
 	if not SERVER then return end
-	
+
 	self:SetNetVar("shootgunReload",CurTime() + 1.1)
 
 	self:GetWM():ManipulateBoneScale(47, vector_full)
 	--self:GetOwner():PullLHTowards("ValveBiped.Bip01_Spine2", 0.58)
 
-	self:PlayAnim(self.AnimList["insert"] or "sgreload_insert", 1, false, function() 
-		self:InsertAmmo(1) 
+	self:PlayAnim(self.AnimList["insert"] or "sgreload_insert", 1, false, function()
+		self:InsertAmmo(1)
 		self:GetWM():ManipulateBoneScale(47, vector_origin)
-		
+
 		local key = hg.KeyDown(self:GetOwner(), IN_RELOAD)
 		--print("reload",key)
-		
+
 		if key and self:CanReload() then
 			reloadFunc(self)
 			return
 		end
 
 
-		self:PlayAnim(self.AnimList["finish"] or "sgreload_finish", 1,false,function(self) self:SetNetVar("shootgunReload",0) end,false,true) 
+		self:PlayAnim(self.AnimList["finish"] or "sgreload_finish", 1,false,function(self) self:SetNetVar("shootgunReload",0) end,false,true)
 	end, false, true)
 end
 
@@ -260,12 +260,12 @@ function SWEP:Reload(time)
 	--self:GetWM():ManipulateBoneScale(47, vector_full)
 	if SERVER then
 		self:SetNetVar("shootgunReload",CurTime() + (self:Clip1() == 0 and 2.1 or 1.1))
-		
+
 		local anim = self:Clip1() == 0 and "start_empty" or "start"
-		self:PlayAnim(self.AnimList[anim] or "sgreload_start",self:Clip1() == 0 and 2 or 1,false,function() 
+		self:PlayAnim(self.AnimList[anim] or "sgreload_start",self:Clip1() == 0 and 2 or 1,false,function()
 			self:SetNetVar("shootgunReload",CurTime() + 1.1)
 			if anim == "start_empty" then
-				self:InsertAmmo(1) 
+				self:InsertAmmo(1)
 				cock(self,1)
 			end
 			reloadFunc(self)

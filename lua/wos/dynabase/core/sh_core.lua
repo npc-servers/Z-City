@@ -65,10 +65,10 @@ local function InitializeBase()
 end
 
 local function HandleMountOrderList( args )
-    if not args or #args < 1 then 
+    if not args or #args < 1 then
 		wOS.DynaBase.EnforceCount = 0
-		wOS.DynaBase.EnforcedOrder = nil 
-		return 
+		wOS.DynaBase.EnforcedOrder = nil
+		return
 	end
 
 	wOS.DynaBase.EnforcedOrder = {}
@@ -163,10 +163,10 @@ function wOS.DynaBase:ProcessLoadOrder()
 end
 
 function wOS.DynaBase:ProcessPlayerOrder()
-	if self.PlayerCount < 1 then 
-		self.FilteredPlayerBlacklist = {} 
-		self.FilteredPlayerOrder = {} 
-		return 
+	if self.PlayerCount < 1 then
+		self.FilteredPlayerBlacklist = {}
+		self.FilteredPlayerOrder = {}
+		return
 	end
 
 	// Initialize it here so it can fail later

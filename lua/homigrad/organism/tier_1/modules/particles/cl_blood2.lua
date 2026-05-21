@@ -55,11 +55,11 @@ bloodparticles_hook[4] = function(mul)
 
         local pos = part[1]
         local posSet = part[2]
-        
+
         tr.start = posSet
         tr.endpos = tr.start + part[3] * mul
         result = util_TraceLine(tr)
-        
+
         local hitPos = result.HitPos
 
         local up = hitPos[3] - pos[3]
@@ -68,7 +68,7 @@ bloodparticles_hook[4] = function(mul)
 
         if result.Hit or part[7] - time <= 0 then
             table_remove(hg.bloodparticles2, i)
-            
+
             --util.Decal("Water.Blood", pos + result.HitNormal, pos - result.HitNormal, ents.FindInSphere(pos, 1))
 
             --local newvec = result.Normal:Angle()

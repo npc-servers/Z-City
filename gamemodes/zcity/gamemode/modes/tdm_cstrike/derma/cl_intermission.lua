@@ -1,5 +1,5 @@
 local PANEL = {}
-local sw, sh = ScrW(), ScrH()    
+local sw, sh = ScrW(), ScrH()
 local color_white = Color(255,255,255)
 
 net.Receive("zb_cs_round_intermission", function()

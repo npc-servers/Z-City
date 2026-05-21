@@ -22,7 +22,7 @@ hg.DynamicMusicV2.Player = hg.DynamicMusicV2.Player or {}
         ["Presets"] = {
             [1] = {"Название для слоев1"}
             [2] = {
-                ["Название для слоев2"] = {volume = 1}, 
+                ["Название для слоев2"] = {volume = 1},
                 ["Название для слоев4"] = {volume = 1}
             }
 
@@ -69,9 +69,9 @@ hg.DynamicMusicV2.Player.GetTrack = GetTrack
 function hg.DynamicMusicV2.Player.SetupLayers()
     if !IsValid(lply) then return end
     local Track = GetTrack()
-    
+
     if !Track then return end
-    
+
     hg.DynamicMusicV2.Player.Stop(true)
     local amount = table.Count(Track.Layers)
     for k,v in pairs(Track.Layers) do

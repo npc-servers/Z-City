@@ -88,10 +88,10 @@ hook.Add("Org Clear", "Main", function(org)
 	end
 
 	org.allowholster = false
-	
+
 	org.just_damaged_bone = nil
 	org.LodgedEntities = nil
-	
+
 	org.dmgstack = {}
 
 	org.SpawnedBrainChunks = nil
@@ -330,7 +330,7 @@ hook.Add("Org Think", "Main", function(owner, org, timeValue)
 	else
 		org.alive = false
 	end
-	
+
 	org.needotrub = false
 	org.needfake = false
 	if isPly then
@@ -460,7 +460,7 @@ hook.Add("Org Think", "Main", function(owner, org, timeValue)
 
 	org.canmove = (org.spine2 < hg.organism.fake_spine2 and org.spine3 < hg.organism.fake_spine3) and not org.otrub
 	org.canmovehead = (org.spine3 < hg.organism.fake_spine3) and not org.otrub
-	
+
 	if not (org.canmove and org.canmovehead and (org.stun - CurTime()) < 0) then org.needfake = true end
 	if (org.blood < 2700) then org.needfake = true end
 
@@ -520,7 +520,7 @@ hook.Add("Org Think", "Main", function(owner, org, timeValue)
 
 	org.otrub = org.needotrub
 	org.fake = org.needfake
-	
+
 	if org.needfake and owner:IsNPC() then
 		local dmgInfo = DamageInfo()
 		dmgInfo:SetDamage(10000)
@@ -640,7 +640,7 @@ end)
 hook.Add("Org Think", "regenerationnoradrenaline", function(owner, org, timeValue)
 	if not owner:IsPlayer() or not owner:Alive() then return end
 	if org.noradrenaline <= 0 then return end
-	
+
 	local regen = timeValue / 60 * org.noradrenaline
 
 	org.lungsR[1] = math.max(org.lungsR[1] - regen, 0)
@@ -791,7 +791,7 @@ local function fixlimb(org, key, fixer)
 		org.fearadd = org.fearadd + 0.3
 
 		org.owner:EmitSound("physics/body/body_medium_impact_soft"..math.random(7)..".wav", 65)
-		
+
 		if fixer.Profession != "doctor" and math.random(5) == 1 then
 			local dmgInfo = DamageInfo()
 			dmgInfo:SetDamage(50)

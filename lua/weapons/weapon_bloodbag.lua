@@ -135,7 +135,7 @@ if SERVER then
 		if not owner:KeyDown(IN_ATTACK) and hg_healanims:GetBool() then
 			self:SetHolding(math.max(self:GetHolding() - 12, 0))
 		end
-		
+
 		if self:GetNetVar("mode",2) == 2 then
 			if self.modeValues[1] != 1 then
 				if owner:KeyDown(IN_ATTACK) or owner:KeyDown(IN_ATTACK2) then
@@ -150,13 +150,13 @@ if SERVER then
 						if ent.organism.furryinfected then
 							self.furryinfected = true
 						end
-						
+
 						if self.poisoned2 then
 							ent.organism.poison4 = CurTime()
-				
+
 							self.poisoned2 = nil
 						end
-						
+
 						ent.organism.blood = math.max(ent.organism.blood - (self.modeValues[1] - old) * 500,0)
 						if self.sndcd < CurTime() and old ~= self.modeValues[1] then
 							owner:EmitSound("zcity/healing/bloodbag_loop_".. math.random(8) ..".wav")
@@ -177,7 +177,7 @@ if SERVER then
 
 						if self.poisoned2 then
 							ent.organism.poison4 = CurTime()
-				
+
 							self.poisoned2 = nil
 						end
 
@@ -205,9 +205,9 @@ if SERVER then
 			end
 		end
 
-		if self.modeValues[1] < 0.00001 then 
-			self.modeValues[1] = 0 
-			self:SetHasBlood(false) 
+		if self.modeValues[1] < 0.00001 then
+			self.modeValues[1] = 0
+			self:SetHasBlood(false)
 			self:SetBodygroup(1,1)
 		else
 			self:SetHasBlood(true)

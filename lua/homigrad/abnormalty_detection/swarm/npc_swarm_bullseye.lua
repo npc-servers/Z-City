@@ -20,14 +20,14 @@ function ENT:Initialize()
 		--self:SetModel("models/zombie/zombie_soldier.mdl")
 		--self:SetColor(Color(220,255,220))
 		--self:SetModelScale(0.5,0)
-		
+
 		self:SetHullType( HULL_TINY_CENTERED )
-		self:SetHullSizeNormal() 
+		self:SetHullSizeNormal()
 		self:SetSolid( SOLID_BBOX )
 		self:SetMoveType( MOVETYPE_STEP )
 		self:CapabilitiesAdd( bit.bor( CAP_MOVE_GROUND, CAP_SQUAD, CAP_MOVE_JUMP, CAP_OPEN_DOORS, CAP_AUTO_DOORS ) )
 		--self:CapabilitiesRemove( bit.bor( CAP_OPEN_DOORS, CAP_AUTO_DOORS ) )
-		
+
 		self:SetHealth( 1000 )
 		self:DrawShadow(false)
 		--self:SetColor(Color(255,0,0))
@@ -66,7 +66,7 @@ function ENT:GetRelationship( entity )
 	if(entity.Classify)then
 		class=entity:Classify()
 	end
-		
+
 	if(class and class==CLASS_PLAYER)then
 		return D_HT
 	elseif(entity:GetClass()=="player")then
@@ -78,9 +78,9 @@ end]]
 
 
 function ENT:SelectSchedule( iNPCState )
-	
 
-	
+
+
 end
 
 

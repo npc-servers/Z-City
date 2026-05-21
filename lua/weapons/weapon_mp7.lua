@@ -57,25 +57,25 @@ SWEP.ViewPunchDiv = 60
 SWEP.FakeMagDropBone = 14
 
 SWEP.FakeReloadEvents = {
-	[0.2] = function( self, timeMul ) 
+	[0.2] = function( self, timeMul )
 		if CLIENT and self:Clip1() < 1 then
 			--self:GetWM():SetBodygroup(1,1)
 			--self:GetOwner():PullLHTowards("ValveBiped.Bip01_L_Thigh", 1.5 * timeMul)
-		end 
+		end
 	end,
-	[0.35] = function( self ) 
+	[0.35] = function( self )
 		if CLIENT and self:Clip1() < 1 then
 			hg.CreateMag( self, Vector(0,55,-55) )
 			self:GetWM():ManipulateBoneScale(14, vector_origin)
 			self:GetWM():ManipulateBoneScale(15, vector_origin)
-		end 
+		end
 	end,
-	[0.45] = function( self ) 
+	[0.45] = function( self )
 		if CLIENT and self:Clip1() < 1 then
 			self:GetWM():SetBodygroup(1,0)
 			self:GetWM():ManipulateBoneScale(14, vector_full)
 			self:GetWM():ManipulateBoneScale(15, vector_full)
-		end 
+		end
 	end,
 }
 

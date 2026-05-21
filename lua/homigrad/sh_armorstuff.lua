@@ -30,7 +30,7 @@ local function DrawFirstPersonHelmet(ply, strModel, vecAdjust, fFov, setMat)
 	if mdl2:GetModel() != strModel then
 		mdl2:SetModel(strModel)
 	end
-	
+
 	if setMat and !mdl.matseted1 then
 		mdl:SetSubMaterial(0,setMat)
 		mdl.matseted = false
@@ -701,7 +701,7 @@ hg.armor.face = {
 		ScrappersSlot = "Armor",
 		custommat = Material("overlays/nvg_scene_opticf2.png"),
 		NVGRender = function()
-			 
+
 			if not IsValid(lply.EZNVGlamp) then
 				lply.EZNVGlamp = ProjectedTexture()
 				lply.EZNVGlamp:SetTexture("effects/flashlight001")
@@ -823,7 +823,7 @@ local function initArmor()
 		for armorkey, armorData in pairs(armors) do
 			if CLIENT then language.Add(armorkey, armorNames[armorkey] or armorkey) end
 			if armorData.inbuilt then continue end
-			
+
 			local armor = {}
 			armor.Base = "armor_base"
 			armor.PrintName = CLIENT and language.GetPhrase(armorkey) or armorkey
@@ -855,7 +855,7 @@ end
 function hg.GetArmorPlacement(armor)
 	if istable(armor) then return end
 	armor = string.Replace(armor,"ent_armor_","")
-	
+
 	local found
 	for i,armplc in pairs(hg.armor) do
 		for i2,armor2 in pairs(armplc) do

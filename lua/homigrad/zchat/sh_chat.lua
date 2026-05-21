@@ -243,7 +243,7 @@ else
 				rf:AddPlayer(plya)
 			end
 		end
-		
+
 		net.Start("zChatMessage")
 			net.WriteEntity(ply)
 			net.WriteString(text)

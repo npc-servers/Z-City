@@ -43,7 +43,7 @@ function EVENT:StartScare( ply )
     local EndIndex = self.Ent:EntIndex()
     timer.Simple(1,function()
         if IsValid(ply) and ply:Alive() then return end
-        ply:SendLua("Entity("..EndIndex.."):EmitSound(\"cry1.wav\")") -- 
+        ply:SendLua("Entity("..EndIndex.."):EmitSound(\"cry1.wav\")") --
     end)
     self.Started = CurTime()
 end
@@ -63,7 +63,7 @@ function EVENT:Think( ply )
             self:Run(ply)
         end
     end
-    
+
 end
 
 function EVENT:IsActive( ply )

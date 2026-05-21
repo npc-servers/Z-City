@@ -258,7 +258,7 @@ end
 -----------------------------------------------------------]]
 function SWEP:Ammo2()
 	if !self:GetOwner().GetAmmoCount then return 0 end
-	
+
 	return self:GetOwner():GetAmmoCount( self:GetSecondaryAmmoType() )
 end
 

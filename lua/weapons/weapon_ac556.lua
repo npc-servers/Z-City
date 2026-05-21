@@ -91,7 +91,7 @@ if CLIENT then
 		[0.27] = function( self, timeMul )
 			self:GetWM():ManipulateBoneScale(49, vector_full)
 		end,
-		
+
 		[0.30] = function(self,timeMul)
 			if self:Clip1() < 1 then
 				local ent = hg.CreateMag( self, Vector(15,0,0),nil, true )

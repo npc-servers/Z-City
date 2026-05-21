@@ -132,7 +132,7 @@ for _, snd in ipairs(sounds) do
 end
 function Gib_Input(rag, bone, force)
 	if not IsValid(rag) then return end
-	
+
 	local gibRemove = rag.gibRemove
 
 	if not gibRemove then
@@ -144,7 +144,7 @@ function Gib_Input(rag, bone, force)
 
 	local phys_bone = rag:TranslateBoneToPhysBone(bone)
 	local phys_obj = rag:GetPhysicsObjectNum(phys_bone)
-	
+
 	if (not gibRemove[phys_bone]) and (bone == rag:LookupBone("ValveBiped.Bip01_Head1")) then
 		--sound.Emit(rag,"player/headshot" .. math.random(1, 2) .. ".wav")
 		--sound.Emit(rag,"physics/flesh/flesh_squishy_impact_hard" .. math.random(2, 4) .. ".wav")
@@ -153,7 +153,7 @@ function Gib_Input(rag, bone, force)
 		rag:EmitSound(sounds[math.random(#sounds)], 70, math.random(95, 105), 2)
 
 		Gib_RemoveBone(rag, bone, phys_bone)
-		
+
 		--rag:ManipulateBoneScale(rag:LookupBone("ValveBiped.Bip01_Neck1"),vecZero)
 		rag:ManipulateBonePosition(rag:LookupBone("ValveBiped.Bip01_Neck1"),Vector(-1,0,0))
 
@@ -175,7 +175,7 @@ function Gib_Input(rag, bone, force)
 			local ent = hg.DropArmorForce(rag, armors["head"])
 			ent:SetPos(phys_obj:GetPos())
 		end
-		
+
 		if armors["face"] and !hg.armor["face"][armors["face"]].nodrop then
 			local ent = hg.DropArmorForce(rag, armors["face"])
 			ent:SetPos(phys_obj:GetPos())

@@ -28,7 +28,7 @@ SWEP.AnimList = {
 function SWEP:PostSetupDataTables()
 	self:NetworkVar("Int",0,"DeagleSkin")
 	self:NetworkVar("Int",1,"DeagleBodygroup")
-	
+
 	if ( CLIENT ) then
 		self:NetworkVarNotify( "DeagleSkin", self.OnVarChanged )
 		self:NetworkVarNotify( "DeagleBodygroup", self.OnVarChanged )
@@ -37,7 +37,7 @@ end
 
 function SWEP:OnVarChanged( name, old, new )
 	if !IsValid(self:GetWM()) then return end
-	
+
 	if name == "DeagleBodygroup" then
 		self:GetWM():SetBodygroup(4,new)
 	elseif name == "DeagleSkin" then
@@ -50,7 +50,7 @@ local skins = {
 function SWEP:InitializePost()
 	local Skin = skins[math.random(#skins)]
 	if math.random(0,100) > 99 then
-		Skin = math.random(0,1) == 1 and 4 or 2 
+		Skin = math.random(0,1) == 1 and 4 or 2
 	end
 	self:SetDeagleSkin(Skin)
 	self:SetDeagleBodygroup(math.random(0,1))
@@ -82,7 +82,7 @@ SWEP.FakeEmptyReloadSounds = {
 	[0.6] = "weapons/arccw_ur/deagle/magin.ogg",
 	[0.8] = "weapons/arccw_ur/deagle/chamber.ogg",
 }
-SWEP.MagModel = "models/weapons/upgrades/w_magazine_m45_8.mdl" 
+SWEP.MagModel = "models/weapons/upgrades/w_magazine_m45_8.mdl"
 
 SWEP.lmagpos = Vector(1.5,0,0)
 SWEP.lmagang = Angle(-15,0,1)
@@ -103,7 +103,7 @@ if CLIENT then
 				end)
 			end
 		end,
-		[0.33] = function( self, timeMul ) 
+		[0.33] = function( self, timeMul )
 			self:GetWM():ManipulateBoneScale(48, vector_origin)
 			for i = 49, 55 do
 				self:GetWM():ManipulateBoneScale(i, vector_origin)

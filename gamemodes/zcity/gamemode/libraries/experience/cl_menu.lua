@@ -9,7 +9,7 @@ local EXP = zb.Experience
 EXP.OpenedMenu = EXP.OpenedMenu or nil
 
 --local function BG()
---    
+--
 --end
 local gradient_u = Material("vgui/gradient-u")
 
@@ -68,7 +68,7 @@ net.Receive("zb_xp_get",function()
             EXP.OpenedAccount:Remove()
             EXP.OpenedAccount = nil
         end
-        
+
         EXP.OpenedAccount = vgui.Create("ZB_AccountFrame")
         local AcMenu = EXP.OpenedAccount
         AcMenu:MakePopup()

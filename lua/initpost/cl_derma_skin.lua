@@ -208,21 +208,21 @@ function SKIN:PaintPanel(panel)
 		if(!panel.NoBlur)then
 			hg.DrawBlur(panel, 2, 0.2, 200)
 		end
-		
+
 		local width, height = panel:GetSize()
-		
+
 		if (panel.m_bgColor) then
 			surface.SetDrawColor(panel.m_bgColor)
 		else
 			surface.SetDrawColor(self.Colours.Background)
 		end
-		
+
 		surface.DrawRect(0, 0, width, height)
-		
+
 		if(panel.PostPaintPanel)then
 			panel:PostPaintPanel(width, height)
 		end
-		
+
 		surface.SetDrawColor(self.Colours.Outline)
 		surface.DrawOutlinedRect(0, 0, width, height, 1)
 	end
@@ -320,7 +320,7 @@ function SKIN:PaintTextEntry( panel, w, h )
 		else
 			surface.SetDrawColor(130, 130, 130, 100)
 		end
-		
+
 		surface.DrawRect(0, 0, w, h)
 		surface.SetDrawColor(0, 0, 0, 150)
 		surface.DrawOutlinedRect(0, 0, w, h)
@@ -334,27 +334,27 @@ function SKIN:PaintTextEntry( panel, w, h )
 			if(self.CharactersMin and self.CharactersMin > amt)then
 				met = false
 			end
-			
+
 			if(self.CharactersMax and self.CharactersMax < amt)then
 				met = false
 			end
-			
+
 			return met
 		end
-	
+
 		local add_text = ""
-		
+
 		if(panel.CharactersMax)then
 			add_text = " → " .. panel.CharactersMax
 		end
-		
+
 		local amt = utf8.len(panel:GetValue())
 		local color = color_white
-		
+
 		if(!panel:TextEntryConditionsMet(amt))then
 			color = color_red
 		end
-		
+
 		draw.DrawText(amt .. "/" .. panel.CharactersMin .. add_text, "ZCity_Tiny", w * 1.0, h * 0, color, TEXT_ALIGN_RIGHT, TEXT_ALIGN_CENTER)
 	end
 
@@ -471,7 +471,7 @@ function SKIN:PaintScrollBarGrip(panel, width, height)
 	local downButtonHeight = parent.btnDown:GetTall()
 
 	DisableClipping(true)
-		if is3d2d then 
+		if is3d2d then
 			surface.SetDrawColor(255, 255, 255, 200)
 		else
 			surface.SetDrawColor(30, 30, 30, 200)

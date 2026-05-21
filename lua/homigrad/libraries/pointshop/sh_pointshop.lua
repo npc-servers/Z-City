@@ -49,7 +49,7 @@ if CLIENT then
         if callback then
             callbacks[#callbacks + 1] = callback
         end
-    end 
+    end
 
     local plyMeta = FindMetaTable("Player")
 

@@ -16,7 +16,7 @@ hg.DynamicMusicV2.Trakcs = hg.DynamicMusicV2.Trakcs or {}
         ["Presets"] = {
             [1] = {"Название для слоев1"}
             [2] = {
-                ["Название для слоев2"] = {volume = 1}, 
+                ["Название для слоев2"] = {volume = 1},
                 ["Название для слоев4"] = {volume = 1}
             }
 
@@ -329,7 +329,7 @@ AddTrack(
         if org.adrenaline > 2.5 then
             intens = intens + 1
         end
-        
+
         return intens
     end,
     "uzelezz",
@@ -391,7 +391,7 @@ AddTrack(
         local intens = 0
         local org = ply.organism
         if (!org or org.otrub) or !ply:Alive() then return -1 end
-        
+
         return 2
     end,
     "uzelezz",

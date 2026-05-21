@@ -109,7 +109,7 @@ if CLIENT then
 			for i = 45, 50 do
 				self:GetWM():ManipulateBoneScale(i, vector_full)
 			end
-			
+
 		end,
 
 		[0.56] = function( self, timeMul )
@@ -119,7 +119,7 @@ if CLIENT then
 				for i = 1, #drum do
 					if self.CustomShell and drum[i] == -1 then
 						local pos, ang = self:GetWM():GetBonePosition(45)
-						self:MakeShell(self.CustomShell, pos, ang, Vector(0,0,0)) 
+						self:MakeShell(self.CustomShell, pos, ang, Vector(0,0,0))
 					end
 				end
 			end
@@ -127,7 +127,7 @@ if CLIENT then
 				self:GetWM():ManipulateBoneScale(i, vector_origin)
 			end
 		end,
-		[0.75] = function( self ) 
+		[0.75] = function( self )
 			for i = 45, 50 do
 				self:GetWM():ManipulateBoneScale(i, vector_full)
 			end
@@ -135,9 +135,9 @@ if CLIENT then
 				self:GetWM():ManipulateBoneScale(i, vector_full)
 			end
 		end,
-		[0.9] = function( self ) 
+		[0.9] = function( self )
 		end,
-		[0.92] = function( self ) 
+		[0.92] = function( self )
 			for i = 52, 53 do
 				self:GetWM():ManipulateBoneScale(i, vector_origin)
 			end

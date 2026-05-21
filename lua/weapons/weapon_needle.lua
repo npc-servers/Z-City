@@ -84,7 +84,7 @@ if SERVER then
 		end
 
 		//if ((org.lungsL[2] + org.lungsR[2]) / 2 < 0.5) or org.needle then return end
-		
+
 		//if ent != owner and !org.otrub then return end -- meh??
 		local entOwner = IsValid(owner.FakeRagdoll) and owner.FakeRagdoll or owner
 		entOwner:EmitSound("snd_jack_hmcd_needleprick.wav", 60, math.random(95, 105))
@@ -93,13 +93,13 @@ if SERVER then
 		org.needle = 1
 
 		if !(org.lungsR[2] == 1 or org.lungsL[2] == 1) then
-			if math.random(2) == 1 then 
+			if math.random(2) == 1 then
 				org.lungsR[2] = 1
 			else
 				org.lungsL[2] = 1
 			end
 		end
-		
+
 		self.modeValues[1] = 0
 
 		if self.poisoned2 then

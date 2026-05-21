@@ -124,7 +124,7 @@ if SERVER then
 			self.modeValues[3] = self.modeValues[3] - (val - healed)
 			org.lungsR[1] = healed*/
 			local internalBleed = org.internalBleed - org.internalBleedHeal
-			
+
 			if self.poisoned2 then
 				org.poison4 = CurTime()
 
@@ -146,14 +146,14 @@ if SERVER then
 				if self.modeValues[5] == 0 then return end
 				if self.poisoned2 then
 					org.poison4 = CurTime()
-	
+
 					self.poisoned2 = nil
 				end
 
 				org.needle = 1
 
 				if !(org.lungsR[2] == 1 or org.lungsL[2] == 1) then
-					if math.random(2) == 1 then 
+					if math.random(2) == 1 then
 						org.lungsR[2] = 1
 					else
 						org.lungsL[2] = 1

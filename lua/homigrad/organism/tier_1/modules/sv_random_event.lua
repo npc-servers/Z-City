@@ -33,7 +33,7 @@ local RandomEvents = {
                 if not IsValid(owner) then return end
                 owner:ViewPunch(AngleRand(-.1,.1))
             end)
-        end 
+        end
     end,
     ["Cough"] = function( owner, org )
         owner:EmitSound(ThatPlyIsFemale(owner) and "zcitysnd/female/cough_"..math.random(1,6)..".mp3" or "zcitysnd/male/cough_"..math.random(1,6)..".mp3",75,100 + (owner.PlayerClassName == "furry" and 20 or 0),1)
@@ -44,7 +44,7 @@ local RandomEvents = {
             end)
         end) -- жаль что сломалось, а ради этого неты делать ну, такое... | update уже неважно
     end,
-} 
+}
 
 function module.TriggerRandomEvent(owner, eventName)
     if RandomEvents[eventName] then

@@ -33,13 +33,13 @@ function Hook.EntityRemoved(ent)
 end
 
 local function CleanupEntities()
-    --// Ragdolls 
+    --// Ragdolls
     --; (ТВОЙ ЕНТИТИ).organism.alive
     for ragdoll, spawnTime in pairs(ragdollSpawnTimes) do
         if not IsValid(ragdoll) then
             ragdollSpawnTimes[ragdoll] = nil
         elseif CurTime() - spawnTime >= ENTITY_LIFETIME then
-            local org = ragdoll.organism 
+            local org = ragdoll.organism
             if org and org.isPly then
                 ragdollSpawnTimes[ragdoll] = CurTime()
                 continue
@@ -58,12 +58,12 @@ local function CleanupEntities()
         elseif CurTime() - spawnTime >= ENTITY_LIFETIME then
             if IsValid(weapon:GetOwner()) and (weapon:GetOwner():IsPlayer() or weapon:GetOwner():IsNPC()) then
                 weaponSpawnTimes[weapon] = CurTime()
-                continue 
+                continue
             end
             for _, ent in ipairs(ents.FindInSphere(weapon:GetPos(),1000)) do
-                if ent:IsPlayer() and ent:Alive() then 
-                    weaponSpawnTimes[weapon] = CurTime() 
-                    continue 
+                if ent:IsPlayer() and ent:Alive() then
+                    weaponSpawnTimes[weapon] = CurTime()
+                    continue
                 end
             end
             weapon:Remove()

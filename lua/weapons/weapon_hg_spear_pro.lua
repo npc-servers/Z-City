@@ -86,7 +86,7 @@ if SERVER then
     function SWEP:CustomAttack2()
         local ent = ents.Create("ent_throwable")
         ent.WorldModel = self.WorldModelExchange or self.WorldModel
-        
+
         local ply = self:GetOwner()
 
         ent:SetPos(select(1, hg.eye(ply,60,hg.GetCurrentCharacter(ply))) - ply:GetAimVector() * 2)

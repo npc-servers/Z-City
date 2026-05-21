@@ -30,7 +30,7 @@ function ENT:AddThink()
 	local time = self.timeToBoom - (CurTime() - self.timer)
 
 	self.nextthink = CurTime() + 0.02
-	
+
 	if not self.Exploded and not self.SndStarted then
 		self.SndStarted = true
 		self.snd = self:StartLoopingSound("snds_jack_gmod/flareburn.wav")
