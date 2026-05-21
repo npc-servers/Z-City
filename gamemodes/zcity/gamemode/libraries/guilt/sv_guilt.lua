@@ -112,13 +112,6 @@ end
 
 hook.Add("HomigradDamage", "GuiltReg", function(ply, dmgInfo, hitgroup, ent, harm) 
     local Attacker, Victim = dmgInfo:GetAttacker(), ply
-    
-    --[[if !IsValid(Attacker) and dmgInfo:GetInflictor().steamid then
-        local steamid = dmgInfo:GetInflictor().steamid
-        
-        ULib.addBan( steamid, 60, "Kicked and banned for trying to exploit karma system.", steamid, "System" )
-    end--]]
-
     if not IsValid(Attacker) or not Attacker:IsPlayer() then return end
     if not IsValid(Victim) or not (Victim:IsPlayer() or (Victim.organism.fakePlayer and Victim.organism.alive)) then return end
 	if Victim:IsNPC() or Victim:IsNextBot() then return end
@@ -227,11 +220,7 @@ hook.Add("HomigradDamage", "GuiltReg", function(ply, dmgInfo, hitgroup, ent, har
     zb.HarmDoneKarma[Victim][Attacker] = zb.HarmDoneKarma[Victim][Attacker] + add
 
     if shouldBanGuilt and Attacker.Guilt >= 100 then
-		-- if ULib then
-        	ULib.addBan( Attacker:SteamID(), 30, "Kicked and banned for dealing too much team damage.", Attacker:Name(), "System" )
-		-- else
-		-- 	Attacker:Ban(30, true)
-		-- end
+        KAKI.Ban( Attacker:SteamID(), 30, "Kicked and banned for dealing too much team damage.", "Teamdamage ban" )
 
         PrintMessage(HUD_PRINTTALK, "Player "..Attacker:Name().." has been banned for 30 minutes for RDMing in a team based gamemode.")
     end
@@ -254,13 +243,8 @@ hook.Add("HomigradDamage", "GuiltReg", function(ply, dmgInfo, hitgroup, ent, har
                 karma = Attacker.Karma
             end
 
-            local time = math.Round(60 - karma * 4, 0)
-
-			-- if ULib then
-				ULib.addBan( steamID, 60, "Kicked and banned for having too low karma.", name, "System" )
-			-- else
-			-- 	Attacker:Ban(60, true)
-			-- end
+            local time = math.Round(60 - karma * 4, 0)  
+			KAKI.Ban( steamID, 60, "Kicked and banned for having too low karma.", "Low karma ban" )
             
             PrintMessage(HUD_PRINTTALK, "Player "..name.." has been banned for "..time.." minutes for having too low karma.")
         end)
