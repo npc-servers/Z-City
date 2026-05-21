@@ -483,10 +483,6 @@ hg.ConVars = hg.ConVars or {}
 
 		local override = (CLIENT and hg.override[ply]) or (SERVER and OverrideSpawn)
 
-		if eightbit and eightbit.EnableEffect and ply.UserID then
-			eightbit.EnableEffect(ply:UserID(), ply.PlayerClassName == "furry" and eightbit.EFF_PROOT or 0)
-		end
-
 		if not override then
 			hook.Run("Player Spawn", ply)
 

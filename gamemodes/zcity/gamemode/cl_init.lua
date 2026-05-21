@@ -498,12 +498,6 @@ hook.Add("Player_Death", "fixSpectatorVoiceMute", function(ply)
 	//end
 end)
 
-hook.Add("Player_Death", "fixSpectatorVoiceEffect", function(ply)
-	if eightbit and eightbit.EnableEffect and ply.UserID then
-		eightbit.EnableEffect(ply:UserID(), 0)
-	end
-end)
-
 function GM:ScoreboardShow()
 	if IsValid(scoreBoardMenu) then
 		scoreBoardMenu:Remove()

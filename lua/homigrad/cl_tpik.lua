@@ -1066,6 +1066,7 @@ function hg.DoTPIK(ply, ent)
             ply.segmentsr = segments
         end
 
+        if not segments[3] then return end
         local new = -(-segments[3].Pos)
 
         ply_r_upperarm_matrix:SetTranslation(segments[1].Pos)
@@ -1202,6 +1203,7 @@ function hg.DoTPIK(ply, ent)
             ply.segmentsl = segments
         end
 
+        if not segments[3] then return end
         local new = -(-segments[3].Pos)
 
         ply_l_upperarm_matrix:SetTranslation(segments[1].Pos)

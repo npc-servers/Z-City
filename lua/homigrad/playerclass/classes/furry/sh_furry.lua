@@ -16,10 +16,6 @@ function CLASS.Off(self)
 		hg.ClearArmorRestrictions(self)
 	end
 
-	if eightbit and eightbit.EnableEffect and self.UserID then
-		eightbit.EnableEffect(self:UserID(), 0)
-	end
-
 	self.JumpPowerMul = nil
 	self.SpeedGainClassMul = nil
 	self:SetNWInt("SpeedGainClassMul", nil)
@@ -83,10 +79,6 @@ local col1 = Color(121, 97, 217)
 
 function CLASS.On(self, data)
 	if SERVER then
-		if eightbit and eightbit.EnableEffect and self.UserID then
-            eightbit.EnableEffect(self:UserID(), eightbit.EFF_PROOT)
-		end
-
 		if self.organism then
 			self.oldbloodtype = self.organism.bloodtype
 			self.organism.bloodtype = "c-"

@@ -214,10 +214,6 @@ local rebels = {
 function CLASS.Off(self)
     if CLIENT then return end
 
-	if eightbit and eightbit.EnableEffect and self.UserID then
-		eightbit.EnableEffect(self:UserID(), 0)
-	end
-
     RemoveCombineFromSquad(self)
 
     for k,v in ipairs(ents.FindByClass("npc_*")) do
@@ -271,10 +267,6 @@ end
 
 function CLASS.On(self, data)
     if CLIENT then return end
-
-	if eightbit and eightbit.EnableEffect and self.UserID then
-		eightbit.EnableEffect(self:UserID(), eightbit.EFF_PROOT) --!! placeholder
-	end
 
     if IsValid(self.FakeRagdoll) then
         hg.FakeUp(self, nil, nil, true)

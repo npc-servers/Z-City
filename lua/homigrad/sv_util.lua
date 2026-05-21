@@ -1072,24 +1072,6 @@ hook.Add( "Move", "hg_RagdollIntoWalls", function( ply, mv)
 	end
 end)
 
-if util.IsBinaryModuleInstalled("eightbit") then
-	require("eightbit")
-
-	if eightbit.SetDamp1 then
-		eightbit.SetDamp1(0.85)
-	end
-
-	if eightbit.SetProotCutoff then
-		eightbit.SetProotCutoff(0.7)
-	end
-
-	if eightbit.SetProotGain then
-		eightbit.SetProotGain(0.7)
-	end
-else
-	MsgC(Color(255, 0, 0), "Eightbit module is not found! You are furry!\n")
-end
-
 hook.Add("InitPostEntity", "ffuckk", function()
 	local perf = physenv.GetPerformanceSettings()
 	perf.MaxVelocity = 100000 -- default 2000
@@ -1846,15 +1828,6 @@ hook.Add("Player Think", "homigrad-viewoffset", function(ply)
 		ply.bull = nil
 	end
 end)
-
-if !istable(gmnetwork) and util.IsBinaryModuleInstalled("network") then
-	local success, err = pcall(require, "network")
-
-	if !success then
-		print("\n STUPID FURRY gmnetwork ERROR: "..err.."\n")
-	end
-end
-
 
 hook.Add("SetupMove", "AntiCrouchSpam", function(ply, mvd, cmd) -- на самом деле довольно безполезная херня просто нельзя спамить присядом лол
 	if !ply:Alive() or !hg.GetCurrentCharacter( ply ):IsPlayer() then return end
