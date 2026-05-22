@@ -320,7 +320,7 @@ function PANEL:PostInit()
     --print(tMdl.mdl)
     local viewer = vgui.Create( "DModelPanel", self )
     viewer:SetSize(sizeX / 2.6,sizeY)
-    viewer:SetModel( util.IsValidModel( tostring(tMdl.mdl) ) and tostring(tMdl.mdl) or "models/player/group01/female_01.mdl" )
+    viewer:SetModel( tMdl and util.IsValidModel( tostring(tMdl.mdl) ) and tostring(tMdl.mdl) or "models/player/group01/female_01.mdl" )
     viewer:SetFOV( 75 )
     viewer:SetLookAng( Angle( 11, 180, 0 ) )
     viewer:SetCamPos( Vector( 100, 0, 55 ) )
@@ -365,6 +365,7 @@ function PANEL:PostInit()
         Entity.Angles = LerpAngle(FrameTime() * 5,Entity.Angles,Angle(lookY * 2,(self.Rotate and -179 or 0) -lookX * 75,0))
         local tbl = main.AppearanceTable
         tMdl = APmodule.PlayerModels[1][tbl.AModel] or APmodule.PlayerModels[2][tbl.AModel]
+        if not tMdl then return end
 
         Entity:SetNWVector("PlayerColor",Vector(tbl.AColor.r / 255, tbl.AColor.g / 255, tbl.AColor.b / 255))
         Entity:SetAngles(Entity.Angles)
