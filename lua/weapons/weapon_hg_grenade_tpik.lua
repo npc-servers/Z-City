@@ -352,7 +352,8 @@ if CLIENT then
 	function SWEP:DrawHUD()
 		if GetViewEntity() ~= lply then return end
 		if lply:InVehicle() then return end
-		if hg.GetCurrentCharacter(lply):IsRagdoll() then return end
+		local char = hg.GetCurrentCharacter(lply)
+		if not char or char:IsRagdoll() then return end
 
 		local tr = self:GetEyeTrace()
 		local toScreen = tr.HitPos:ToScreen()
