@@ -32,7 +32,7 @@ net.Receive("ZB_SpectatePlayer", function(len)
 	end)
 end)
 
-zb.ROUND_TIME = zb.ROUND_TIME or 400
+zb.ROUND_TIME = zb.ROUND_TIME or 300
 zb.ROUND_START = zb.ROUND_START or CurTime()
 zb.ROUND_BEGIN = zb.ROUND_BEGIN or CurTime() + 5
 
