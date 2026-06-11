@@ -131,7 +131,7 @@ function ApplyAppearance(Client,tAppearance,bRandom,bResponeIsValid,bUseCahsed)
         tAppearance = APmodule.GetRandomAppearance()
         tAppearance = Client.CachedAppearance or tAppearance
         --Client:ChatPrint(tAppearance.AModel)
-        if !APmodule.AppearanceValidater(tAppearance) then tAppearance = APmodule.GetRandomAppearance() end
+        if !APmodule.AppearanceValidater(tAppearance, Client) then tAppearance = APmodule.GetRandomAppearance() end
         net.Start("OnlyGet_Appearance")
         net.Send(Client)
         WearAppearance(Client,tAppearance)
@@ -149,7 +149,7 @@ function ApplyAppearance(Client,tAppearance,bRandom,bResponeIsValid,bUseCahsed)
     return end
 
     if !tAppearance then ApplyAppearance(Client,nil,true) return end
-    if !APmodule.AppearanceValidater(tAppearance) then ApplyAppearance(Client,nil,true) return end
+    if !APmodule.AppearanceValidater(tAppearance, Client) then ApplyAppearance(Client,nil,true) return end
 
     WearAppearance(Client,tAppearance)
 end
@@ -157,7 +157,7 @@ end
 net.Receive("Get_Appearance",function(len,client)
     local tAppearance = net.ReadTable()
     local bRandom = net.ReadBool()
-    if !APmodule.AppearanceValidater(tAppearance) then bRandom = true end
+    if !APmodule.AppearanceValidater(tAppearance, client) then bRandom = true end
 
     ApplyAppearance(client,tAppearance, table.IsEmpty(tAppearance) and true or bRandom,true)
 end)

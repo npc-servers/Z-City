@@ -10,7 +10,7 @@ local allowed = {
 	'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z',
 	'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z',
 }
-local function IsInvalidName(name)
+local function IsInvalidName(name, ply)
 	local trimmedName = string.Trim(name)
 	if trimmedName == "" then return true end
 	if #trimmedName < 2 then return true end
@@ -20,7 +20,7 @@ local function IsInvalidName(name)
 		if not table.HasValue(allowed, utf8.GetChar(name, k)) then return true end
 	end
 
-	local ret = hook.Run("ZB_IsInvalidName", name)
+	local ret = hook.Run("ZB_IsInvalidName", name, ply)
 	if ret ~= nil then return ret end
 
 	return false
@@ -478,9 +478,9 @@ hg.Appearance.ValidateFunctions = {
 		--end
 		return true
 	end,
-	AName = function(str)
+	AName = function(str, ply)
 		if not isstring(str) then return false end
-		return not IsInvalidName(str)
+		return not IsInvalidName(str, ply)
 	end,
 	AColor = function(clr)
 		--if !IsColor(clr) then return false end
@@ -515,13 +515,13 @@ hg.Appearance.ValidateFunctions = {
 	AFacemap = function(str) if not isstring(str) then return false end end
 }
 
-local function AppearanceValidater(tblAppearance)
+local function AppearanceValidater(tblAppearance, ply)
 	local VaildFuncs = hg.Appearance.ValidateFunctions
-	local bValidAModel = VaildFuncs.AModel(tblAppearance.AModel)
-	local bValidAClothes = VaildFuncs.AClothes(tblAppearance.AClothes)
-	local bValidAName = VaildFuncs.AName(tblAppearance.AName)
-	local bValidAColor = VaildFuncs.AColor(tblAppearance.AColor)
-	local bValidAAttachments = VaildFuncs.AAttachments(tblAppearance.AAttachments)
+	local bValidAModel = VaildFuncs.AModel(tblAppearance.AModel, ply)
+	local bValidAClothes = VaildFuncs.AClothes(tblAppearance.AClothes, ply)
+	local bValidAName = VaildFuncs.AName(tblAppearance.AName, ply)
+	local bValidAColor = VaildFuncs.AColor(tblAppearance.AColor, ply)
+	local bValidAAttachments = VaildFuncs.AAttachments(tblAppearance.AAttachments, ply)
 	--print(bValidAModel,bValidAClothes,bValidAName,bValidAColor,bValidAAttachments)
 	if bValidAModel and bValidAClothes and bValidAName and bValidAColor and bValidAAttachments then return true end
 	return false

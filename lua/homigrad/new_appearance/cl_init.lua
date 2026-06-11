@@ -15,7 +15,7 @@ function hg.Appearance.LoadAppearanceFile(strFile_name)
 	if not file.Exists(dir .. strFile_name .. ".json", "DATA") then return false end
 	local tblAppearance = util.JSONToTable(file.Read(dir .. strFile_name .. ".json"))
 
-	if not hg.Appearance.AppearanceValidater(tblAppearance) then return false, "file is damaged [data/zcity/appearances/" .. strFile_name .. ".json]"  end
+	if not hg.Appearance.AppearanceValidater(tblAppearance, LocalPlayer()) then return false, "file is damaged [data/zcity/appearances/" .. strFile_name .. ".json]"  end
 
 	return tblAppearance
 end
