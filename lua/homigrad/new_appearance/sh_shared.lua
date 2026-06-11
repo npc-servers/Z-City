@@ -520,6 +520,10 @@ local function AppearanceValidater(tblAppearance, ply)
 	local bValidAModel = VaildFuncs.AModel(tblAppearance.AModel, ply)
 	local bValidAClothes = VaildFuncs.AClothes(tblAppearance.AClothes, ply)
 	local bValidAName = VaildFuncs.AName(tblAppearance.AName, ply)
+	if not bValidAName then
+		tblAppearance.AName = GenerateRandomName()
+	end
+
 	local bValidAColor = VaildFuncs.AColor(tblAppearance.AColor, ply)
 	local bValidAAttachments = VaildFuncs.AAttachments(tblAppearance.AAttachments, ply)
 	--print(bValidAModel,bValidAClothes,bValidAName,bValidAColor,bValidAAttachments)
