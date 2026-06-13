@@ -273,15 +273,19 @@ function hg.organism.CoughBlood(org)
 	if math.random(5) == 1 then
 		org.vomitInThroat = nil
 
+		local bon = "ValveBiped.Bip01_Head1"
+		local bone = ply:LookupBone(bon)
+		local mat = ply:GetBoneMatrix(bone)
+
 		net.Start("bloodsquirt2")
-		net.WriteEntity(ent)
+		net.WriteEntity(ply)
 		net.WriteString(bon)
 		net.WriteMatrix(mat)
 		net.WriteVector(mat:GetTranslation() + mat:GetAngles():Right() * 6 + mat:GetAngles():Forward() * 1)
 		net.WriteVector(mat:GetAngles():Right() * 2 * math.Clamp(org.pulse / 70, 0.4, 1))
 		net.Broadcast()
 
-		ent:EmitSound("vomit/vomit5.mp3")
+		ply:EmitSound("vomit/vomit5.mp3")
 	end
 end
 

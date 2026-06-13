@@ -259,46 +259,47 @@ function hg.Ragdoll_Create(ply)
 
 			if fixbones[ragdoll:GetBoneName(bone)] then
 				local weld = constraint.Weld(ragdoll, IsValid(veh:GetParent()) and veh:GetParent() or veh, physNum, 0, 10000, false, false)
+				if IsValid( weld ) then
+					ragdoll.welds = ragdoll.welds or {}
+					table.insert(ragdoll.welds, weld)
+					weld:CallOnRemove("removeOwO", function()
+						if ragdoll.removingwelds then return end
+						//hook.Run("CanExitVehicle", ply, veh)
+						if !hg.leaveveh then hg.fallfromveh = true end
+						hg.leaveveh = true
+						if IsValid(ply) then ply:ExitVehicle() end
 
-				ragdoll.welds = ragdoll.welds or {}
-				table.insert(ragdoll.welds, weld)
-				weld:CallOnRemove("removeOwO", function()
-					if ragdoll.removingwelds then return end
-					//hook.Run("CanExitVehicle", ply, veh)
-					if !hg.leaveveh then hg.fallfromveh = true end
-					hg.leaveveh = true
-					if IsValid(ply) then ply:ExitVehicle() end
+						table.RemoveByValue(veh.rags, ragdoll)
 
-					table.RemoveByValue(veh.rags, ragdoll)
-
-					timer.Simple(0.1, function()
-						if IsValid(ragdoll) then
-							for physNum = 0, ragdoll:GetPhysicsObjectCount() - 1 do
-								local phys = ragdoll:GetPhysicsObjectNum(physNum)
-								local bone = ragdoll:TranslatePhysBoneToBone(physNum)
-								phys:SetMass(IdealMassPlayer[ragdoll:GetBoneName(bone)] or 4)
+						timer.Simple(0.1, function()
+							if IsValid(ragdoll) then
+								for physNum = 0, ragdoll:GetPhysicsObjectCount() - 1 do
+									local phys = ragdoll:GetPhysicsObjectNum(physNum)
+									local bone = ragdoll:TranslatePhysBoneToBone(physNum)
+									phys:SetMass(IdealMassPlayer[ragdoll:GetBoneName(bone)] or 4)
+								end
 							end
+						end)
+
+						if ragdoll.welds then
+							for i, weld in pairs(ragdoll.welds) do
+								if IsValid(weld) then weld:Remove() end
+							end
+
+							ragdoll.welds = nil
+						end
+
+						if IsValid(ply.nocollide1) then
+							ply.nocollide1:Remove()
+							ply.nocollide1 = nil
+						end
+
+						if IsValid(ply.nocollide2) then
+							ply.nocollide2:Remove()
+							ply.nocollide2 = nil
 						end
 					end)
-
-					if ragdoll.welds then
-						for i, weld in pairs(ragdoll.welds) do
-							if IsValid(weld) then weld:Remove() end
-						end
-
-						ragdoll.welds = nil
-					end
-
-					if IsValid(ply.nocollide1) then
-						ply.nocollide1:Remove()
-						ply.nocollide1 = nil
-					end
-
-					if IsValid(ply.nocollide2) then
-						ply.nocollide2:Remove()
-						ply.nocollide2 = nil
-					end
-				end)
+				end
 			end
 
 		end

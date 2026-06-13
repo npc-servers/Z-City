@@ -14,6 +14,8 @@ function CLASS.On(self)
     if CLIENT then return end
     ApplyAppearance(self,nil,nil,nil,true)
     timer.Simple(.1,function()
+        if not IsValid(self) then return end
+
         local Appearance = self.CurAppearance or hg.Appearance.GetRandomAppearance()
 
         Appearance.AAttachments = {
