@@ -4,35 +4,35 @@ local PLUGIN = hg.PointShop
 PLUGIN.Items = PLUGIN.Items or {}
 -- Validate function for custom name
 local allowed = {
-	' ',
-	'а', 'б', 'в', 'г', 'д', 'е', 'ё', 'ж', 'з', 'и', 'й', 'к', 'л', 'м', 'н', 'о', 'п', 'р', 'с', 'т', 'у', 'ф', 'х', 'ц', 'ч', 'ш', 'щ', 'ъ', 'ы', 'ь', 'э', 'ю', 'я',
-	'А', 'Б', 'В', 'Г', 'Д', 'Е', 'Ё', 'Ж', 'З', 'И', 'Й', 'К', 'Л', 'М', 'Н', 'О', 'П', 'Р', 'С', 'Т', 'У', 'Ф', 'Х', 'Ц', 'Ч', 'Ш', 'Щ', 'Ъ', 'Ы', 'Ь', 'Э', 'Ю', 'Я',
-	'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z',
-	'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z',
+    ' ',
+    'а', 'б', 'в', 'г', 'д', 'е', 'ё', 'ж', 'з', 'и', 'й', 'к', 'л', 'м', 'н', 'о', 'п', 'р', 'с', 'т', 'у', 'ф', 'х', 'ц', 'ч', 'ш', 'щ', 'ъ', 'ы', 'ь', 'э', 'ю', 'я',
+    'А', 'Б', 'В', 'Г', 'Д', 'Е', 'Ё', 'Ж', 'З', 'И', 'Й', 'К', 'Л', 'М', 'Н', 'О', 'П', 'Р', 'С', 'Т', 'У', 'Ф', 'Х', 'Ц', 'Ч', 'Ш', 'Щ', 'Ъ', 'Ы', 'Ь', 'Э', 'Ю', 'Я',
+    'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z',
+    'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z',
 }
 local function IsInvalidName(name, ply)
-	local trimmedName = string.Trim(name)
-	if trimmedName == "" then return true end
-	if #trimmedName < 2 then return true end
-	if utf8.len(name) > 25 then return true end
-	local symblos = utf8.len(name)
-	for k = 1, symblos do
-		if not table.HasValue(allowed, utf8.GetChar(name, k)) then return true end
-	end
+    local trimmedName = string.Trim(name)
+    if trimmedName == "" then return true end
+    if #trimmedName < 2 then return true end
+    if utf8.len(name) > 25 then return true end
+    local symblos = utf8.len(name)
+    for k = 1, symblos do
+        if not table.HasValue(allowed, utf8.GetChar(name, k)) then return true end
+    end
 
-	local ret = hook.Run("ZB_IsInvalidName", name, ply)
-	if ret ~= nil then return ret end
+    local ret = hook.Run("ZB_IsInvalidName", name, ply)
+    if ret ~= nil then return ret end
 
-	return false
+    return false
 end
 
 hg.Appearance.IsInvalidName = IsInvalidName
 -- Random name generator
 -- in misc/sh_names.lua
 local function GenerateRandomName(iSex)
-	local sex = iSex or math.random(1, 2)
-	local randomName = hg.Appearance.RandomNames[sex][math.random(1, #hg.Appearance.RandomNames[sex])]
-	return randomName
+    local sex = iSex or math.random(1, 2)
+    local randomName = hg.Appearance.RandomNames[sex][math.random(1, #hg.Appearance.RandomNames[sex])]
+    return randomName
 end
 
 hg.Appearance.GenerateRandomName = GenerateRandomName
@@ -41,19 +41,19 @@ local access = {}
 --["STEAM_0:1:163575696"] = true -- distac our custom model creator
 local hg_appearance_access_for_all = ConVarExists("hg_appearance_access_for_all") and GetConVar("hg_appearance_access_for_all") or CreateConVar("hg_appearance_access_for_all", 1, {FCVAR_REPLICATED, FCVAR_NEVER_AS_STRING, FCVAR_ARCHIVE}, "Toggle free items in appearance for everyone", 0, 1)
 if SERVER then
-	cvars.AddChangeCallback("hg_appearance_access_for_all", function(convar_name, value_old, value_new) SetGlobalBool("hg_appearance_access_for_all", hg_appearance_access_for_all:GetBool()) end)
-	SetGlobalBool("hg_appearance_access_for_all", hg_appearance_access_for_all:GetBool())
+    cvars.AddChangeCallback("hg_appearance_access_for_all", function(convar_name, value_old, value_new) SetGlobalBool("hg_appearance_access_for_all", hg_appearance_access_for_all:GetBool()) end)
+    SetGlobalBool("hg_appearance_access_for_all", hg_appearance_access_for_all:GetBool())
 end
 
 local function GetAccessToAll(ply)
-	return GetGlobalBool("hg_appearance_access_for_all") or ply:IsSuperAdmin() or ply:IsAdmin() or access[ply:SteamID()]
+    return GetGlobalBool("hg_appearance_access_for_all") or ply:IsSuperAdmin() or ply:IsAdmin() or access[ply:SteamID()]
 end
 
 hg.Appearance.GetAccessToAll = GetAccessToAll
 -- Appearance models
 local PlayerModels = {
-	[1] = {},
-	[2] = {}
+    [1] = {},
+    [2] = {}
 }
 
 local function AppAddModel(strName, strMdl, bFemale, tSubmaterialSlots)
@@ -192,22 +192,22 @@ hg.Appearance.Clothes[1] = {
     golden_adidas   = "models/humans/male/group01/goldenadidas",
     wagner_group    = "models/humans/male/group01/wagner",
     russian_army    = "models/humans/male/group01/russianarmy",
-	Hello_Kitty     = "models/humans/male/group01/hello_kitty",
-	Office_Worker   = "models/humans/male/group01/OfficeWorker",
-	Security_Officer= "models/humans/male/group01/Security_Officer",
-	Zcity_Hoodie    = "models/humans/male/group01/zcityhoodie",
-	Flecktarn       = "models/humans/male/group01/flecktarn",
-	Hawaiian_Shirt  = "models/humans/male/group01/tommy",
-	Hawaiian_Shirt2 = "models/humans/male/group01/Hawaiian1",
-	Sadsalat        = "models/humans/male/group01/sadsalat",
-	Army_Shirt      = "models/humans/male/group01/armyshirt",
-	Lambda          = "models/humans/male/group01/lambda",
-	bean            = "models/humans/male/group01/bean",
-	y2k             = "models/humans/male/group01/y2k",
-	medic1          = "models/humans/male/group01/medic1",
-	antisocial          = "models/humans/male/group01/antisocial",
-	peacefulhooligan          = "models/humans/male/group01/peacefulhooligan",
-	polska          = "models/humans/male/group01/polska",
+    Hello_Kitty     = "models/humans/male/group01/hello_kitty",
+    Office_Worker   = "models/humans/male/group01/OfficeWorker",
+    Security_Officer= "models/humans/male/group01/Security_Officer",
+    Zcity_Hoodie    = "models/humans/male/group01/zcityhoodie",
+    Flecktarn       = "models/humans/male/group01/flecktarn",
+    Hawaiian_Shirt  = "models/humans/male/group01/tommy",
+    Hawaiian_Shirt2 = "models/humans/male/group01/Hawaiian1",
+    Sadsalat        = "models/humans/male/group01/sadsalat",
+    Army_Shirt      = "models/humans/male/group01/armyshirt",
+    Lambda          = "models/humans/male/group01/lambda",
+    bean            = "models/humans/male/group01/bean",
+    y2k             = "models/humans/male/group01/y2k",
+    medic1          = "models/humans/male/group01/medic1",
+    antisocial          = "models/humans/male/group01/antisocial",
+    peacefulhooligan          = "models/humans/male/group01/peacefulhooligan",
+    polska          = "models/humans/male/group01/polska",
 }
 hg.Appearance.Clothes[2] = {
     normal = "models/humans/female/group01/normal",
@@ -218,13 +218,13 @@ hg.Appearance.Clothes[2] = {
     cold = "models/humans/female/group01/cold",
     casual = "models/humans/female/group01/casual",
     sweater_xmas = "models/humans/female/group01/sweater",
-	adidas_tracksuit = "models/humans/female/group01/adidas",
-	Tshirt1 = "models/humans/female/group01/flowers",
-	Tshirt2 = "models/humans/female/group01/skullshirt",
-	Tshirt3 = "models/humans/female/group01/skeletal",
-	Tshirt4 = "models/humans/female/group01/redskull",
-	Hawaiian_Shirt1 = "models/humans/female/group01/Hawaiian1",
-	swiss   = "models/humans/female/group01/swiss",
+    adidas_tracksuit = "models/humans/female/group01/adidas",
+    Tshirt1 = "models/humans/female/group01/flowers",
+    Tshirt2 = "models/humans/female/group01/skullshirt",
+    Tshirt3 = "models/humans/female/group01/skeletal",
+    Tshirt4 = "models/humans/female/group01/redskull",
+    Hawaiian_Shirt1 = "models/humans/female/group01/Hawaiian1",
+    swiss   = "models/humans/female/group01/swiss",
 }
 
 hg.Appearance.ClothesDesc = {
@@ -409,12 +409,12 @@ local function AddBodygroupsFunc()
     AppAddBodygroup("TORSO", "Wide Top", "male_standart_top_wide.smd", false, false, false, 0, nil, 0)
     AppAddBodygroup("TORSO", "Wide More Top", "male_standart_top_wide_more.smd", false, false, false, 0, nil, 0)
     AppAddBodygroup("TORSO", "T-Shirt", "male_standart_tshirt.smd", false, false, false, 0, nil, 0)
-	AppAddBodygroup("TORSO", "Closed Collar", "male_standart_closed_collar.smd", false, false, false, 0, nil, 0)
+    AppAddBodygroup("TORSO", "Closed Collar", "male_standart_closed_collar.smd", false, false, false, 0, nil, 0)
     AppAddBodygroup("HANDS", "T-Shirt Hands", "handsfortshirt", false, false, false, 0, nil, 0)
     AppAddBodygroup("HANDS", "Robotic Hand", "robotichands", false, false, false, 0, nil, 0)
-	AppAddBodygroup("HANDS", "Medical Gloves", "medical_gloves", false, false, false, 0, nil, 0)
-	AppAddBodygroup("TORSO", "Odessa Jacket", "male_odessa_jacket.smd", false, false, false, 0, nil, 0)
-	AppAddBodygroup("TORSO", "Robotic Arm", "male_robotic_arm.smd", false, false, false, 0, nil, 0)
+    AppAddBodygroup("HANDS", "Medical Gloves", "medical_gloves", false, false, false, 0, nil, 0)
+    AppAddBodygroup("TORSO", "Odessa Jacket", "male_odessa_jacket.smd", false, false, false, 0, nil, 0)
+    AppAddBodygroup("TORSO", "Robotic Arm", "male_robotic_arm.smd", false, false, false, 0, nil, 0)
 
     AppAddBodygroup("LEGS", "Standard Bottom", "male_reference_bottom.smd", false, false, false, 0, nil, 0)
     AppAddBodygroup("LEGS", "Wide Bottom", "male_reference_wide_bottom.smd", false, false, false, 0, nil, 0)
@@ -436,170 +436,170 @@ hook.Add("ZPointshopLoaded", "AddBodygroups", AddBodygroupsFunc)
 
 -- SkeletonTable
 hg.Appearance.SkeletonAppearanceTable = {
-	AModel = "Male 07",
-	AClothes = {
-		main = "normal"
-	},
-	AName = "John Z-City", -- JOHN GMOD
-	AColor = Color(180, 0, 0),
-	AAttachments = {},
-	ABodygroups = {},
-	AFacemap = "Default"
+    AModel = "Male 07",
+    AClothes = {
+        main = "normal"
+    },
+    AName = "John Z-City", -- JOHN GMOD
+    AColor = Color(180, 0, 0),
+    AAttachments = {},
+    ABodygroups = {},
+    AFacemap = "Default"
 }
 
 -- GetRandomAppearance
 function hg.Appearance.GetRandomAppearance()
-	local randomAppearance = table.Copy(hg.Appearance.SkeletonAppearanceTable)
-	local iSex = math.random(1, 2)
-	local tMdl, str = table.Random(PlayerModels[iSex])
-	randomAppearance.AModel = str
-	_, str = table.Random(hg.Appearance.Clothes[iSex])
-	randomAppearance.AClothes = {
-		main = str,
-		pants = str,
-		boots = str
-	}
+    local randomAppearance = table.Copy(hg.Appearance.SkeletonAppearanceTable)
+    local iSex = math.random(1, 2)
+    local tMdl, str = table.Random(PlayerModels[iSex])
+    randomAppearance.AModel = str
+    _, str = table.Random(hg.Appearance.Clothes[iSex])
+    randomAppearance.AClothes = {
+        main = str,
+        pants = str,
+        boots = str
+    }
 
-	randomAppearance.AName = GenerateRandomName(iSex)
-	randomAppearance.AColor = ColorRand(false)
-	for i = 1, 1 do
-		local data, k = table.Random(hg.Accessories)
-		for ii, name in ipairs(randomAppearance.AAttachments) do
-			if hg.Accessories[name].placement == data.placement then k = "none" end
-		end
+    randomAppearance.AName = GenerateRandomName(iSex)
+    randomAppearance.AColor = ColorRand(false)
+    for i = 1, 1 do
+        local data, k = table.Random(hg.Accessories)
+        for ii, name in ipairs(randomAppearance.AAttachments) do
+            if hg.Accessories[name].placement == data.placement then k = "none" end
+        end
 
-		if data.disallowinappearance then k = "none" end
-		randomAppearance.AAttachments[i] = k
-	end
+        if data.disallowinappearance then k = "none" end
+        randomAppearance.AAttachments[i] = k
+    end
 
-	local _, facemap = table.Random(hg.Appearance.FacemapsSlots[hg.Appearance.FacemapsModels[tMdl.mdl]])
-	randomAppearance.AFacemap = facemap
-	return randomAppearance
+    local _, facemap = table.Random(hg.Appearance.FacemapsSlots[hg.Appearance.FacemapsModels[tMdl.mdl]])
+    randomAppearance.AFacemap = facemap
+    return randomAppearance
 end
 
 -- Validator
 hg.Appearance.ValidateFunctions = {
-	AModel = function(str)
-		if not isstring(str) then return false end
-		if not PlayerModels[1][str] and not PlayerModels[2][str] then return false end
-		return true
-	end,
-	AClothes = function(tbl)
-		if not istable(tbl) then return false end
-		if table.Count(tbl) > 3 then return false end
-		--for k, v in ipairs(tbl) do
-		--    if !hg.Appearance.Clothes[1][v] and !hg.Appearance.Clothes[2][v] then return false end
-		--end
-		return true
-	end,
-	AName = function(str, ply)
-		if not isstring(str) then return false end
-		return not IsInvalidName(str, ply)
-	end,
-	AColor = function(clr)
-		--if !IsColor(clr) then return false end
-		return true
-	end,
-	AAttachments = function(tbl)
-		if not istable(tbl) then return false end
-		if table.Count(tbl) > 3 then return false, "Too many" end
-		local occupatedSlots = {}
-		--local removeReasons = ""
-		for k, v in ipairs(tbl) do
-			if not hg.Accessories[v] then
-				--removeReasons = removeReasons + v + " - invalid accsesory\n" or "\n"  tbl[k] = ""
-				continue
-			end
+    AModel = function(str)
+        if not isstring(str) then return false end
+        if not PlayerModels[1][str] and not PlayerModels[2][str] then return false end
+        return true
+    end,
+    AClothes = function(tbl)
+        if not istable(tbl) then return false end
+        if table.Count(tbl) > 3 then return false end
+        --for k, v in ipairs(tbl) do
+        --    if !hg.Appearance.Clothes[1][v] and !hg.Appearance.Clothes[2][v] then return false end
+        --end
+        return true
+    end,
+    AName = function(str, ply)
+        if not isstring(str) then return false end
+        return not IsInvalidName(str, ply)
+    end,
+    AColor = function(clr)
+        --if !IsColor(clr) then return false end
+        return true
+    end,
+    AAttachments = function(tbl)
+        if not istable(tbl) then return false end
+        if table.Count(tbl) > 3 then return false, "Too many" end
+        local occupatedSlots = {}
+        --local removeReasons = ""
+        for k, v in ipairs(tbl) do
+            if not hg.Accessories[v] then
+                --removeReasons = removeReasons + v + " - invalid accsesory\n" or "\n"  tbl[k] = ""
+                continue
+            end
 
-			if occupatedSlots[hg.Accessories[v].placement] then
-				tbl[k] = ""
-				--removeReasons = removeReasons + v + " - removed occupeated slot accsesory\n" or "\n"
-				continue
-			end
+            if occupatedSlots[hg.Accessories[v].placement] then
+                tbl[k] = ""
+                --removeReasons = removeReasons + v + " - removed occupeated slot accsesory\n" or "\n"
+                continue
+            end
 
-			if hg.Accessories[v].placement then occupatedSlots[hg.Accessories[v].placement] = true end
-		end
-		return true --, removeReasons
-	end,
-	ABodygroups = function(tbl)
-		if not istable(tbl) then return false end
-		if table.Count(tbl) > 3 then return false end
-		return true
-	end,
-	AFacemap = function(str) if not isstring(str) then return false end end
+            if hg.Accessories[v].placement then occupatedSlots[hg.Accessories[v].placement] = true end
+        end
+        return true --, removeReasons
+    end,
+    ABodygroups = function(tbl)
+        if not istable(tbl) then return false end
+        if table.Count(tbl) > 3 then return false end
+        return true
+    end,
+    AFacemap = function(str) if not isstring(str) then return false end end
 }
 
 local function AppearanceValidater(tblAppearance, ply)
-	local VaildFuncs = hg.Appearance.ValidateFunctions
-	local bValidAModel = VaildFuncs.AModel(tblAppearance.AModel, ply)
-	local bValidAClothes = VaildFuncs.AClothes(tblAppearance.AClothes, ply)
-	local bValidAName = VaildFuncs.AName(tblAppearance.AName, ply)
-	if not bValidAName then
-		tblAppearance.AName = GenerateRandomName()
-	end
+    local VaildFuncs = hg.Appearance.ValidateFunctions
+    local bValidAModel = VaildFuncs.AModel(tblAppearance.AModel, ply)
+    local bValidAClothes = VaildFuncs.AClothes(tblAppearance.AClothes, ply)
+    local bValidAName = VaildFuncs.AName(tblAppearance.AName, ply)
+    if not bValidAName then
+        tblAppearance.AName = GenerateRandomName()
+    end
 
-	local bValidAColor = VaildFuncs.AColor(tblAppearance.AColor, ply)
-	local bValidAAttachments = VaildFuncs.AAttachments(tblAppearance.AAttachments, ply)
-	--print(bValidAModel,bValidAClothes,bValidAName,bValidAColor,bValidAAttachments)
-	if bValidAModel and bValidAClothes and bValidAName and bValidAColor and bValidAAttachments then return true end
-	return false
+    local bValidAColor = VaildFuncs.AColor(tblAppearance.AColor, ply)
+    local bValidAAttachments = VaildFuncs.AAttachments(tblAppearance.AAttachments, ply)
+    --print(bValidAModel,bValidAClothes,bValidAName,bValidAColor,bValidAAttachments)
+    if bValidAModel and bValidAClothes and bValidAName and bValidAColor and bValidAAttachments then return true end
+    return false
 end
 
 hg.Appearance.AppearanceValidater = AppearanceValidater
 function ThatPlyIsFemale(ply)
-	ply.CahceModel = ply.CahceModel or ""
-	if ply.CahceModel == ply:GetModel() then return ply.bSex end
-	local tSubModels = ply:GetSubModels()
-	if not tSubModels then return false end
-	ply.CahceModel = ply:GetModel()
-	for i = 1, #tSubModels do
-		local name = tSubModels[i]["name"]
-		if name == "models/m_anm.mdl" then
-			ply.bSex = false
-			return false
-		end
+    ply.CahceModel = ply.CahceModel or ""
+    if ply.CahceModel == ply:GetModel() then return ply.bSex end
+    local tSubModels = ply:GetSubModels()
+    if not tSubModels then return false end
+    ply.CahceModel = ply:GetModel()
+    for i = 1, #tSubModels do
+        local name = tSubModels[i]["name"]
+        if name == "models/m_anm.mdl" then
+            ply.bSex = false
+            return false
+        end
 
-		if name == "models/f_anm.mdl" then
-			ply.bSex = true
-			return true
-		end
-	end
-	return false
+        if name == "models/f_anm.mdl" then
+            ply.bSex = true
+            return true
+        end
+    end
+    return false
 end
 
 local plymeta = FindMetaTable("Player")
 function plymeta:GetSubMaterialSlots()
-	local tMdl = hg.Appearance.FuckYouModels[1][self:GetModel()] or hg.Appearance.FuckYouModels[2][self:GetModel()]
-	local mats = self:GetMaterials()
-	local slots = {}
-	if istable(tMdl) then
-		for k, v in pairs(tMdl.submatSlots) do
-			local slot = 1
-			for i = 1, #mats do
-				if mats[i] == v then
-					slot = i - 1
-					break
-				end
-			end
+    local tMdl = hg.Appearance.FuckYouModels[1][self:GetModel()] or hg.Appearance.FuckYouModels[2][self:GetModel()]
+    local mats = self:GetMaterials()
+    local slots = {}
+    if istable(tMdl) then
+        for k, v in pairs(tMdl.submatSlots) do
+            local slot = 1
+            for i = 1, #mats do
+                if mats[i] == v then
+                    slot = i - 1
+                    break
+                end
+            end
 
-			slots[#slots + 1] = slot
-		end
-	end
-	return slots
+            slots[#slots + 1] = slot
+        end
+    end
+    return slots
 end
 
 local entmeta = FindMetaTable("Entity")
 
 function entmeta:GetSubMaterialIdByName(strName)
-	local mats = self:GetMaterials()
-	local id = false
-	for i = 1, #mats do
-		if mats[i] == strName then
-			id = i - 1
-			break
-		end
-	end
-	return id
+    local mats = self:GetMaterials()
+    local id = false
+    for i = 1, #mats do
+        if mats[i] == strName then
+            id = i - 1
+            break
+        end
+    end
+    return id
 end
 
 -- function plymeta:GetFacemapSlot()
