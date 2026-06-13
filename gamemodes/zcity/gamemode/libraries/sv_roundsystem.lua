@@ -47,9 +47,13 @@ function NextRound(round)
 end
 
 function zb:PreRound()
-	if ((((zb.Roundscount or 0) > 15) and !GetConVar("zb_dev"):GetBool()) or ( (player.GetCount() > 1) and zb.ROUND_STATE == 0 and zb.CheckRTVVotes() )) and !(zb.RoundsLeft and zb.CROUND == "cstrike") then
-		zb.StartRTV(20)
+	if ( ( zb.Roundscount or 0 ) > 10 ) then
 		zb.ROUND_STATE = 0
+
+		if not MapVote.state.isInProgress then
+			MapVote.Start()
+		end
+
 		return
 	end
 
