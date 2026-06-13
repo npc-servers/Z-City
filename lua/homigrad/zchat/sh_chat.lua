@@ -263,7 +263,6 @@ else
 		MsgC(unpack(textConsole))
 
 		hook.Run("PostPlayerSay", client, chatType, text)
-		return ""
 	end, HOOK_HIGH)
 
 	net.Receive("zChatTyping", function(len, ply)
