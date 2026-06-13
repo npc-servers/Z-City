@@ -864,21 +864,6 @@ function MODE:Intermission()
 	end
 end
 
---[[concommand.Add("hmcd_call_police", function(ply, cmd, args)
-    if IsValid(ply) and not ply:IsAdmin() then
-        ply:ChatPrint("loh.")
-        return
-    end
-
-    if not MODE or not MODE.saved then
-        print("fake")
-        return
-    end
-
-    MODE.saved.PoliceTime = CurTime() - 1
-    print("true")
-end)--]]
-
 function MODE:CheckAlivePlayers()
 	local AlivePlyTbl = {
 		[0] = {},
@@ -1520,7 +1505,8 @@ util.AddNetworkString("HMCD_UpdateTraitorAssistants")
 function MODE.SpawnPlayers(spawn_with_subroles)
     local gunner_found = false
 
-    for i, ply in RandomPairs(player.GetAll()) do
+	local allPlayers = player.GetAll()
+    for i, ply in RandomPairs(allPlayers) do
         if ply.isTraitor or ply.isGunner or ply:Team() == TEAM_SPECTATOR then continue end
         if math.random(100) > (ply.Karma or 100) then continue end
 
@@ -1530,7 +1516,7 @@ function MODE.SpawnPlayers(spawn_with_subroles)
     end
 
     if(not gunner_found)then
-        for i,ply in RandomPairs(player.GetAll()) do
+        for i,ply in RandomPairs(allPlayers) do
             if ply.isTraitor or ply.isGunner or ply:Team() == TEAM_SPECTATOR then continue end
 
             ply.isGunner = true
@@ -1558,7 +1544,7 @@ function MODE.SpawnPlayers(spawn_with_subroles)
                 professions_possible[#professions_possible + 1] = {profession_info.Chance, profession}
             end
 
-            for _, ply in RandomPairs(player.GetAll()) do
+            for _, ply in RandomPairs(allPlayers) do
                 if(ply:Team() != TEAM_SPECTATOR)then
                     if((math.random(100) <= (ply.Karma or 100)) and (math.random(1, 3) == 1 or (!ply.isTraitor and !ply.isGunner)))then
                         local profession_key, profession = hg.WeightedRandomSelect(professions_possible)
@@ -1575,7 +1561,7 @@ function MODE.SpawnPlayers(spawn_with_subroles)
 
 
             if(professions_count_to_satisfy > 0)then
-                for _, ply in RandomPairs(player.GetAll()) do
+                for _, ply in RandomPairs(allPlayers) do
                     if(ply:Team() != TEAM_SPECTATOR and !ply.Profession)then
                         local profession_key, profession = hg.WeightedRandomSelect(professions_possible)
                         professions_possible[profession_key][1] = professions_possible[profession_key][1] / 2
@@ -1592,8 +1578,7 @@ function MODE.SpawnPlayers(spawn_with_subroles)
     end
 
 
-    local all_players = player.GetAll()
-    for idx, current_ply in player.Iterator() do
+    for idx, current_ply in ipairs(allPlayers) do
         if(current_ply:Team() != TEAM_SPECTATOR)then
             current_ply.SubRole = nil
 
