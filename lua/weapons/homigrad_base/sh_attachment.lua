@@ -626,6 +626,7 @@ end-- ХD
 if CLIENT then
 	concommand.Add("ZB_AttachAdd", function(ply, cmd, args)
 		local att = args[1]
+		if not att then return end
 		net.Start("ZB_AttachAdd")
 		net.WriteString(att)
 		net.SendToServer()
@@ -633,6 +634,7 @@ if CLIENT then
 
 	concommand.Add("ZB_AttachRemove", function(ply, cmd, args)
 		local att = args[1]
+		if not att then return end
 		net.Start("ZB_AttachRemove")
 		net.WriteString(att)
 		net.SendToServer()
@@ -640,6 +642,7 @@ if CLIENT then
 
 	concommand.Add("ZB_AttachDrop", function(ply, cmd, args)
 		local att = args[1]
+		if not att then return end
 		net.Start("ZB_AttachDrop")
 		net.WriteString(att)
 		net.SendToServer()
