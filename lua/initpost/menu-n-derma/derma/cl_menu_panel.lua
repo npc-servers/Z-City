@@ -16,9 +16,9 @@ local Selects = {
         btn:SetMouseInputEnabled( true )
         btn:SizeToContents()
         btn:SetFont( "ZCity_Small" )
-        btn:SetTall( ScreenScale( 15 ) )
+        btn:SetTall( ScreenScaleH( 15 ) )
         btn:Dock(BOTTOM)
-        btn:DockMargin(ScreenScale(20),ScreenScale(10),0,0)
+        btn:DockMargin(ScreenScaleH(20),ScreenScaleH(10),0,0)
         btn:SetTextColor(Color(255,255,255))
         btn:InvalidateParent()
         btn.RColor = Color(225, 225, 225, 0)
@@ -44,9 +44,9 @@ local Selects = {
         btn:SetMouseInputEnabled( true )
         btn:SizeToContents()
         btn:SetFont( "ZCity_Small" )
-        btn:SetTall( ScreenScale( 15 ) )
+        btn:SetTall( ScreenScaleH( 15 ) )
         btn:Dock(BOTTOM)
-        btn:DockMargin(0,ScreenScale(2),0,0)
+        btn:DockMargin(0,ScreenScaleH(2),0,0)
         btn:SetTextColor(Color(255,255,255))
         btn:InvalidateParent()
         btn.RColor = Color(225, 225, 225, 0)
@@ -101,7 +101,7 @@ local splasheh = {
 --print(string.upper('I wish you good health, Jason Statham'))
 surface.CreateFont("ZC_MM_Title", {
     font = "Bahnschrift",
-    size = ScreenScale(40),
+    size = ScreenScaleH(40),
     weight = 800,
     antialias = true
 })
@@ -115,8 +115,8 @@ function PANEL:InitializeMarkup()
 	if prefix then
 		mapname = string.sub(mapname, prefix + 1)
 	end
-	local gm = splasheh[math.random(#splasheh)] .. " | " .. string.NiceName(mapname)
-    local text = "<font=ZC_MM_Title><colour=255,210,100,255>V</colour>City</font>\n<font=ZCity_Tiny><colour=105,105,105>" .. gm .. "</colour></font>"
+	local gm = string.NiceName(mapname)
+    local text = "<font=ZC_MM_Title><colour=255,210,100,255>V</colour>City</font><font=ZCity_Tiny><colour=105,105,105> on: " .. gm .. "</colour></font>"
     return markup.Parse(text)
 end
 
@@ -147,15 +147,15 @@ function PANEL:Init()
     local lDock = self.lDock
     lDock:Dock(LEFT)
     lDock:SetSize(ScrW() / 4, ScrH())
-    lDock:DockMargin(ScreenScale(0), ScreenScaleH(90), ScreenScale(10), ScreenScaleH(90))
+    lDock:DockMargin(ScreenScaleH(10), ScreenScaleH(90), ScreenScaleH(10), ScreenScaleH(90))
     lDock.Paint = function(this, w, h)
         if hg.PluvTown.Active then
             surface.SetDrawColor(color_white)
             surface.SetMaterial(self.SelectedPluv or Pluv)
-            surface.DrawTexturedRect(0, ScreenScale(27), ScreenScale(35), ScreenScale(27))
+            surface.DrawTexturedRect(0, ScreenScaleH(27), ScreenScaleH(35), ScreenScaleH(27))
         end
 
-        self.Title:Draw(ScreenScale(15), ScreenScale(50), TEXT_ALIGN_LEFT, TEXT_ALIGN_CENTER, 255, TEXT_ALIGN_LEFT)
+        self.Title:Draw(ScreenScaleH(15), ScreenScaleH(50), TEXT_ALIGN_LEFT, TEXT_ALIGN_CENTER, 255, TEXT_ALIGN_LEFT)
     end
 
     self.Buttons = {}
@@ -165,8 +165,8 @@ function PANEL:Init()
     end
 
     local bottomDock = vgui.Create("DPanel", self)
-    bottomDock:SetPos(ScreenScale(1), ScrH() - ScrH()/10)
-    bottomDock:SetSize(ScreenScale(190), ScreenScaleH(40))
+    bottomDock:SetPos(ScreenScaleH(1), ScrH() - ScrH()/10)
+    bottomDock:SetSize(ScreenScaleH(190), ScreenScaleH(40))
     bottomDock.Paint = function(this, w, h) end
     self.panelparrent = vgui.Create("DPanel", self)
     self.panelparrent:SetPos(bottomDock:GetWide()+bottomDock:GetX(), 0)
@@ -202,9 +202,9 @@ function PANEL:AddSelect( pParent, strTitle, tbl )
     btn:SetMouseInputEnabled( true )
     btn:SizeToContents()
     btn:SetFont( "ZCity_Small" )
-    btn:SetTall( ScreenScale( 15 ) )
+    btn:SetTall( ScreenScaleH( 15 ) )
     btn:Dock(BOTTOM)
-    btn:DockMargin(ScreenScale(15),ScreenScale(1.5),0,0)
+    btn:DockMargin(ScreenScaleH(15),ScreenScaleH(1.5),0,0)
     btn.Func = tbl.Func
     btn.HoveredFunc = tbl.HoveredFunc
     local luaMenu = self
