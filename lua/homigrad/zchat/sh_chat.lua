@@ -264,7 +264,7 @@ else
 
 		hook.Run("PostPlayerSay", client, chatType, text)
 		return ""
-	end)
+	end, HOOK_HIGH)
 
 	net.Receive("zChatTyping", function(len, ply)
 		ply:SetNetVar("bIsTyping", net.ReadBool())
