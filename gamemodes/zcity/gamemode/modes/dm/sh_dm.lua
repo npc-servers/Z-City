@@ -1,6 +1,7 @@
 
 local MODE = MODE
 
+MODE.PrintName = "Deathmatch"
 MODE.MapSize = 7500
 MODE.ZoneTimeToShrink = 120
 
