@@ -289,7 +289,13 @@ hook.Add("Player Think", "karmagain", function(ply)
     if (ply.KarmaGainThink or 0) > CurTime() then return end
     ply.KarmaGainThink = CurTime() + 120
 
-    ply.Karma = math.Clamp(ply.Karma + (ply.Karma > 100 and 0.1 or (ply.KarmaGain or 0.75)), 0, zb.MaxKarma)// * (1 + ply:HasPurchase("zpremium")), 0, zb.MaxKarma)
+    local gain = ply.Karma > 100 and 0.1 or (ply.KarmaGain or 0.75)
+    local mul = hook.Run("ZCity_KarmaMultiplier", ply)
+    if isnumber(mul) then
+        gain = gain * mul
+    end
+
+    ply.Karma = math.Clamp(ply.Karma + gain, 0, zb.MaxKarma)
 
     ply:SetNetVar("Karma", ply.Karma)
     //ply:guilt_SetValue( ply.Karma or 100 )
