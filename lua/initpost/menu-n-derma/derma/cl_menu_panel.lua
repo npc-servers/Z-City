@@ -2,12 +2,18 @@ local PANEL = {}
 local curent_panel
 local red_select = Color(255, 210, 100, 255)
 
-DISCORD_URL = "https://discord.gg/hbwZJpCNHZ"
+local DISCORD_URL = "https://discord.gg/hbwZJpCNHZ"
+local STORE_URL = "https://store.zmod.gg/"
 
 local Selects = {
-    {Title = "Disconnect", Func = function(luaMenu) RunConsoleCommand("disconnect") end},
-    {Title = "Main Menu", Func = function(luaMenu) gui.ActivateGameUI() luaMenu:Close() end},
-    {Title = "Discord", Func = function(luaMenu) luaMenu:Close() gui.OpenURL(DISCORD_URL)  end},
+    {Title = "Return", Func = function(luaMenu) luaMenu:Close() end},
+    {Title = "Appearance", Func = function(luaMenu,pp) hg.CreateApperanceMenu(pp) end},
+    {Title = "Settings", Func = function(luaMenu,pp)
+        hg.DrawSettings(pp)
+    end},
+    {Title = "Achievements", Func = function(luaMenu,pp)
+        hg.DrawAchievmentsMenu(pp)
+    end},
     {Title = "Traitor Role",
     GamemodeOnly = true,
     CreatedFunc = function(self, parent, luaMenu)
@@ -70,14 +76,10 @@ local Selects = {
 
     end,
     },
-    {Title = "Achievements", Func = function(luaMenu,pp)
-        hg.DrawAchievmentsMenu(pp)
-    end},
-    {Title = "Settings", Func = function(luaMenu,pp)
-        hg.DrawSettings(pp)
-    end},
-    {Title = "Appearance", Func = function(luaMenu,pp) hg.CreateApperanceMenu(pp) end},
-    {Title = "Return", Func = function(luaMenu) luaMenu:Close() end},
+    {Title = "Store", Func = function(luaMenu) luaMenu:Close() gui.OpenURL(STORE_URL)  end},
+    {Title = "Discord", Func = function(luaMenu) luaMenu:Close() gui.OpenURL(DISCORD_URL)  end},
+    {Title = "Main Menu", Func = function(luaMenu) gui.ActivateGameUI() luaMenu:Close() end},
+    {Title = "Disconnect", Func = function(luaMenu) RunConsoleCommand("disconnect") end},
 }
 
 local splasheh = {
@@ -120,8 +122,6 @@ function PANEL:InitializeMarkup()
     return markup.Parse(text)
 end
 
-local color_red = Color(255,25,25,45)
-local clr_gray = Color(255,255,255,25)
 local clr_verygray = Color(10,10,19,235)
 
 function PANEL:Init()
@@ -147,15 +147,23 @@ function PANEL:Init()
     local lDock = self.lDock
     lDock:Dock(LEFT)
     lDock:SetSize(ScrW() / 4, ScrH())
-    lDock:DockMargin(ScreenScaleH(10), ScreenScaleH(90), ScreenScaleH(10), ScreenScaleH(90))
-    lDock.Paint = function(this, w, h)
+    lDock:DockMargin(ScreenScaleH(10), ScreenScaleH(50), ScreenScaleH(10), ScreenScaleH(50))
+    lDock.Paint = function(this, w, h) end
+
+    local vcityLogo = vgui.Create("DPanel", lDock)
+    vcityLogo:Dock(TOP)
+    vcityLogo:SetTall(ScreenScaleH(50))
+    vcityLogo:DockMargin(ScreenScaleH(15),ScreenScaleH(10),0,0)
+    vcityLogo.Paint = function(this, w, h)
         if hg.PluvTown.Active then
             surface.SetDrawColor(color_white)
             surface.SetMaterial(self.SelectedPluv or Pluv)
-            surface.DrawTexturedRect(0, ScreenScaleH(27), ScreenScaleH(35), ScreenScaleH(27))
+            surface.DrawTexturedRect(0, 0, w, h)
         end
 
-        self.Title:Draw(ScreenScaleH(15), ScreenScaleH(50), TEXT_ALIGN_LEFT, TEXT_ALIGN_CENTER, 255, TEXT_ALIGN_LEFT)
+        local logoX = vcityLogo:GetX()
+        local logoY = vcityLogo:GetY()
+        self.Title:Draw(logoX - ScreenScaleH(15), logoY, TEXT_ALIGN_LEFT, TEXT_ALIGN_TOP, 255, TEXT_ALIGN_LEFT)
     end
 
     self.Buttons = {}
@@ -203,7 +211,7 @@ function PANEL:AddSelect( pParent, strTitle, tbl )
     btn:SizeToContents()
     btn:SetFont( "ZCity_Small" )
     btn:SetTall( ScreenScaleH( 15 ) )
-    btn:Dock(BOTTOM)
+    btn:Dock(TOP)
     btn:DockMargin(ScreenScaleH(15),ScreenScaleH(1.5),0,0)
     btn.Func = tbl.Func
     btn.HoveredFunc = tbl.HoveredFunc
