@@ -326,21 +326,21 @@ end
 
 surface.CreateFont("ZB_InterfaceSmall", {
     font = font(),
-    size = ScreenScale(6),
+    size = ScreenScaleH(6),
     weight = 400,
     antialias = true
 })
 
 surface.CreateFont("ZB_InterfaceMedium", {
     font = font(),
-    size = ScreenScale(10),
+    size = ScreenScaleH(10),
     weight = 400,
     antialias = true
 })
 
 surface.CreateFont("ZB_ScrappersMedium", {
     font = font(),
-    size = ScreenScale(10),
+    size = ScreenScaleH(10),
     weight = 400,
     antialias = true
 })
@@ -354,7 +354,7 @@ surface.CreateFont("ZB_InterfaceMediumLarge", {
 
 surface.CreateFont("ZB_InterfaceLarge", {
     font = font(),
-    size = ScreenScale(20),
+    size = ScreenScaleH(20),
     weight = 400,
     antialias = true
 })
@@ -516,7 +516,7 @@ function GM:ScoreboardShow()
 	scoreBoardMenu:ShowCloseButton( false )
 
 	local muteallbut = vgui.Create("DButton", scoreBoardMenu)
-	local w, h = ScreenScale(30),ScreenScale(6)
+	local w, h = ScreenScaleH(30),ScreenScaleH(6)
 	muteallbut:SetPos(scoreBoardMenu:GetWide()-w*2.3,scoreBoardMenu:GetTall() - h * 1.5)
 	muteallbut:SetSize(w, h)
 	muteallbut:SetText("Mute all")
@@ -549,7 +549,7 @@ function GM:ScoreboardShow()
 	end
 
 	local mutespectbut = vgui.Create("DButton", scoreBoardMenu)
-	local w, h = ScreenScale(30),ScreenScale(6)
+	local w, h = ScreenScaleH(30),ScreenScaleH(6)
 	mutespectbut:SetPos(scoreBoardMenu:GetWide()-w*1.2,scoreBoardMenu:GetTall() - h * 1.5)
 	mutespectbut:SetSize(w, h)
 	mutespectbut:SetText("Mute spectators")
@@ -599,18 +599,18 @@ function GM:ScoreboardShow()
 		surface.SetFont( "ZB_InterfaceMediumLarge" )
 		surface.SetTextColor(col.r,col.g,col.b,col.a)
 		local lengthX, lengthY = surface.GetTextSize("Players:")
-		surface.SetTextPos(w / 4 - lengthX/2,ScreenScale(25))
+		surface.SetTextPos(w / 4 - lengthX/2,ScreenScaleH(25))
 		surface.DrawText("Players:")
 
 		surface.SetFont( "ZB_InterfaceMediumLarge" )
 		surface.SetTextColor(col.r,col.g,col.b,col.a)
 		local lengthX, lengthY = surface.GetTextSize("Spectators:")
-		surface.SetTextPos(w * 0.75 - lengthX/2,ScreenScale(25))
+		surface.SetTextPos(w * 0.75 - lengthX/2,ScreenScaleH(25))
 		surface.DrawText("Spectators:")
 		tick = math.Round(1 / engine.ServerFrameTime())
 		local txt = "SV Tick: " .. tick
 		local lengthX, lengthY = surface.GetTextSize(txt)
-		surface.SetTextPos(w * 0.5 - lengthX/2,ScreenScale(25))
+		surface.SetTextPos(w * 0.5 - lengthX/2,ScreenScaleH(25))
 		surface.DrawText(txt)
 	end
 	-- TEAMSELECTION

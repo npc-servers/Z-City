@@ -1,6 +1,6 @@
 surface.CreateFont("ZB_ScrappersSmall", {
     font = "Bahnschrift",
-    size = ScreenScale(4),
+    size = ScreenScaleH(4),
     extended = true,
     weight = 400,
     antialias = true
@@ -8,7 +8,7 @@ surface.CreateFont("ZB_ScrappersSmall", {
 
 surface.CreateFont("ZB_ScrappersMedium", {
     font = "Bahnschrift",
-    size = ScreenScale(10),
+    size = ScreenScaleH(10),
     extended = true,
     weight = 400,
     antialias = true
@@ -16,7 +16,7 @@ surface.CreateFont("ZB_ScrappersMedium", {
 
 surface.CreateFont("ZB_ScrappersMediumLarge", {
     font = "Bahnschrift",
-    size = ScreenScale(20),
+    size = ScreenScaleH(20),
     extended = true,
     weight = 400,
     antialias = true
@@ -24,7 +24,7 @@ surface.CreateFont("ZB_ScrappersMediumLarge", {
 
 surface.CreateFont("ZB_ScrappersLarge", {
     font = "Bahnschrift",
-    size = ScreenScale(30),
+    size = ScreenScaleH(30),
     extended = true,
     weight = 400,
     antialias = true
