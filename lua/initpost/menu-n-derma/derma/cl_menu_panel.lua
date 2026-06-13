@@ -116,16 +116,7 @@ function PANEL:InitializeMarkup()
 		mapname = string.sub(mapname, prefix + 1)
 	end
 	local gm = splasheh[math.random(#splasheh)] .. " | " .. string.NiceName(mapname)
-
-    if hg.PluvTown.Active then
-        local text = "<font=ZC_MM_Title><colour=199,2,2>    </colour>City</font>\n<font=ZCity_Tiny><colour=105,105,105>" .. gm .. "</colour></font>"
-
-        self.SelectedPluv = table.Random(hg.PluvTown.PluvMats)
-
-        return markup.Parse(text)
-    end
-
-    local text = "<font=ZC_MM_Title><colour=199,2,2,255>Z</colour>-City</font>\n<font=ZCity_Tiny><colour=105,105,105>" .. gm .. "</colour></font>"
+    local text = "<font=ZC_MM_Title><colour=255,210,100,255>V</colour>City</font>\n<font=ZCity_Tiny><colour=105,105,105>" .. gm .. "</colour></font>"
     return markup.Parse(text)
 end
 
@@ -173,47 +164,46 @@ function PANEL:Init()
         self:AddSelect(lDock, v.Title, v)
     end
 
+    -- local bottomDock = vgui.Create("DPanel", self)
+    -- bottomDock:SetPos(ScreenScale(1), ScrH() - ScrH()/10)
+    -- bottomDock:SetSize(ScreenScale(190), ScreenScaleH(40))
+    -- bottomDock.Paint = function(this, w, h) end
+    -- self.panelparrent = vgui.Create("DPanel", self)
+    -- self.panelparrent:SetPos(bottomDock:GetWide()+bottomDock:GetX(), 0)
+    -- self.panelparrent:SetSize(ScrW() - bottomDock:GetWide()*1, ScrH())
+    -- self.panelparrent.Paint = function(this, w, h) end
 
-    local bottomDock = vgui.Create("DPanel", self)
-    bottomDock:SetPos(ScreenScale(1), ScrH() - ScrH()/10)
-    bottomDock:SetSize(ScreenScale(190), ScreenScaleH(40))
-    bottomDock.Paint = function(this, w, h) end
-    self.panelparrent = vgui.Create("DPanel", self)
-    self.panelparrent:SetPos(bottomDock:GetWide()+bottomDock:GetX(), 0)
-    self.panelparrent:SetSize(ScrW() - bottomDock:GetWide()*1, ScrH())
-    self.panelparrent.Paint = function(this, w, h) end
+    -- local git = vgui.Create("DLabel", bottomDock)
+    -- git:Dock(BOTTOM)
+    -- git:DockMargin(ScreenScale(10), 0, 0, 0)
+    -- git:SetFont("ZCity_Tiny")
+    -- git:SetTextColor(clr_gray)
+    -- git:SetText("GitHub: github.com/" .. hg.GitHub_ReposOwner .. "/" .. hg.GitHub_ReposName)
+    -- git:SetContentAlignment(4)
+    -- git:SetMouseInputEnabled(true)
+    -- git:SizeToContents()
 
-    local git = vgui.Create("DLabel", bottomDock)
-    git:Dock(BOTTOM)
-    git:DockMargin(ScreenScale(10), 0, 0, 0)
-    git:SetFont("ZCity_Tiny")
-    git:SetTextColor(clr_gray)
-    git:SetText("GitHub: github.com/" .. hg.GitHub_ReposOwner .. "/" .. hg.GitHub_ReposName)
-    git:SetContentAlignment(4)
-    git:SetMouseInputEnabled(true)
-    git:SizeToContents()
+    -- function git:DoClick()
+    --     gui.OpenURL("https://github.com/" .. hg.GitHub_ReposOwner .. "/" .. hg.GitHub_ReposName)
+    -- end
 
-    function git:DoClick()
-        gui.OpenURL("https://github.com/" .. hg.GitHub_ReposOwner .. "/" .. hg.GitHub_ReposName)
-    end
+    -- local version = vgui.Create("DLabel", bottomDock)
+    -- version:Dock(BOTTOM)
+    -- version:DockMargin(ScreenScale(10), 0, 0, 0)
+    -- version:SetFont("ZCity_Tiny")
+    -- version:SetTextColor(clr_gray)
+    -- version:SetText(hg.Version)
+    -- version:SetContentAlignment(4)
+    -- version:SizeToContents()
 
-    local version = vgui.Create("DLabel", bottomDock)
-    version:Dock(BOTTOM)
-    version:DockMargin(ScreenScale(10), 0, 0, 0)
-    version:SetFont("ZCity_Tiny")
-    version:SetTextColor(clr_gray)
-    version:SetText(hg.Version)
-    version:SetContentAlignment(4)
-    version:SizeToContents()
-
-    local zteam = vgui.Create("DLabel", bottomDock)
-    zteam:Dock(BOTTOM)
-    zteam:DockMargin(ScreenScale(10), 0, 0, 0)
-    zteam:SetFont("ZCity_Tiny")
-    zteam:SetTextColor(clr_gray)
-    zteam:SetText("Authors: uzelezz, Sadsalat, \nMr.Point, Zac90, Deka, Mannytko")
-    zteam:SetContentAlignment(4)
-    zteam:SizeToContents()
+    -- local zteam = vgui.Create("DLabel", bottomDock)
+    -- zteam:Dock(BOTTOM)
+    -- zteam:DockMargin(ScreenScale(10), 0, 0, 0)
+    -- zteam:SetFont("ZCity_Tiny")
+    -- zteam:SetTextColor(clr_gray)
+    -- zteam:SetText("Authors: uzelezz, Sadsalat, \nMr.Point, Zac90, Deka, Mannytko")
+    -- zteam:SetContentAlignment(4)
+    -- zteam:SizeToContents()
 end
 
 function PANEL:First( ply )
