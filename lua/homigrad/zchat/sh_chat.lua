@@ -219,11 +219,17 @@ else
 			text = text:utf8sub(0, maxLen)
 		end
 
-		hook.Run("PlayerSay", ply, text)
-	end)
+		local canSay = hook.Run("ZCity_CanSay", ply, text)
+		if canSay == false then return end
 
-	hook.Add("PlayerSay", "ZChat", function(ply, text)
- 		local txtTbl = {text}
+		local returned = hook.Run("PlayerSay", ply, text)
+		if isstring(returned) then
+			text = returned
+		end
+
+		if text == "" then return end
+
+		local txtTbl = {text}
 		hook.Run("HG_PlayerSay", ply, txtTbl, text) // our shit gets called later
 		text = isstring(txtTbl[1]) and txtTbl[1] or text // checks to see if shit hits the ceiling
 
@@ -263,7 +269,7 @@ else
 		MsgC(unpack(textConsole))
 
 		hook.Run("PostPlayerSay", client, chatType, text)
-	end, HOOK_HIGH)
+	end)
 
 	net.Receive("zChatTyping", function(len, ply)
 		ply:SetNetVar("bIsTyping", net.ReadBool())
