@@ -1,5 +1,6 @@
 
 local MODE = MODE
+MODE.PrintName = "Superfighters"
 
 hook.Add( "StartCommand", "DisallowShoting", function( ply, mv )
 	if zb.CROUND == "superfighters" and (zb.ROUND_START or 0) + 5 > CurTime() then
