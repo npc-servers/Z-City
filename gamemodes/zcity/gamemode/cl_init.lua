@@ -711,15 +711,15 @@ function GM:ScoreboardShow()
 
 			surface.SetFont("ZB_InterfaceMediumLarge")
 			surface.SetTextColor(col.r, col.g, col.b, col.a)
-			local lengthX, lengthY = surface.GetTextSize(ply:Name() or "He quited...")
+			local lengthX, lengthY = surface.GetTextSize(ply:Name() or "He quit...")
 			surface.SetTextPos(15, h / 2 - lengthY / 2)
-			surface.DrawText(ply:Name() or "He quited...")
+			surface.DrawText(ply:Name() or "He quit...")
 
 			surface.SetFont("ZB_InterfaceMediumLarge")
 			surface.SetTextColor(col.r, col.g, col.b, col.a)
-			local lengthX, lengthY = surface.GetTextSize(ply:Ping() or "He quited...")
+			local lengthX, lengthY = surface.GetTextSize(ply:Ping() or "He quit...")
 			surface.SetTextPos(w - lengthX - 15, h / 2 - lengthY / 2)
-			surface.DrawText(ply:Ping() or "He quited...")
+			surface.DrawText(ply:Ping() or "He quit...")
 		end
 
 		function but:DoClick()
@@ -787,15 +787,15 @@ function GM:ScoreboardShow()
 
 			surface.SetFont( "ZB_InterfaceMediumLarge" )
 			surface.SetTextColor(col.r,col.g,col.b,col.a)
-			local lengthX, lengthY = surface.GetTextSize( ply:Name() or "He quited..." )
+			local lengthX, lengthY = surface.GetTextSize( ply:Name() or "He quit..." )
 			surface.SetTextPos(15,h/2 - lengthY/2)
-			surface.DrawText(ply:Name() or "He quited...")
+			surface.DrawText(ply:Name() or "He quit...")
 
 			surface.SetFont( "ZB_InterfaceMediumLarge" )
 			surface.SetTextColor(col.r,col.g,col.b,col.a)
-			local lengthX, lengthY = surface.GetTextSize( ply:Ping() or "He quited..." )
+			local lengthX, lengthY = surface.GetTextSize( ply:Ping() or "He quit..." )
 			surface.SetTextPos(w - lengthX -15,h/2 - lengthY/2)
-			surface.DrawText(ply:Ping() or "He quited...")
+			surface.DrawText(ply:Ping() or "He quit...")
 		end
 
 		function but:DoClick()
