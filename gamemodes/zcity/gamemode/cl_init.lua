@@ -585,7 +585,6 @@ function GM:ScoreboardShow()
 	end
 
 	local ServerName = GetHostName() or "ZCity | Developer Server | #01"
-	local tick
 	scoreBoardMenu.PaintOver = function(self,w,h)
 		surface.SetDrawColor( 255, 0, 0, 128)
         surface.DrawOutlinedRect( 0, 0, w, h, 2.5 )
@@ -714,6 +713,13 @@ function GM:ScoreboardShow()
 			surface.SetTextPos(15, h / 2 - lengthY / 2)
 			surface.DrawText(ply:Name() or "He quit...")
 
+			local playTime = math.floor( ply:GetTotalPlayTime() / 3600 ) .. "h " .. math.floor( (ply:GetTotalPlayTime() % 3600) / 60 ) .. "m"
+			surface.SetFont("ZB_InterfaceMediumLarge")
+			surface.SetTextColor(col.r, col.g, col.b, col.a)
+			local lengthX, lengthY = surface.GetTextSize(playTime)
+			surface.SetTextPos(w / 2 - lengthX / 2, h / 2 - lengthY / 2)
+			surface.DrawText(playTime)
+
 			surface.SetFont("ZB_InterfaceMediumLarge")
 			surface.SetTextColor(col.r, col.g, col.b, col.a)
 			local lengthX, lengthY = surface.GetTextSize(ply:Ping() or "He quit...")
@@ -722,12 +728,11 @@ function GM:ScoreboardShow()
 		end
 
 		function but:DoClick()
-			if ply:IsBot() then chat.AddText(Color(255,0,0), "no, you can't") return end
+			if ply:IsBot() then return end
 			gui.OpenURL("https://steamcommunity.com/profiles/"..ply:SteamID64())
 		end
 
 		function but:DoRightClick()
-			--if ply:IsBot() then chat.AddText(Color(255,0,0), "no, you can't") return end
 			local Menu = DermaMenu()
 			Menu:AddOption( "Account", function(self)
 				zb.Experience.AccountMenu( ply )
@@ -790,6 +795,13 @@ function GM:ScoreboardShow()
 			surface.SetTextPos(15,h/2 - lengthY/2)
 			surface.DrawText(ply:Name() or "He quit...")
 
+			local playTime = ply:GetTotalPlayTime()
+			surface.SetFont( "ZB_InterfaceMediumLarge" )
+			surface.SetTextColor(col.r,col.g,col.b,col.a)
+			local lengthX, lengthY = surface.GetTextSize( playTime )
+			surface.SetTextPos(w/2 - lengthX/2,h/2 - lengthY/2)
+			surface.DrawText(playTime)
+
 			surface.SetFont( "ZB_InterfaceMediumLarge" )
 			surface.SetTextColor(col.r,col.g,col.b,col.a)
 			local lengthX, lengthY = surface.GetTextSize( ply:Ping() or "He quit..." )
@@ -798,12 +810,11 @@ function GM:ScoreboardShow()
 		end
 
 		function but:DoClick()
-			if ply:IsBot() then chat.AddText("That bot.") return end
+			if ply:IsBot() then return end
 			gui.OpenURL("https://steamcommunity.com/profiles/"..ply:SteamID64())
 		end
 
 		function but:DoRightClick()
-			--if ply:IsBot() then chat.AddText(Color(255,0,0), "no, you can't") return end
 			local Menu = DermaMenu()
 			Menu:AddOption( "Account", function(self)
 				zb.Experience.AccountMenu( ply )
@@ -811,12 +822,6 @@ function GM:ScoreboardShow()
 			Menu:AddOption( "Copy SteamID", function(self)
 				SetClipboardText(ply:SteamID())
 			end)
-			--Menu:AddOption( "Medal", function(self)
-			--	zb.Experience.OpenMenu(ply)
-			--	timer.Simple( .1, function()
-			--		zb.Experience.Menu(ply)
-			--	end)
-			--end)
 
 			Menu:Open()
 		end
