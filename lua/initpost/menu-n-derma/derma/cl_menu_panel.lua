@@ -7,6 +7,7 @@ local STORE_URL = "https://store.zmod.gg/"
 
 local Selects = {
     {Title = "Return", Func = function(luaMenu) luaMenu:Close() end},
+    {Title = "Rules", Func = function(luaMenu,pp) gui.OpenURL("https://zmod.gg/legal/guidelines") end},
     {Title = "Appearance", Func = function(luaMenu,pp) hg.CreateApperanceMenu(pp) end},
     {Title = "Settings", Func = function(luaMenu,pp)
         hg.DrawSettings(pp)
