@@ -56,15 +56,3 @@ concommand.Add("drop", drop)
 concommand.Add("dropweapon", drop)
 concommand.Add("-drop", drop)
 concommand.Add("-dropweapon", drop)
-local whitelist = {
-	["*drop"] = true,
-	["/drop"] = true,
-	["!drop"] = true
-}
-
-hook.Add("HG_PlayerSay", "homigrad-drop-weapons", function(ply, txtTbl, text)
-	if whitelist[text] then
-		drop(ply)
-		txtTbl[1] = ""
-	end
-end)
