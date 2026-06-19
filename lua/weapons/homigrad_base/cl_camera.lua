@@ -51,6 +51,8 @@ hook.Add("HG.InputMouseApply", "huyUwU", function(tbl)
 end)
 
 function SWEP:GetZoomPos(recoilZoomPos, view, eyePos)
+	if not IsValid( self:GetOwner() ) then return end
+
 	recoilZoomPos = recoilZoomPos or vecZero
 	gun = IsValid(gun) and gun or self:GetWeaponEntity()
 	local pos, ang = gun:GetPos(), gun:GetAngles()
