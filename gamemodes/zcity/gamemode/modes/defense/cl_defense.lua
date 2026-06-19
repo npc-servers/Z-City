@@ -204,6 +204,8 @@ CreateEndMenu = function()
 		but:DockMargin( 8, 6, 8, -1 )
 		but:SetText("")
 		but.Paint = function(self,w,h)
+            if not IsValid(ply) then return end
+
             local col1 = (ply:Alive() and colRed) or colGray
             local col2 = (ply:Alive() and colRedUp) or colSpect1
 			surface.SetDrawColor(col1.r,col1.g,col1.b,col1.a)

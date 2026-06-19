@@ -857,6 +857,8 @@ if CLIENT then
 			local clipsize = self:GetMaxClip1() + (self.OpenBolt and 0 or 1)
 			local clip = self:Clip1()
 			local owner = self:GetOwner()
+			if not IsValid(owner) then return end
+
 			local shoot = CurTime() - self:LastShootTime()
 			local ammo = owner:GetAmmoCount(self:GetPrimaryAmmoType())
 			local magCount = self.AnimInsert and ammo or math.ceil(ammo / clipsize)

@@ -903,6 +903,7 @@ function PANEL:PostInit()
         menu:AddPanel(colorSelector)
         menu:Open()
         function menu:OnRemove()
+            if not IsValid( main ) then return end
             main.modelPosID = "All"
         end
     end
