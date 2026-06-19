@@ -266,7 +266,7 @@ CreateEndMenu = function()
 
     hmcdEndMenu.Paint = function(self,w,h)
 		BlurBackground(self)
-		local txt = (wonply and wonply:GetPlayerName() or "Nobody").." won!"
+		local txt = (wonply and IsValid(wonply) and wonply:GetPlayerName() or "Nobody").." won!"
 		surface.SetFont( "ZB_InterfaceMediumLarge" )
 		surface.SetTextColor(col.r,col.g,col.b,col.a)
 		local lengthX, lengthY = surface.GetTextSize(txt)
@@ -295,6 +295,7 @@ CreateEndMenu = function()
 		but:DockMargin( 8, 6, 8, -1 )
 		but:SetText("")
 		but.Paint = function(self,w,h)
+			if not IsValid(ply) then return end
 			local col1 = (ply.won and colRed) or (ply:Alive() and colBlue) or colGray
             local col2 = (ply.won and colRedUp) or (ply:Alive() and colBlueUp) or colSpect1
 
