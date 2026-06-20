@@ -135,6 +135,8 @@ function MODE:HUDPaint()
 	for i, ply in player.Iterator() do
 		if ply == LocalPlayer() or not ply:Alive() then continue end
 		local tr = hg.eyeTrace(ply)
+		if not tr then continue end
+
 		local dist = ply:GetPos():Distance(LocalPlayer():GetPos())
 		local pos = tr.StartPos + vector_up * 15
 		local posscr = pos:ToScreen()

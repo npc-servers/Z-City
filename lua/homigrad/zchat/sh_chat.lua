@@ -53,6 +53,8 @@ if CLIENT then
 
 	net.Receive("zChatMessage", function(len)
 		local speaker = net.ReadEntity()
+		if not IsValid(speaker) then return end
+
 		local text = net.ReadString()
 		local bWhisper = net.ReadBool()
 
