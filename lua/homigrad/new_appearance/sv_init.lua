@@ -144,9 +144,7 @@ function ApplyAppearance(Client,tAppearance,bRandom,bResponeIsValid,bUseCahsed)
         net.Send(Client)
     return end
     if !tWaitResponse[Client] then return end
-    if tWaitResponse[Client] < CurTime() then
-        ApplyAppearance(Client,nil,true)
-    return end
+    if tWaitResponse[Client] > CurTime() then return end
 
     if !tAppearance then ApplyAppearance(Client,nil,true) return end
     if !APmodule.AppearanceValidater(tAppearance, Client) then ApplyAppearance(Client,nil,true) return end
