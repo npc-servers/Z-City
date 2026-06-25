@@ -17,6 +17,8 @@ MODE.LootOnTime = true
 MODE.Chance = 0.2 -- this is mostly unused
 MODE.LootDivTime = 500
 
+local PLAYERS_PER_TRAITOR = 10
+
 function MODE:SetupChances()
 	for name, tbl in pairs(MODE.Types) do
 		zb.ModesChances[name] = zb.ModesChances[name] or tbl.Chance
@@ -645,8 +647,6 @@ function MODE:SubModes()
 	return modes
 end
 
-local homicide_traitoramount = ConVarExists("homicide_traitoramount") and GetConVar("homicide_traitoramount") or CreateConVar("homicide_traitoramount", 1, FCVAR_SERVER_CAN_EXECUTE + FCVAR_ARCHIVE, "Homicide Only: Determine how many traitors should innocents face in homicide.", 1, 20)
-
 function MODE:Intermission()
 	game.CleanUpMap()
 
@@ -680,28 +680,12 @@ function MODE:Intermission()
 	MODE.TraitorWord = MODE.TraitorWords[math.random(1, #MODE.TraitorWords)]
 	MODE.TraitorWordSecond = MODE.TraitorWords[math.random(1, #MODE.TraitorWords)]
 
-	local traitors_needed = math.min(player_count - 1, homicide_traitoramount:GetInt())
-
-	if(MODE.ShouldStartRoleRound())then
-		traitors_needed = math.ceil(player_count / 9)
-
-		if(player_count > 8 and math.random(1, 8) == 1)then
-			traitors_needed = traitors_needed + 1
-		end
-	end
+	local traitors_needed = math.floor(player_count / PLAYERS_PER_TRAITOR)
+	traitors_needed = math.max(1, math.min(traitors_needed, player_count - 1))
 
 	MODE.TraitorExpectedAmt = traitors_needed
 	local main_traitor = nil
 	local traitors = {}
-
-	-- local players = {}
-	-- for i, ply in player.Iterator() do
-	-- 	if ply.isTraitor or ply:Team() == TEAM_SPECTATOR then continue end
-
-	-- 	players[#players + 1] = {ply, ply.Karma}
-	-- end
-
-	-- -- potom
 
 	for i, ply in RandomPairs(player.GetAll()) do
 		if ply.isTraitor or ply:Team() == TEAM_SPECTATOR then continue end
@@ -784,8 +768,6 @@ function MODE:Intermission()
 		end
 	end
 
-	--local pts = zb.GetMapPoints( "RandomSpawns" )
-
 	local ent = ents.Create("prop_ragdoll")
 	local appearance = hg.Appearance.GetRandomAppearance()
 
@@ -797,28 +779,6 @@ function MODE:Intermission()
 	for i, ply in RandomPairs(player.GetAll()) do
 		ent:SetPos(ply:EyePos() + vector_up * 72)
 	end
-
-	--[[local forced = false
-	local cntr = 32
-	for i, point in RandomPairs(pts) do
-		cntr = cntr - 1
-		if cntr < 0 then forced = true end
-
-		local pos = point.pos
-		local tr = {}
-		tr.start = pos
-		tr.endpos = pos
-		tr.mins = Vector(-16, -16, 0)
-		tr.maxs = Vector(16, 16, 16)
-		tr.collisiongroup = COLLISION_GROUP_WORLD
-
-		local trace = util.TraceHull(tr)
-		if !trace.Hit or forced then
-			ent:SetPos(pos)
-
-			break
-		end
-	end--]]
 
 	ent:SetAngles(AngleRand(-180, 180))
 	ent:Spawn()
