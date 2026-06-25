@@ -689,6 +689,7 @@ function MODE:Intermission()
 
 	for i, ply in RandomPairs(player.GetAll()) do
 		if ply.isTraitor or ply:Team() == TEAM_SPECTATOR then continue end
+		if ply:IsBot() then continue end
 		if math.random(100) > (ply.Karma or 100) then continue end
 
 		if traitors_needed > 0 then
