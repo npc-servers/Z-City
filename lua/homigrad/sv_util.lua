@@ -466,15 +466,21 @@ end
 hook.Add("PostEntityFireBullets","bulletsuppression",function(ent,bullet)
 	local tr = bullet.Trace
 	local dmg = bullet.Damage
-	if ent == Entity(0) then return end
-	if !IsValid(ent) then return end
-	for i,ply in player.Iterator() do--five pebbles
-		if (IsValid(ent:GetOwner()) and ply == ent:GetOwner()) or ent == ply then continue end
-		if !ply:Alive() then continue end
-		local dist,pos = util.DistanceToLine(tr.StartPos,tr.HitPos,ply:EyePos())
-		local org = ply.organism
-		local eyePos = ply:EyePos()
+	if IsValid( ent ) then return end
 
+	for _, ply in player.Iterator() do--five pebbles
+		if (IsValid(ent:GetOwner()) and ply == ent:GetOwner()) or ent == ply then continue end
+
+		if !ply:Alive() then continue end
+
+		local dist, pos = util.DistanceToLine(tr.StartPos,tr.HitPos,ply:EyePos())
+		if dist > 120 then continue end
+
+		local eyePos = ply:EyePos()
+		local shooterdist = tr.StartPos:Distance(eyePos)
+		if shooterdist < 200 and !IsLookingAt(ent:GetOwner(),eyePos) then continue end
+
+		local org = ply.organism
 		local isVisible = !util.TraceLine({
 			start = pos,
 			endpos = eyePos,
@@ -483,12 +489,6 @@ hook.Add("PostEntityFireBullets","bulletsuppression",function(ent,bullet)
 		}).Hit
 
 		if !isVisible then continue end
-
-		local shooterdist = tr.StartPos:Distance(eyePos)
-
-		if dist > 120 then continue end
-
-		if shooterdist < 200 and !IsLookingAt(ent:GetOwner(),eyePos) then continue end
 
 		if ent:GetOwner():IsPlayer() then
 			hg.DynaMusic:AddPanic(ent:GetOwner(),0.5)
