@@ -813,13 +813,6 @@ function vFireMessage(string)
 	end
 end
 
--- Fire performs best with multicore rendering, let clients know of this in case they have it disabled
-if CLIENT then
-	if GetConVar("gmod_mcore_test"):GetInt() == 0 then
-		vFireMessage("vFire performs best with gmod_mcore_test set to 1, enable it and restart your game for changes to take effect.")
-	end
-end
-
 game.AddParticles("particles/vFire_Base_Tiny.pcf")
 game.AddParticles("particles/vFire_Base_Small.pcf")
 game.AddParticles("particles/vFire_Base_Medium.pcf")
@@ -1112,29 +1105,4 @@ Specifics & External Support
 		if isHL2Map then
 			vFireLightMul = vFireLightMul * 0.165
 		end
-	end
-
-
-	--[[-------------------------------------------------------------------------
-	Soft extinguishing support for 'Fire Extinguisher' https://steamcommunity.com/sharedfiles/filedetails/?id=104607228
-	---------------------------------------------------------------------------]]
-	if SERVER then
-		hook.Add("ExtinguisherDoExtinguish", "vFireSoftExtinguishFires", function(prop)
-			if vFireIsVFireEnt(prop) then
-				if prop:GetClass() == "vfire" then
-					prop:SoftExtinguish(2)
-					prop:Prioritize(2)
-				end
-				return true
-			end
-		end)
-	end
-
-	--[[-------------------------------------------------------------------------
-	StormFox "Support"
-	---------------------------------------------------------------------------]]
-	if SERVER then
-		hook.Add("vFire - StormFox Handeshake", "vFire - StormFox Handeshake", function()
-			vFireMessage("The same thing we do every night StormFox. Try to take over the world! >:D")
-		end)
 	end
