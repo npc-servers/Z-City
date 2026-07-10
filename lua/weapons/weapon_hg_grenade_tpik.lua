@@ -41,6 +41,19 @@ if CLIENT then
 	SWEP.BounceWeaponIcon = false
 end
 
+if SERVER then
+	hook.Add("ZB_StartRound", "HG_RoundStartGrenadeCooldown", function()
+		for _, ply in ipairs(player.GetAll()) do
+			for _, wep in ipairs(ply:GetWeapons()) do
+				if IsValid(wep) and wep.Base == "weapon_hg_grenade_tpik" then
+					local delay = 15
+					wep.CoolDown = CurTime() + delay
+					wep:SetNextPrimaryFire(CurTime() + delay)
+				end
+			end
+		end
+	end)
+end
 
 SWEP.Weight = 0
 SWEP.AutoSwitchTo = false
