@@ -93,8 +93,8 @@ function SWEP:ModelCreated(model)
 end
 
 
-SWEP.WepSelectIcon2 = Material("vgui/wep_jack_hmcd_suppressed.png")
-SWEP.IconOverride = "vgui/wep_jack_hmcd_suppressed.png"
+SWEP.WepSelectIcon2 = Material("vgui/wep_jack_hmcd_suppressed")
+SWEP.IconOverride = "vgui/wep_jack_hmcd_suppressed"
 
 SWEP.weaponInvCategory = 4
 
