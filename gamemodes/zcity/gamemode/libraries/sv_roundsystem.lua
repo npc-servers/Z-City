@@ -9,7 +9,6 @@ function zb.AddFade()
 end
 
 local forcemodeconvar = CreateConVar("zb_forcemode", "random", nil, "Set force mode (set to 'random' to disable)")
-forcemodeconvar:SetString("random")
 function zb:GetMode(round)
 	if zb.modes[round] then return round end
 
