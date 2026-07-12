@@ -580,8 +580,30 @@ function zb:RoundStart()
 		net.WriteInt(zb.ROUND_STATE, 4)
 	net.Broadcast()
 
-	if forcemodeconvar:GetString() != "" then
+	if forcemodeconvar:GetString() ~= "" then
 		forcemode = forcemodeconvar:GetString()
+
+		if forcemode ~= "random" then
+			local forcedModes = {}
+			for parsedMode in string.gmatch(forcemode, '([^,]+)') do
+				table.insert(forcedModes, parsedMode)
+			end
+
+			if #forcedModes > 1 then
+				for i, modeName in ipairs(forcedModes) do
+					if modeName == mode then
+						table.remove(forcedModes, i)
+						break
+					end
+				end
+			end
+
+			if #forcedModes > 0 then
+				forcemode = forcedModes[math.random(1, #forcedModes)]
+			else
+				forcemode = "random"
+			end
+		end
 	end
 
 	zb.AddCurrentModePlayed()
