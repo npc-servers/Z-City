@@ -331,8 +331,8 @@ local function ExplodeTheItem(self,ent)
 					self:Remove()
 				end
 
-				timer.Create("IEDCheck_" .. index, 0, 0, function()
-					coroutine.resume(co)
+				timer.Create("IEDCheck_" .. index, 0.01, 0, function()
+					if coroutine.status(co) ~= "dead" then coroutine.resume(co) end
 					if ent.ShrapnelDone then
 						ent:Remove()
 						timer.Remove("IEDCheck_" .. index)

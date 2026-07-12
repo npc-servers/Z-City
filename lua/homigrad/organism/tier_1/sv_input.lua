@@ -53,6 +53,15 @@ local dir = Vector(0, 0, 0)
 local CurTime = CurTime
 local angZero = Angle(0, 0, 0)
 
+local function CanContinueBulletPenetration(bullet)
+	if not bullet then return false end
+
+	bullet.penetrated = (isnumber(bullet.penetrated) and bullet.penetrated or 0) + 1
+	bullet.limit_ricochet = (isnumber(bullet.limit_ricochet) and bullet.limit_ricochet or 0) + 1
+
+	return bullet.penetrated <= 6 and bullet.limit_ricochet <= 6
+end
+
 local RagdollDamageBoneMul = {
 	[HITGROUP_LEFTLEG] = 0.25,
 	[HITGROUP_RIGHTLEG] = 0.25,
@@ -681,7 +690,9 @@ hook.Add("EntityTakeDamage", "homigrad-damage", function(ent, dmgInfo)
 				end)
 			end*/
 
-			if bullet and true then
+			if bullet then
+				if not CanContinueBulletPenetration(bullet) then return end
+
 				local mul = distance / pen
 				bullet.Src = outputHole[#outputHole]
 				bullet.Dir = dir:GetNormalized()//outputDir:GetNormalized()
@@ -693,10 +704,6 @@ hook.Add("EntityTakeDamage", "homigrad-damage", function(ent, dmgInfo)
 				bullet.TracerName = "nil"
 				bullet.IgnoreEntity = ent
 				bullet.Filter = {ent, ply and ply:InVehicle() and ply:GetVehicle() or nil}
-				bullet.penetrated = bullet.penetrated or 0
-				bullet.limit_ricochet = bullet.limit_ricochet or 0
-				bullet.penetrated = bullet.penetrated + 1
-				bullet.limit_ricochet = bullet.limit_ricochet + 1
 				bullet.Penetration = distance
 				inf:FireLuaBullets(bullet, true)
 

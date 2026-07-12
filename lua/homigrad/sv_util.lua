@@ -744,9 +744,10 @@ function hgWreckBuildings(blaster, pos, power, range, ignoreVisChecks) -- taken 
 		end
 	end)
 	local index = blaster:EntIndex()
-	timer.Create("ProcessCheck_" .. index, 0, 0, function()
+	timer.Create("ProcessCheck_" .. index, 0.01, 0, function()
 		if coroutine.status( co ) == "dead" then
 			timer.Remove("ProcessCheck_" .. index)
+			return
 		end
 		--print("Yes yelid", coroutine.status( co ))
 		coroutine.resume(co)

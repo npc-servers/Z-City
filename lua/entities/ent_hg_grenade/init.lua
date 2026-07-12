@@ -329,6 +329,7 @@ function ENT:Explode()
 	util.Effect("eff_jack_hmcd_shrapnel",Poof,true,true)
 
 	timer.Simple(0, function()
+		if not IsValid(self) then return end
 		util.ScreenShake( selfPos, 35, 200, 1, 1000 )
 
 		local ammo = "Metal Debris"
@@ -387,12 +388,19 @@ function ENT:Explode()
 
 		local index = self:EntIndex()
 
-		timer.Create("GrenadeCheck_" .. index, 0, 0, function()
+		timer.Create("GrenadeCheck_" .. index, 0.01, 0, function()
 			if !IsValid(self) then
 				timer.Remove("GrenadeCheck_" .. index)
+				return
 			end
 
-			coroutine.resume(co)
+			if coroutine.status(co) ~= "dead" then
+				local ok, err = coroutine.resume(co)
+				if not ok then
+					ErrorNoHaltWithStack("Grenade shrapnel coroutine failed: " .. tostring(err))
+					self.ShrapnelDone = true
+				end
+			end
 
 			if self.ShrapnelDone then
 				SafeRemoveEntity(self)

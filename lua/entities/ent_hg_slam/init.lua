@@ -92,12 +92,13 @@ function ENT:ActivateExplosive()
 
 	coroutine.resume(co)
 	local index = self:EntIndex()
-	timer.Create("GrenadeCheck_" .. index, 0, 0, function()
+	timer.Create("GrenadeCheck_" .. index, 0.01, 0, function()
 		if !IsValid(self) then
 			timer.Remove("GrenadeCheck_" .. index)
+			return
 		end
 
-		coroutine.resume(co)
+		if coroutine.status(co) ~= "dead" then coroutine.resume(co) end
 
 		if self.ShrapnelDone then
 			util.ScreenShake(selfPos, 20, 20, 1, 500)

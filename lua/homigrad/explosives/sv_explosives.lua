@@ -135,11 +135,12 @@ local ExpTypes = {
 
 		local index = Ent:EntIndex()
 
-		timer.Create("GrenadeCheck_" .. index, 0, 0, function()
+		timer.Create("GrenadeCheck_" .. index, 0.01, 0, function()
 			if !IsValid(Ent) then
 				timer.Remove("GrenadeCheck_" .. index)
+				return
 			end
-			coroutine.resume(co)
+			if coroutine.status(co) ~= "dead" then coroutine.resume(co) end
 			if Ent.ShrapnelDone then
 				if not IsValid(Ent) then return end
 				SafeRemoveEntity(Ent)
@@ -243,11 +244,12 @@ local ExpTypes = {
 
 		local index = Ent:EntIndex()
 
-		timer.Create("GrenadeCheck_" .. index, 0, 0, function()
+		timer.Create("GrenadeCheck_" .. index, 0.01, 0, function()
 			if !IsValid(Ent) then
 				timer.Remove("GrenadeCheck_" .. index)
+				return
 			end
-			coroutine.resume(co)
+			if coroutine.status(co) ~= "dead" then coroutine.resume(co) end
 			if Ent.ShrapnelDone then
 				if not IsValid(Ent) then return end
 				SafeRemoveEntity(Ent)
