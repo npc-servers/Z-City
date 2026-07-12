@@ -945,29 +945,9 @@ hook.Add("PlayerEnteredVehicle","allowweapons",function(ply,veh,role)
 	end
 end)
 
-hook.Add("HG_OnWakeOtrub", "enterveh", function(ply)
-	//if Glide and IsValid(ply.glideveh) then
-	//	Glide.ActivateInput(ply, ply.glideveh, ply.seat)
-	//
-	//end
-	//if IsValid(ply.wasveh) then
-	//	ply:EnterVehicle(ply.wasveh)
-	//	ply.wasveh = nil
-	//end
-end)
-
 hook.Add("HG_OnOtrub", "leaveveh", function(ply)
 	if ply:InVehicle() then
 		local veh = ply:GetVehicle()
-
-		//if Glide and veh.IsGlideVehicle then
-		//	Glide.DeactivateInput(ply)
-		//	ply.glideveh = veh
-		//	ply.seat = ply:GlideGetSeatIndex()
-		//end
-		//ply.wasveh = veh
-		//hg.leaveveh = true
-		//ply:ExitVehicle()
 	end
 end)
 

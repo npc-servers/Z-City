@@ -1775,19 +1775,6 @@ hook.Add("OnEntityCreated", "FunnySimfphys", function(ent)
 	if IsValid(ent) and ent:GetClass() == "prop_vehicle_jeep" then
 		timer.Simple(1, function()
 			if !IsValid(ent) then return end
-			local pos, ang = ent:GetPos(), ent:GetAngles()
-			pos = pos + vector_up * 10
-
-			if CurrentRound and CurrentRound().name == "coop" then
-				simfphys.SpawnVehicleSimple( "sim_fphys_jeep", pos, ang)
-			else
-				local glide = ents.Create("gtav_blazer")
-				glide:SetPos(pos)
-				ang:RotateAroundAxis(ang:Up(), 90)
-				glide:SetAngles(ang)
-				glide:Spawn()
-			end
-
 			SafeRemoveEntity(ent)
 		end)
 	end

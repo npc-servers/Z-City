@@ -244,7 +244,6 @@ function hg.CreateButton(buttonData, convarName, ParentPanel, yPos)
                 local newValue = not convar:GetBool()
                 SetConVarValue(convar, newValue)
 
-                surface.PlaySound('glide/headlights_on.wav')
                 targetProgress = newValue and 1 or 0
             end
         end
