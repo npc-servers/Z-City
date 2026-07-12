@@ -591,7 +591,7 @@ function zb:RoundStart()
 
 			if #forcedModes > 1 then
 				for i, modeName in ipairs(forcedModes) do
-					if modeName == mode then
+					if modeName == mode.name then
 						table.remove(forcedModes, i)
 						break
 					end
@@ -618,8 +618,6 @@ function zb:RoundStart()
 
 	nextMode = table.remove(zb.RoundList, 1)
 
-	local currentMode = mode.Type or round
-
 	print("Next game mode is " .. nextMode)
 
 	NextRound(forcemode ~= "random" and forcemode or (nextMode or "hmcd"))
@@ -629,8 +627,6 @@ function zb:RoundStart()
 	end
 
 	hook.Run("ZB_StartRound")
-
-	//zb.GetAllPoints(true)
 
 	for _, admin in ipairs(zb.GetAllAdmins()) do
 		zb.SendRoundListToClient(admin)
