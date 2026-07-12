@@ -3,41 +3,8 @@ MODE.name = "dm"
 
 local MODE = MODE
 
-local radius = nil
 local mapsize = 7500
-
-local roundend = false
-
-local snds = {
-	"https://kappa.vgmsite.com/soundtracks/superfighters-deluxe-original-soundtrack-2018/ujuwzquyre/01.%20A%20Grim%20Feeling.mp3",
-	"https://kappa.vgmsite.com/soundtracks/superfighters-deluxe-original-soundtrack-2018/zgagxqybov/02.%20Alley%20.mp3",
-	"https://kappa.vgmsite.com/soundtracks/superfighters-deluxe-original-soundtrack-2018/qsoislqepd/17.%20Hazardous.mp3",
-	"https://kappa.vgmsite.com/soundtracks/superfighters-deluxe-original-soundtrack-2018/zqxkrixwbn/26.%20Rooftops.mp3",
-	"https://kappa.vgmsite.com/soundtracks/superfighters-deluxe-original-soundtrack-2018/kvlgywwwnt/13.%20Escape.mp3"
-}
-
 local deathmatch_nozone = ConVarExists("deathmatch_nozone") and GetConVar("deathmatch_nozone") or CreateConVar("deathmatch_nozone", 0, FCVAR_REPLICATED, "Allows to disable deathmatch mode zone.", 0, 1)
-
-local function restartMusic()
-	local snd = snds[math.random(#snds)]
-
-	if IsValid(dmmusic) then
-		dmmusic:Stop()
-		dmmusic = nil
-	end
-
-	sound.PlayURL(snd, "mono noblock noplay", function(station, errID, err)
-		if IsValid(station) then
-			station:EnableLooping(true)
-			station:SetVolume(0.1)
-
-			dmmusic = station
-		else
-			print(errID, err)
-		end
-	end)
-end
-
 
 net.Receive("dm_start",function()
 	roundend = false
