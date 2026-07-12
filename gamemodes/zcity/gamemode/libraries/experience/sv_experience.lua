@@ -213,6 +213,8 @@ end
 util.AddNetworkString("zb_xp_get")
 
 net.Receive("zb_xp_get",function(len,ply)
+    if (ply.zb_xp_get_cooldown or 0) > CurTime() then return end
+    ply.zb_xp_get_cooldown = CurTime() + 0.25
 
     local steamID64 = ply:SteamID64()
 
@@ -222,6 +224,8 @@ net.Receive("zb_xp_get",function(len,ply)
     end
 
     local get_ply = net.ReadEntity()
+	if not IsValid(get_ply) or not get_ply:IsPlayer() then return end
+    if not zb.Experience.PlayerInstances or not zb.Experience.PlayerInstances[get_ply:SteamID64()] then return end
 
     net.Start("zb_xp_get")
         --print( ply:GetExp() )

@@ -416,14 +416,15 @@ end)
 
 net.Receive("forgive_player", function(len, ply)
     local ent = net.ReadEntity()
-    if not IsValid(ent) or not zb.HarmDoneKarma[ply] then return end
+    if not IsValid(ent) or not ent:IsPlayer() or not zb.HarmDoneKarma[ply] then return end
     local harm = zb.HarmDoneKarma[ply][ent]
-    if not harm then return end
+    if not isnumber(harm) or harm <= 0 then return end
 
-    ent.Karma = math.Clamp(ent.Karma + harm, 0, zb.MaxKarma)
+    ent.Karma = math.Clamp((ent.Karma or 100) + harm, 0, zb.MaxKarma)
     ent:SetNetVar("Karma",ent.Karma)
     //ent:guilt_SetValue((ent.Karma or 100))
 
+    zb.HarmDone[ply] = zb.HarmDone[ply] or {}
     zb.HarmDone[ply][ent] = 0
     zb.HarmDoneKarma[ply][ent] = 0
     net.Start("open_guilt_menu")

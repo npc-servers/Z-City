@@ -234,17 +234,24 @@ util.AddNetworkString("hg_pointshop_send_notificate")
 
 function PLUGIN:NET_BuyItem( ply, uid )
     if not util.IsBinaryModuleInstalled("mysqloo") then return end
-    if hg.PointShop.Items[uid].ISDONATE then return end
-    if not hg.PointShop.Items[uid] then print(ply, "[PS-ZCity] The player is trying to buy invalid item.", "UID: "..uid ) return end
+    if not isstring(uid) or #uid > 64 then return end
+
+    local item = hg.PointShop.Items[uid]
+    if not item then
+        print(ply, "[PS-ZCity] The player is trying to buy invalid item.", "UID: "..uid )
+        return
+    end
+
+    if item.ISDONATE then return end
     if ply:PS_HasItem( uid ) then PLUGIN:NET_SendPointShopVars( ply ) return end
 
     local yes = false
     local reason = ""
 
-    if hg.PointShop.Items[uid].ISDONATE then
-        yes, reason = ply:PS_TakeDPoints(hg.PointShop.Items[uid].PRICE, function() ply:PS_AddItem( uid ) end)
+    if item.ISDONATE then
+        yes, reason = ply:PS_TakeDPoints(item.PRICE, function() ply:PS_AddItem( uid ) end)
     else
-        yes, reason = ply:PS_TakePoints(hg.PointShop.Items[uid].PRICE, function() ply:PS_AddItem( uid ) end)
+        yes, reason = ply:PS_TakePoints(item.PRICE, function() ply:PS_AddItem( uid ) end)
     end
 
     net.Start( "hg_pointshop_send_notificate" )
@@ -259,15 +266,18 @@ function PLUGIN:NET_GetBuyedItems( ply )
 end
 
 net.Receive("hg_pointshop_net",function( _, ply )
-    if ply.PSNetCD and ply.PSNetCD > CurTime() then return end
+    if (ply.PSNetCD or 0) > CurTime() then return end
 
-    ply.PSNetCD = CurTime() + 0.01
+    ply.PSNetCD = CurTime() + 0.1
 
     local str = net.ReadString()
+    if not isstring(str) or #str > 32 then return end
+
     local funcstring = PLUGIN[ "NET_" .. str ]
 
     if not funcstring then print(ply, "[PS-ZCity] Player trying to call an invalid function!", "NAME: "..str ) return end
     local vars = net.ReadTable()
+    if not istable(vars) then return end
     if table.Count(vars) > 5 then print(ply, "[PS-ZCity] The player is trying to send a bunch of vars to the net.", "NAME: "..str ) return end
 
     funcstring( PLUGIN, ply, unpack(vars) )

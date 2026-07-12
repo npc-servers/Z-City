@@ -43,17 +43,22 @@ function BombInSite(pos, site)
 end
 
 net.Receive("bomb_enter",function(len, ply)
-	if !ply:Alive() then return end
+	if (ply.bomb_enter_cooldown or 0) > CurTime() then return end
+	ply.bomb_enter_cooldown = CurTime() + 0.2
+
+	if !IsValid(ply) or !ply:Alive() then return end
 
 	local org = ply.organism
 
-	if !org.canmove then return end
+	if !org or !org.canmove then return end
 
 	local txt = net.ReadString()
-	local num = tonumber(txt)
+	if not isstring(txt) or not string.match(txt, "^%d%d%d%d%d%d$") then return end
 
 	--ply:ChatPrint(txt)
 	local ent = ply.bomb
+	if !IsValid(ent) or ent:GetClass() ~= "bomb" or ent ~= ply.bomb or ent.user ~= ply then return end
+	if ent:GetPos():DistToSqr(ply:GetPos()) > 150 * 150 then return end
 
 	if ent.isbomb then
 		if not ent.active then

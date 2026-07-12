@@ -152,6 +152,7 @@ end
 
 function plyMeta:GetStatVal(dataName, fallback)
     if not CLIENT then return end
+    if not isstring(dataName) or not ({Kills = true, Suicides = true, Deaths = true})[dataName] then return fallback end
     net.Start("get_svPData")
         net.WriteEntity( self )
         net.WriteString( dataName )
@@ -168,11 +169,20 @@ if SERVER then
     net.Receive( "get_svPData", function( len, ply )
         local ent = net.ReadEntity()
         local dataName = net.ReadString()
-        if not ent["Get"..dataName] then return end
+        local getters = {
+            Kills = "GetKills",
+            Suicides = "GetSuicides",
+            Deaths = "GetDeaths",
+        }
+        local getter = getters[dataName]
+
+        if not IsValid(ent) or not ent:IsPlayer() or not getter then return end
+        if not zb.Experience.PlayerInstances or not zb.Experience.PlayerInstances[ent:SteamID64()] then return end
+
         net.Start("get_svPData")
             net.WriteEntity( ent )
             net.WriteString( dataName )
-            net.WriteFloat( ent["Get"..dataName] and ent["Get"..dataName](ent) or 0 )
+            net.WriteFloat( ent[getter](ent) or 0 )
         net.Send(ply)
     end)
 

@@ -3067,18 +3067,29 @@ if SERVER then
     util.AddNetworkString( "drop_ammo" )
 
     net.Receive( "drop_ammo", function( len, ply )
-        if !ply:Alive() or ply.organism.otrub or !ply.organism.canmove then return end
+		if (ply.drop_ammo_cooldown or 0) > CurTime() then return end
+		ply.drop_ammo_cooldown = CurTime() + 0.1
+
+		if !ply:Alive() or !ply.organism or ply.organism.otrub or !ply.organism.canmove then return end
         local ammotype = net.ReadFloat()
         local count = net.ReadFloat()
+
+		if not isnumber(ammotype) or ammotype ~= math.floor(ammotype) or ammotype < 0 or ammotype > 255 then return end
+		if not isnumber(count) or count ~= math.floor(count) or count < 1 or count > 1000 then return end
+
+		local ammoName = game.GetAmmoName(ammotype)
+		if not isstring(ammoName) or ammoName == "" or ammoName == "none" then return end
+
         local pos = ply:EyePos()+ply:EyeAngles():Forward()*15
         if ply:GetAmmoCount(ammotype)-count < 0 then ply:ChatPrint(((math.random(1,100) == 100 or 1) and "I need mor booolets!!!" ) or "You don't have enogh ammo") return end
         if count < 1 then ply:ChatPrint("You can't drop zero ammo") return end
 			--if not ammolistent[ammotype] then ply:ChatPrint("Invalid entitytype...") return end
 			--print(game.GetAmmoName(ammotype))
 
-        local AmmoEnt = ents.Create( "ent_ammo_"..string.lower( string.Replace(game.GetAmmoName(ammotype)," ", "") ) )
+        local AmmoEnt = ents.Create( "ent_ammo_"..string.lower( string.Replace(ammoName," ","") ) )
 		if not IsValid(AmmoEnt) then
 			ply:ChatPrint("Invalid entitytype...")
+			return
 		else
 			AmmoEnt:SetPos( pos )
 			AmmoEnt:Spawn()
@@ -3090,7 +3101,9 @@ if SERVER then
 		end
         ply:SetAmmo(ply:GetAmmoCount(ammotype)-count,ammotype)
         ply:EmitSound("snd_jack_hmcd_ammobox.wav", 75, math.random(80,90), 1, CHAN_ITEM )
-		ply.inventory.Ammo = ply:GetAmmo()
-		ply:SetNetVar("Inventory",ply.inventory)
+		if ply.inventory then
+			ply.inventory.Ammo = ply:GetAmmo()
+			ply:SetNetVar("Inventory",ply.inventory)
+		end
     end)
 end

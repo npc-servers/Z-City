@@ -615,6 +615,7 @@ net.Receive("defense_commander_purchase", function(len, ply)
 
         if foundItem then
             local quantity = math.min(item.quantity or 1, 10)
+            quantity = math.max(quantity, 1)
             local itemCost = foundItem.price * quantity
             totalCost = totalCost + itemCost
 
