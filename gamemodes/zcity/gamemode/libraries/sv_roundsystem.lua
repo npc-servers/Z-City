@@ -46,7 +46,7 @@ function NextRound(round)
 end
 
 function zb:PreRound()
-	if ( ( zb.Roundscount or 0 ) > 10 ) then
+	if MapVote and ( ( zb.Roundscount or 0 ) > 10 ) then
 		zb.ROUND_STATE = 0
 
 		if not MapVote.state.isInProgress then
