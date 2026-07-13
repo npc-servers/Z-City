@@ -8,7 +8,7 @@ MODE.noBoxes = true
 
 MODE.GuiltDisabled = true
 MODE.ForBigMaps = false
-MODE.Chance = 0.04
+MODE.Chance = 0.01
 
 local radius = nil
 local mapsize = 7500
