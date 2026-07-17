@@ -702,10 +702,8 @@ function MODE:Intermission()
 		end
 	end
 
-	//MODE.NextRoundMainTraitors = MODE.NextRoundMainTraitors or {}
 	for i, ply in RandomPairs(player.GetAll()) do
 		if ply.isTraitor or ply:Team() == TEAM_SPECTATOR then continue end
-		//if not MODE.NextRoundMainTraitors[ply:SteamID()] then continue end
 
 		if traitors_needed > 0 then
 			ply.isTraitor = true
@@ -1438,29 +1436,6 @@ function MODE:CanLaunch()
 end
 
 util.AddNetworkString("hmcd_roundend")
-
-MODE.NextRoundMainTraitors = MODE.NextRoundMainTraitors or {}
-
-concommand.Add("hmcd_request_main_traitor", function(ply, cmd, args)
-    if not IsValid(ply) or not ply:IsAdmin() then return end
-
-
-    if zb.ROUND_STATE == 1 then
-        ply:ChatPrint("when round end")
-        return
-    end
-
-
-    MODE.NextRoundMainTraitors[ply:SteamID()] = true
-    ply:ChatPrint("true")
-end)
-
-hook.Add("RoundStateChange", "ResetNextRoundMainTraitors", function(old, new)
-    if new == 2 then
-        MODE.NextRoundMainTraitors = {}
-    end
-end)
-
 util.AddNetworkString("HMCD_UpdateTraitorAssistants")
 
 function MODE.SpawnPlayers(spawn_with_subroles)
