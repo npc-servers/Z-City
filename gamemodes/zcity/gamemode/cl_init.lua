@@ -498,6 +498,22 @@ hook.Add("Player_Death", "fixSpectatorVoiceMute", function(ply)
     //end
 end)
 
+local function playtimeString( ply )
+    local time = ply.GetTotalPlayTime and ply:GetTotalPlayTime() or false
+    if not time then
+        return "FAILED GETTING TIME"
+    end
+
+    local t = math.floor( time / 60 )
+    local h = math.floor( t / 60 )
+
+    if h > 0 then
+        return string.format( "%02ih", h )
+    end
+
+    return string.format( "%02im", t % 60 )
+end
+
 function GM:ScoreboardShow()
     if IsValid(scoreBoardMenu) then
         scoreBoardMenu:Remove()
@@ -713,7 +729,7 @@ function GM:ScoreboardShow()
             surface.SetTextPos(15, h / 2 - lengthY / 2)
             surface.DrawText(ply:Name() or "He quit...")
 
-            local playTime = math.floor( ply:GetTotalPlayTime() / 3600 ) .. "h " .. math.floor( (ply:GetTotalPlayTime() % 3600) / 60 ) .. "m"
+            local playTime = playtimeString(ply)
             surface.SetFont("ZB_InterfaceMediumLarge")
             surface.SetTextColor(col.r, col.g, col.b, col.a)
             local lengthX, lengthY = surface.GetTextSize(playTime)
@@ -795,7 +811,7 @@ function GM:ScoreboardShow()
             surface.SetTextPos(15,h/2 - lengthY/2)
             surface.DrawText(ply:Name() or "He quit...")
 
-            local playTime = ply:GetTotalPlayTime()
+            local playTime = playtimeString(ply)
             surface.SetFont( "ZB_InterfaceMediumLarge" )
             surface.SetTextColor(col.r,col.g,col.b,col.a)
             local lengthX, lengthY = surface.GetTextSize( playTime )
