@@ -149,4 +149,10 @@ end
 
 LoadModes()
 
+-- Properly seed the round
+if SERVER and not zb.CROUND then
+	zb.RerollChances()
+	zb.CROUND = zb.nextround or "hmcd"
+end
+
 print("Z-City modes loaded!")
